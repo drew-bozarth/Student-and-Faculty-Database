@@ -35,3 +35,24 @@ Student::Student(int studentID, string name, string level, string major, double 
 Student::~Student(){
   //destructor
 }
+int Student::getAdvisorID(){
+  return advisorNum;
+};
+
+void Student::setAdvisorID(int a){
+  advisorNum = a;
+}
+
+int Student::getStudentID(){
+  return id;
+};
+
+double Student::getStudentGPA(){
+  return gpa;
+};
+string Student::getStudentName(){
+  return name;
+};
+string Student::getStudentLevel(){
+  return level;
+};

@@ -23,6 +23,14 @@ public:
   Faculty();
   Faculty(int facultyID, string name, string level, string department, int IDListSize);
   ~Faculty();
+  string printFaculty();
+  int getFacultyID();
+  string getFacultyDepartment();
+  string getFacultyName();
+  string getFacultyLevel();
+  string printStudents();
+  void AddStudent(int num);
+  void removeStudent(int num);
 private:
   int mFacultyID;
   string mName;

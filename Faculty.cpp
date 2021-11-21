@@ -33,3 +33,27 @@ Faculty::Faculty(int facultyID, string name, string level, string department, in
 Faculty::~Faculty(){
   //destructor
 }
+string Faculty::printFaculty(){
+  //print everything
+};
+int Faculty::getFacultyID(){
+  return id;
+};
+string Faculty::getFacultyDepartment(){
+  return department;
+};
+string Faculty::getFacultyName(){
+  return name;
+};
+string Faculty::getFacultyLevel(){
+  return level;
+};
+string Faculty::printStudents(){
+  //print list
+};
+void Faculty::AddStudent(int num){
+  student->append(num);
+};
+void Faculty::removeStudent(int num){
+  student->removeValue(num);
+};
