@@ -48,3 +48,7 @@ template <class T>
 Database<T>::~Database(){
   delete bst;
 }
+
+
+
+#endif

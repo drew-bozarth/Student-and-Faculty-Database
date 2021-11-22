@@ -198,6 +198,7 @@ void Simulation::addStudent(){
   cout << "Enter the ID of the advisor for the new Student: ";
   cin >> newAdvisorID;
   facultyDB->addStudent(newID, newName, newLevel, newMajor, newGPA, newAdvisorID);
+  //add to Rollback stack (student object(studentID), delete)
 }
 
 //8.
@@ -205,6 +206,7 @@ void Simulation::deleteStudent(){
   int studentID;
   cout << "Enter the ID number of the student you wish to delete: ";
   cin >> studentID;
+  //add to Rollback stack (student(studentID), insert)
   studentDB->deleteStudent(studentID);
 }
 
@@ -224,6 +226,7 @@ void Simulation::addFaculty(){
   cin >> newDepartment;
   int newIDListSize = 10;
   facultyDB->addFaculty(newID, newName, newLevel, newDepartment, newIDListSize);
+  //add to Rollback stack (student object(studentID), delete)
 }
 
 //10.
@@ -231,6 +234,7 @@ void Simulation::deleteFaculty(){
   int facultyID;
   cout << "Enter the ID number of the faculty member you wish to delete: ";
   cin >> facultyID;
+  //add to Rollback stack (faculty(facultyID), insert)
   facultyDB->deleteFaculty(facultyID);
 }
 
