@@ -15,28 +15,34 @@ This is the .h file for Faculty
 #include <iostream>
 #include <exception>
 #include <string>
+#include "ListInterface.h"
+#include "Person.h"
 //standard namespace libaray in C++
 using namespace std;
 
-class Faculty{
+class Faculty: public Person{
 public:
   Faculty();
-  Faculty(int facultyID, string name, string level, string department, int IDListSize);
+  Faculty(int facultyID, string fName, string fLevel, string department, int IDListSize);
   ~Faculty();
-  string printFaculty();
-  int getFacultyID();
+  int getID();
+  string getName();
+  string getLevel();
+  void toString() override;
+  // string printFaculty();
+  // int getFacultyID();
   string getFacultyDepartment();
-  string getFacultyName();
-  string getFacultyLevel();
+  // string getFacultyName();
+  // string getFacultyLevel();
   string printStudents();
   void AddStudent(int num);
   void removeStudent(int num);
 private:
-  int mFacultyID;
-  string mName;
-  string mLevel;
+  // int mFacultyID;
+  // string mName;
+  // string mLevel;
   string mDepartment;
-  int* mIDList;
+  MyList<int> *mIDList;
 };
 //end of the header guards
 #endif

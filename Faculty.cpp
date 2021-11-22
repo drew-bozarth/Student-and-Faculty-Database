@@ -14,47 +14,44 @@ This is the .cpp file for Faculty
 
 Faculty::Faculty(){
   //default constructor
-  mFacultyID = -1;
-  mName = "";
-  mLevel = "";
+  id = -1;
+  name = "";
+  level = "";
   mDepartment = "";
-  mIDList = new int[0];
+  mIDList = new MyList<int>;
 }
 
-Faculty::Faculty(int facultyID, string name, string level, string department, int IDListSize){
+Faculty::Faculty(int facultyID, string fName, string fLevel, string department){
   //overloaded constructor
-  mFacultyID = facultyID;
-  mName = name;
-  mLevel = level;
+  id = facultyID;
+  name = fName;
+  level = fLevel;
   mDepartment = department;
-  mIDList = new int[IDListSize];
 }
 
 Faculty::~Faculty(){
   //destructor
 }
-string Faculty::printFaculty(){
-  string s;
-  s += "Faculty member: " + name;
-  s += " | ID number: " + id;
-  s += " | Level: " + level;
-  s += " | department: " + deparment;
-  s += "\n Students: " + printStudents();
-  s += "\n";
-  return s;
+void Faculty::toString(){
+  cout << "Faculty member: " << name;
+  cout << " | ID number: " << id;
+  cout << " | Level: " << level;
+  cout << " | department: " << deparment;
+  cout << "\n Students: " << printStudents();
+  cout << "\n";
 };
-int Faculty::getFacultyID(){
-  return id;
-};
+// int Faculty::getFacultyID(){
+//   return id;
+// };
 string Faculty::getFacultyDepartment(){
   return department;
 };
-string Faculty::getFacultyName(){
-  return name;
-};
-string Faculty::getFacultyLevel(){
-  return level;
-};
+// string Faculty::getFacultyName(){
+//   return name;
+// };
+// string Faculty::getFacultyLevel(){
+//   return level;
+// };
 string Faculty::printStudents(){
   string s;
   s = StudIDList->print();

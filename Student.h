@@ -15,17 +15,17 @@ This is the .h file for Student
 #include <iostream>
 #include <exception>
 #include <string>
+#include "Person.h"
 //standard namespace libaray in C++
 using namespace std;
 
-class Student{
+class Student : public Person{
 public:
   Student();
   Student(int studentID, string name, string level, string major, double studentGPA, int advisorID);
   ~Student();
   string printStudent();
   int getAdvisorID();
-  int getStudentID();
   double getStudentGPA();
   string getStudentName();
   string getStudentLevel();

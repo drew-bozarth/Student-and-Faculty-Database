@@ -30,7 +30,7 @@ class Database{
     void displayStudentAdvisor(int studentID);
     void displayAllAdvisees(int facultyID);
     void addStudent(int newID, string newName, string newLevel, string newMajor, double newGPA, int newAdvisorID);
-    void addFaculty(int newID, string newName, string newLevel, string newDepartment, int newIDListSize);
+    void addFaculty(int newID, string newName, string newLevel, string newDepartment);
     void deleteObject(int objectID);
     void changeAdvisor(int studentID, int facultyID);
     void removeAdvisee(int facultyID, int studentID);
@@ -48,6 +48,17 @@ template <class T>
 Database<T>::~Database(){
   delete bst;
 }
+
+template <class T>
+Database<T>::printDB(){
+  bst->printNodes();
+}
+
+template <class T>
+Database<T>::displayObejct(int objectID){
+  bst->find(objectID)->printObject();
+}
+
 
 
 
