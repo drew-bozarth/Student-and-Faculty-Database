@@ -56,3 +56,13 @@ string Student::getStudentName(){
 string Student::getStudentLevel(){
   return level;
 };
+
+string Student::printStudent(){
+  string s;
+  s += "Student Name: " + name;
+  s += " | ID number: " + id;
+  s += " | Year: " + level;
+  s += " | GPA: " + gpa;
+  s += " | Advisor ID: " + advisorNum;
+  return s;
+}

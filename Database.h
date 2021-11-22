@@ -11,6 +11,8 @@ Assignment 6 - Database.h */
 #include <exception>
 
 #include "bst.h"
+#include "student.h"
+#include "faculty.h"
 
 using namespace std;
 

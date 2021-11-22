@@ -34,7 +34,14 @@ Faculty::~Faculty(){
   //destructor
 }
 string Faculty::printFaculty(){
-  //print everything
+  string s;
+  s += "Faculty member: " + name;
+  s += " | ID number: " + id;
+  s += " | Level: " + level;
+  s += " | department: " + deparment;
+  s += "\n Students: " + printStudents();
+  s += "\n";
+  return s;
 };
 int Faculty::getFacultyID(){
   return id;
@@ -49,11 +56,13 @@ string Faculty::getFacultyLevel(){
   return level;
 };
 string Faculty::printStudents(){
-  //print list
+  string s;
+  s = StudIDList->print();
+  return s;
 };
 void Faculty::AddStudent(int num){
   student->append(num);
 };
 void Faculty::removeStudent(int num){
-  student->removeValue(num);
+  student->remove(num);
 };
