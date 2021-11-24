@@ -27,16 +27,18 @@ class Database{
 
     void printDB();
     void displayObejct(int objectID);
-    void displayStudentAdvisor(int studentID);
+    int displayAdvisorNum(int studentID);
+    // void displayStudentAdvisor(int studentID); needs access to both trees/databases should be else where
     void displayAllAdvisees(int facultyID);
     void addStudent(int newID, string newName, string newLevel, string newMajor, double newGPA, int newAdvisorID);
+    void deleteObject(int objectID);
     void addFaculty(int newID, string newName, string newLevel, string newDepartment);
     void deleteObject(int objectID);
     void changeAdvisor(int studentID, int facultyID);
     void removeAdvisee(int facultyID, int studentID);
 
   private:
-    BST<T> *StudentBst;
+    BST<T> *bst;
 };
 
 template <class T>
@@ -56,22 +58,26 @@ void Database<T>::printDB(){
 
 template <class T>
 void Database<T>::displayObejct(int objectID){
-  bst->find(objectID)->printObject();
+  bst->find(objectID)->print();
 }
 
+// template <class T>
+// void Database<T>::displayStudentAdvisor(int studentID){
+//   Student stu;
+//   Faculty fac;
+//   int advisor;
+//   stu = bst->find(studentID);
+//   advisor = stu->getAdvisorID();
+//   fac = bst->find(advisor);
+//   fac->printFaculty();
+// }
+
 template <class T>
-void Database<T>::displayStudentAdvisor(int studentID){
-  Student stu;
+void Database<T>::displayAllAdvisees(int facultytID){
   Faculty fac;
-  int advisor;
-  stu = bst->find(studentID);
-  advisor = stu->getAdvisorID();
-  fac = bst->find(advisor);
-  fac->printFaculty();
+  fac = bst->find(facultyID);
+  fac->printStudents();
 }
-
-template <class T>
-void Database<T>::displayAllAdvisees(int facultytID){}
 
 template <class T>
 void Database<T>::addStudent(int newID, string newName, string newLevel, string newMajor, double newGPA, int newAdvisorID){
@@ -96,6 +102,14 @@ void Database<T>::changeAdvisor(int studentID, int facultyID){
   curr = bst->find(studentID);
   curr->setAdvisorID(facultyID);
 }
+template <class T>
+int Database<T>::displayAdvisorNum(int studentID){
+  Student stu;
+  stu = bst->find(studentID);
+  int adv;
+  adv = stu->getAdvisorID();
+  return adv;
+};
 
 
 
