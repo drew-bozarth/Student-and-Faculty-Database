@@ -36,29 +36,66 @@ class Database{
     void removeAdvisee(int facultyID, int studentID);
 
   private:
-    BST<T> *bst;
+    BST<T> *StudentBst;
 };
 
 template <class T>
-Database<T>::Database(){
+void Database<T>::Database(){
   bst = new BST<T>();
 }
 
 template <class T>
-Database<T>::~Database(){
+void Database<T>::~Database(){
   delete bst;
 }
 
 template <class T>
-Database<T>::printDB(){
+void Database<T>::printDB(){
   bst->printNodes();
 }
 
 template <class T>
-Database<T>::displayObejct(int objectID){
+void Database<T>::displayObejct(int objectID){
   bst->find(objectID)->printObject();
 }
 
+template <class T>
+void Database<T>::displayStudentAdvisor(int studentID){
+  Student stu;
+  Faculty fac;
+  int advisor;
+  stu = bst->find(studentID);
+  advisor = stu->getAdvisorID();
+  fac = bst->find(advisor);
+  fac->printFaculty();
+}
+
+template <class T>
+void Database<T>::displayAllAdvisees(int facultytID){}
+
+template <class T>
+void Database<T>::addStudent(int newID, string newName, string newLevel, string newMajor, double newGPA, int newAdvisorID){
+  Student newStu = new Student(newID, newName, newLevel, newMajor, newGPA, newAdvisorID);
+  bst->insert(newStu);
+}
+
+template <class T>
+void Database<T>::addFaculty(int newID, string newName, string newLevel, string newDepartment){
+  Faculty newFac = new Faculty(newID, newName, newLevel, newDepartment);
+  bst->insert(newFac);
+}
+
+template <class T>
+void Database<T>::deleteObject(int objectID){
+  bst->remove(objectID);
+}
+
+template <class T>
+void Database<T>::changeAdvisor(int studentID, int facultyID){
+  Student curr;
+  curr = bst->find(studentID);
+  curr->setAdvisorID(facultyID);
+}
 
 
 

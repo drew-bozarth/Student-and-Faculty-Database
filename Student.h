@@ -19,7 +19,7 @@ This is the .h file for Student
 //standard namespace libaray in C++
 using namespace std;
 
-class Student : public Person{
+class Student{
 public:
   Student();
   Student(int studentID, string name, string level, string major, double studentGPA, int advisorID);
@@ -31,6 +31,7 @@ public:
   string getStudentLevel();
   void setAdvisorID(int a);
 private:
+  double gpa;
   int mStudentID;
   string mName;
   string mLevel;

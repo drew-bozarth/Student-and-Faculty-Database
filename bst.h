@@ -52,7 +52,7 @@ class BST{
     bool contains(T value); //search
     bool deleteNode(T k);
     bool isEmpty();
-
+    T* find(T value);;
     T* getMin();
     T* getMax();
     TreeNode<T> *getSuccessor(TreeNode<T> *d); //d represents the node we are going to delete
@@ -99,6 +99,24 @@ template <class T>
 bool BST<T>::isEmpty(){
   return (root == NULL);
 }
+
+template <class T>
+T* BST<T>::find(T value){
+  if (isEmpty()){
+    return NULL;
+  }
+  TreeNode<T> *current = root;
+  while(current->key != value){
+    if (value < current->key){
+      current = current->left;
+    }
+    else{
+      current = current->right;
+    }
+}
+return current;
+}
+
 
 template <class T>
 T* BST<T>::getMin(){

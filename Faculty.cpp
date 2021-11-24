@@ -14,18 +14,18 @@ This is the .cpp file for Faculty
 
 Faculty::Faculty(){
   //default constructor
-  id = -1;
-  name = "";
-  level = "";
+  mFacultyID = -1;
+  mName = "";
+  mLevel = "";
   mDepartment = "";
   mIDList = new MyList<int>;
 }
 
-Faculty::Faculty(int facultyID, string fName, string fLevel, string department){
+Faculty::Faculty(int facultyID, string name, string level, string department){
   //overloaded constructor
-  id = facultyID;
-  name = fName;
-  level = fLevel;
+  mFacultyID = facultyID;
+  mName = name;
+  mLevel = level;
   mDepartment = department;
 }
 
@@ -40,22 +40,20 @@ void Faculty::toString(){
   cout << "\n Students: " << printStudents();
   cout << "\n";
 };
-// int Faculty::getFacultyID(){
-//   return id;
-// };
+int Faculty::getFacultyID(){
+  return id;
+};
 string Faculty::getFacultyDepartment(){
   return department;
 };
-// string Faculty::getFacultyName(){
-//   return name;
-// };
-// string Faculty::getFacultyLevel(){
-//   return level;
-// };
-string Faculty::printStudents(){
-  string s;
-  s = StudIDList->print();
-  return s;
+string Faculty::getFacultyName(){
+  return name;
+};
+string Faculty::getFacultyLevel(){
+  return level;
+};
+void Faculty::printStudents(){
+  StudIDList->print();
 };
 void Faculty::AddStudent(int num){
   student->append(num);
