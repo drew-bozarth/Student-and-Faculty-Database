@@ -11,32 +11,30 @@ This is the .cpp file for Simulation
 //this statement includes the Simulation.h file
 #include "Simulation.h"
 #include "Database.h"
+#include "DatabaseOperations.h"
+#include "GenStack.h"
 
 
 Simulation::Simulation(){
   //default constructor
   Database<T> *studentDB;
   Database<T> *facultyDB;
+  GenStack<DatabaseOperations> stack = new GenStack<DatabaseOperations>();
 }
 
 Simulation::~Simulation(){
   //destructor
   delete studentDB;
   delete facultyDB;
+  delete stack;
 }
 
 void Simulation::start(){
-  string facultyTableFile = "facultyTable.txt";
-  string studentTableFile = "studentTable.txt";
-
-  //check if files exist
-  bool fileFound = false;
-    //if yes, process file and create trees
-
-  //if no (else statement)
-  studentDB = new Database<T>();
-  facultyDB = new Database<T>();
-    //create new empty trees
+  bool fileProcessed = fileProcessor();
+  if (!fileProcessed){
+    studentDB = new Database<T>();
+    facultyDB = new Database<T>();
+  }
 }
 
 void Simulation::simulate(){
@@ -118,10 +116,9 @@ void Simulation::simulate(){
       }
       else if (userInput == 14){
         //14. Exit
-        // **THIS NEEDS TO DO MORE STUFF**
         userExit = true;
-        cout << "Thank you goodbye." << endl;
         exit();
+        cout << "Thank you goodbye." << endl;
         continue;
       }
       else {
@@ -166,7 +163,8 @@ void Simulation::displayStudentAdvisor(int studentID){
   int studentID;
   cout << "Enter the ID number of the student who's advisor you wish to display: ";
   cin >> studentID;
-  studentDB->displayStudentAdvisor(studentID);
+  int advisorID = studentDB->getObject(studentID)->getAdvisorID();
+  displayObject(advisorID);
 }
 
 //6.
@@ -174,7 +172,7 @@ void Simulation::displayAllAdvisees(int facultyID){
   int facultyID;
   cout << "Enter the ID number of the faculty to display all of their advisees: ";
   cin >> facultyID;
-  studentDB->displayAllAdvisees(facultyID);
+  facultytDB->displayAllAdvisees(facultyID);
 }
 
 //7.
@@ -197,8 +195,9 @@ void Simulation::addStudent(){
   int newAdvisorID = 0;
   cout << "Enter the ID of the advisor for the new Student: ";
   cin >> newAdvisorID;
-  facultyDB->addStudent(newID, newName, newLevel, newMajor, newGPA, newAdvisorID);
-  //add to Rollback stack (student object(studentID), delete)
+  studentDB->addStudent(newID, newName, newLevel, newMajor, newGPA, newAdvisorID);
+  DatabaseOperations<Student> *operation = new DatabaseOperations<Student>(0,true,studentDB->getObject(newID));
+  stack->push(operation);
 }
 
 //8.
@@ -206,7 +205,9 @@ void Simulation::deleteStudent(){
   int studentID;
   cout << "Enter the ID number of the student you wish to delete: ";
   cin >> studentID;
-  //add to Rollback stack (student(studentID), insert)
+  DatabaseOperations<Student> *operation = new DatabaseOperations<Student>(1,true,studentDB->getObject(studentID));
+  stack->push(operation);
+
   studentDB->deleteStudent(studentID);
 }
 
@@ -226,7 +227,8 @@ void Simulation::addFaculty(){
   cin >> newDepartment;
   int newIDListSize = 10;
   facultyDB->addFaculty(newID, newName, newLevel, newDepartment, newIDListSize);
-  //add to Rollback stack (student object(studentID), delete)
+  DatabaseOperations<Faculty> *operation = new DatabaseOperations<Faculty>(0,false,facultyDB->getObject(newID));
+  stack->push(operation);
 }
 
 //10.
@@ -234,7 +236,9 @@ void Simulation::deleteFaculty(){
   int facultyID;
   cout << "Enter the ID number of the faculty member you wish to delete: ";
   cin >> facultyID;
-  //add to Rollback stack (faculty(facultyID), insert)
+  DatabaseOperations<Faculty> *operation = new DatabaseOperations<Faculty>(1,false,facultyDB->getObject(facultyID));
+  stack->push(operation);
+
   facultyDB->deleteFaculty(facultyID);
 }
 
@@ -262,10 +266,65 @@ void Simulation::removeAdvisee(){
 
 //13.
 void Simulation::rollback(){
-  //uhhhhh idk
+  if (stack->isEmpty()){
+    throw runtime_error("Stack is empty, there are no actions to undo!");
+  }
+
+  int action = stack->peek()->getAction();
+  bool isStudent = stack->peek()->isStudent();
+  if (isStudent){
+    if (action == 0){
+      int studentID = stack->pop()->getObject()->getStudentID();
+      studentDB->deleteStudent(studentID);
+    }
+    else if (action == 1){
+      int studentID = stack->peek()->getObject()->getStudentID();
+      string name = stack->peek()->getObject()->getStudentName();
+      string level = stack->peek()->getObject()->getStudentLevel();
+      string major = stack->peek()->getObject()->getStudentMajor();
+      double studentGPA = stack->peek()->getObject()->getStudentGPA();
+      int advisorID = stack->pop()->getObject()->getAdvisorID();
+      studentDB->addStudent(studentID, name, level, major, studentGPA, advisorID);
+    }
+    else {
+      throw runtime_error("Rollback action doesn't exist!");
+    }
+  }
+  else{
+    if (action == 0){
+      int facultyID = stack->pop()->getObject()->getFacultyID();
+      facultyDB->deleteFaculty(facultyID);
+    }
+    else if (action == 1){
+      int facultyID = stack->peek()->getObject()->getFacultyID();
+      string name = stack->peek()->getObject()->getFacultyName();
+      string level = stack->peek()->getObject()->getFacultyLevel();
+      string department = stack->peek()->getObject()->getFacultyMajor();
+      facultytDB->addFaculty(facultyID, name, level, department);
+    }
+    else {
+      throw runtime_error("Rollback action doesn't exist!");
+    }
+  }
+
 }
 
 //14.
 void Simulation::exit(){
   //uhhhh idk
+
+}
+
+bool Simulate::fileProcessor(){
+  string facultyTableFile = "facultyTable.txt";
+  string studentTableFile = "studentTable.txt";
+
+  if (facultyTableFile.open()){
+    //process file, create trees
+    return true;
+  }
+  else {
+    return false;
+  }
+
 }

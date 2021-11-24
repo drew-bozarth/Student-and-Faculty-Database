@@ -29,6 +29,10 @@ public:
   double getStudentGPA();
   string getStudentName();
   string getStudentLevel();
+  string getStudentMajor();
+  double getStudentGPA();
+  int getAdvisorID();
+
   void setAdvisorID(int a);
 private:
   double gpa;
