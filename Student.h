@@ -32,6 +32,8 @@ public:
   double getStudentGPA();
   int getAdvisorID();
   void setAdvisorID(int a);
+
+  void print();
 private:
   int mStudentID;
   string mName;

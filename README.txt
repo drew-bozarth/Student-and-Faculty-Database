@@ -6,10 +6,14 @@ Assignment 6
 
 Source Files:
 bst.h
+LinkedList.h
+GenStack.h
+Database.h
+DatabaseOperations.h
 Student.h
 Student.cpp
-FileProcessor.h
-FileProcessor.cpp
+Simulation.h
+Simulation.cpp
 main.cpp
 Makefile
 

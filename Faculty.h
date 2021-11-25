@@ -25,9 +25,6 @@ public:
   Faculty();
   Faculty(int facultyID, string fName, string fLevel, string fDepartment);
   ~Faculty();
-  // int getID();
-  // string getName();
-  // string getLevel();
   void toString() override;
   int getID() override;
   string getName() override;
@@ -38,12 +35,15 @@ public:
   void printStudents();
   void AddStudent(int num);
   void removeStudent(int num);
+  string printStudents();
+
+  void print();
 private:
-  int mStudentID;
+  int mFacultyID;
   string mName;
   string mLevel;
   string mDepartment;
-  MyList<int> *StudIDList;
+  MyList<int> *mStudentIDList;
 };
 //end of the header guards
 #endif

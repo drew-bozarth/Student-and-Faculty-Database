@@ -11,15 +11,18 @@ This is the .cpp file for Simulation
 //this statement includes the Simulation.h file
 #include "Simulation.h"
 #include "Database.h"
+#include "Student.h"
+#include "Faculty.h"
 #include "DatabaseOperations.h"
 #include "GenStack.h"
 
 
 Simulation::Simulation(){
   //default constructor
-  Database<T> *studentDB; = new Database<T>();
-  Database<T> *facultyDB; = new Database<T>();
+  Database<Student> *studentDB; = new Database<Student>();
+  Database<Faculty> *facultyDB; = new Database<Faculty>();
   GenStack<DatabaseOperations> stack = new GenStack<DatabaseOperations>();
+  rollbackCount = 0;
 }
 
 Simulation::~Simulation(){
@@ -32,8 +35,7 @@ Simulation::~Simulation(){
 void Simulation::start(){
   bool fileProcessed = fileProcessor();
   if (!fileProcessed){
-    studentDB = new Database<T>();
-    facultyDB = new Database<T>();
+    return;
   }
 }
 
@@ -119,7 +121,7 @@ void Simulation::simulate(){
         userExit = true;
         exit();
         cout << "Thank you goodbye." << endl;
-        continue;
+        return;
       }
       else {
         cout << "Sorry that was not a valid option, please try again" << endl;
@@ -164,7 +166,7 @@ void Simulation::displayStudentAdvisor(int studentID){
   cout << "Enter the ID number of the student who's advisor you wish to display: ";
   cin >> studentID;
   int advisorID = studentDB->getObject(studentID)->getAdvisorID();
-  displayObject(advisorID);
+  facultyDB->displayObject(advisorID);
 }
 
 //6.
@@ -195,9 +197,11 @@ void Simulation::addStudent(){
   int newAdvisorID = 0;
   cout << "Enter the ID of the advisor for the new Student: ";
   cin >> newAdvisorID;
-  studentDB->addStudent(newID, newName, newLevel, newMajor, newGPA, newAdvisorID);
+  Student newStudent = new Student(newID, newName, newLevel, newMajor, newGPA, newAdvisorID);
+  studentDB->addObject(newStudent);
   DatabaseOperations<Student> *operation = new DatabaseOperations<Student>(0,true,studentDB->getObject(newID));
   stack->push(operation);
+  rollbackCount = 0;
 }
 
 //8.
@@ -207,8 +211,9 @@ void Simulation::deleteStudent(){
   cin >> studentID;
   DatabaseOperations<Student> *operation = new DatabaseOperations<Student>(1,true,studentDB->getObject(studentID));
   stack->push(operation);
+  rollbackCount = 0;
 
-  studentDB->deleteStudent(studentID);
+  studentDB->deleteObject(studentID);
 }
 
 //9.
@@ -226,9 +231,11 @@ void Simulation::addFaculty(){
   cout << "Enter the deparment for the new Advisor: ";
   cin >> newDepartment;
   int newIDListSize = 10;
-  facultyDB->addFaculty(newID, newName, newLevel, newDepartment, newIDListSize);
+  Faculty newFaculty = new Faculty(newID, newName, newLevel, newDepartment, newIDListSize);
+  facultyDB->addFaculty(newFaculty);
   DatabaseOperations<Faculty> *operation = new DatabaseOperations<Faculty>(0,false,facultyDB->getObject(newID));
   stack->push(operation);
+  rollbackCount = 0;
 }
 
 //10.
@@ -238,8 +245,9 @@ void Simulation::deleteFaculty(){
   cin >> facultyID;
   DatabaseOperations<Faculty> *operation = new DatabaseOperations<Faculty>(1,false,facultyDB->getObject(facultyID));
   stack->push(operation);
+  rollbackCount = 0;
 
-  facultyDB->deleteFaculty(facultyID);
+  facultyDB->deleteObject(facultyID);
 }
 
 //11.
@@ -268,6 +276,10 @@ void Simulation::removeAdvisee(){
 void Simulation::rollback(){
   if (stack->isEmpty()){
     throw runtime_error("Stack is empty, there are no actions to undo!");
+  }
+  if (rollbackCount >= 5){
+    cout << "Sorry, you are only able to rollback 5 times continously." << endl;
+    return;
   }
 
   int action = stack->peek()->getAction();
@@ -306,25 +318,55 @@ void Simulation::rollback(){
       throw runtime_error("Rollback action doesn't exist!");
     }
   }
-
+  ++rollbackCount;
 }
 
 //14.
 void Simulation::exit(){
   //uhhhh idk
+  //needs to save out current databases to a file
+  ofstream outFaculty;
+  outFaculty.open("facultyTable.dat", ios::binary | ios::app);
 
+  ofstream outStudent;
+  outStudent.open("studentTable.dat", ios::binary | ios::app);
+
+  facultyDB.setData();
+  outFaculty.write((char*)&facultyDB, sizeof(facultyDB));
+
+  studentDB.setData();
+  outStudent.write((char*)&studentDB, sizeof(studentDB));
+
+  outFaculty.close();
+  outStudent.close();
+  //needs to "clean up"
+  //then exit
 }
 
-bool Simulation::fileProcessor(){
-  string facultyTableFile = "facultyTable.txt";
-  string studentTableFile = "studentTable.txt";
+bool Simulate::fileProcessor(){
+  //if file successfully opens, need to read binary file and
+  // re-create databases
+  ifstream facultyInput;
+  facultyInput.open("facultyTable.dat", ios::binary);
+  ifstream studentInput;
+  studentInput.open("studentTable.dat", ios::binary);
 
-  if (facultyTableFile.open()){
-    //process file, create trees
+  if (facultyInput.is_open() && studentInput.is_open()){
+
+    while(facultyInput.read((char*)&facultyDB, sizeof(facultyDB))){
+      facultyDB.showData();
+    }
+
+    while(studentInput.read((char*)&studentDB, sizeof(studentDB))){
+      studentDB.showData();
+    }
+
+    facultyInput.close();
+    studentInput.close();
+
     return true;
   }
   else {
     return false;
   }
-
 }

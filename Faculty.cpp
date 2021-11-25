@@ -18,7 +18,7 @@ Faculty::Faculty(){
   mName = "";
   mLevel = "";
   mDepartment = "";
-  mIDList = new MyList<int>;
+  mStudentIDList = new MyList<int>;
 }
 
 Faculty::Faculty(int facultyID, string name, string level, string department){
@@ -27,6 +27,7 @@ Faculty::Faculty(int facultyID, string name, string level, string department){
   mName = name;
   mLevel = level;
   mDepartment = department;
+  mStudentIDList = new MyList<int>;
 }
 
 Faculty::~Faculty(){
@@ -50,14 +51,32 @@ string Faculty::getName(){
   return mName;
 };
 string Faculty::getFacultyLevel(){
-  return level;
-};
-void Faculty::printStudents(){
-  StudIDList->print();
-};
+  return mLevel;
+}
+
+string Faculty::getFacultyDepartment(){
+  return mDepartment;
+}
+
 void Faculty::AddStudent(int num){
-  student->append(num);
-};
+  mStudentIDList->append(num);
+}
 void Faculty::removeStudent(int num){
-  student->remove(num);
-};
+  mStudentIDList->remove(num);
+}
+void Faculty::printStudents(){
+  string s;
+  s = mStudentIDList->print();
+  cout << s;
+}
+
+void Faculty::print(){
+  string s;
+  s += "Faculty member: " + mName;
+  s += " | ID number: " + mFacultyID;
+  s += " | Level: " + mLevel;
+  s += " | department: " + mDeparment;
+  s += "\n Students: " + printStudents();
+  s += "\n";
+  cout << s << endl;
+}

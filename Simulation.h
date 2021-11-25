@@ -13,6 +13,7 @@ This is the .h file for Simulation
 #define SIMULATION_H
 //these include some of the system defined libraries in C++
 #include <iostream>
+#include <fstream>
 #include <exception>
 #include <string>
 #include "Database.h"
@@ -47,6 +48,7 @@ public:
 private:
   Database<Student> *studentDB;
   Database<Faculty> *facultyDB;
+  int rollbackCount;
 
 };
 //end of the header guards
