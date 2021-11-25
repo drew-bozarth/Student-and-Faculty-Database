@@ -38,7 +38,8 @@ void Faculty::toString(){
   cout << " | ID number: " << id;
   cout << " | Level: " << level;
   cout << " | department: " << deparment;
-  cout << "\n Students: " << printStudents();
+  cout << "\n Students: ";
+  printStudents();
   cout << "\n";
 };
 int Faculty::getID(){
