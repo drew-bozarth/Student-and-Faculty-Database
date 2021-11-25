@@ -11,8 +11,8 @@ Assignment 6 - Database.h */
 #include <exception>
 
 #include "bst.h"
-#include "student.h"
-#include "faculty.h"
+#include "Student.h"
+#include "Faculty.h"
 
 using namespace std;
 
@@ -25,14 +25,16 @@ class Database{
     Database(); //default constructor
     virtual ~Database(); //destructor
 
+    void addObject(T object);
+    void deleteObject(int objectID);
+    void getObject(int objectID);
+
     void printDB();
     void displayObejct(int objectID);
-    int displayAdvisorNum(int studentID);
-    // void displayStudentAdvisor(int studentID); needs access to both trees/databases should be else where
     void displayAllAdvisees(int facultyID);
-    void addStudent(int newID, string newName, string newLevel, string newMajor, double newGPA, int newAdvisorID);
-    void deleteObject(int objectID);
-    void addFaculty(int newID, string newName, string newLevel, string newDepartment);
+
+    int displayAdvisorNum(int studentID);
+
     void changeAdvisor(int studentID, int facultyID);
     void removeAdvisee(int facultyID, int studentID);
 
@@ -41,23 +43,38 @@ class Database{
 };
 
 template <class T>
-Database<T>::Database(){
+void Database<T>::Database(){
   bst = new BST<T>();
 }
 
 template <class T>
-Database<T>::~Database(){
+void Database<T>::~Database(){
   delete bst;
 }
 
 template <class T>
-void Database<T>::printDB(){
+Databse<T>::addObject(T object){
+  bst->insert(object);
+}
+
+template <class T>
+Database<T>::deleteObject(int objectID){
+  bst->deleteNode(objectID);
+}
+
+template <class T>
+T* Databse<T>::getObject(int objectID){
+  return bst->getObject(objectID);
+}
+
+template <class T>
+Database<T>::printDB(){
   bst->printNodes();
 }
 
 template <class T>
 void Database<T>::displayObejct(int objectID){
-  bst->find(objectID)->toString();
+  bst->find(objectID)->print();
 }
 
 // template <class T>
@@ -72,44 +89,26 @@ void Database<T>::displayObejct(int objectID){
 // }
 
 template <class T>
-void Database<T>::displayAllAdvisees(int facultyID){
-  Faculty *fac;
+void Database<T>::displayAllAdvisees(int facultytID){
+  Faculty fac;
   fac = bst->find(facultyID);
   fac->printStudents();
 }
 
 template <class T>
-void Database<T>::addStudent(int newID, string newName, string newLevel, string newMajor, double newGPA, int newAdvisorID){
-  Student *newStu = new Student(newID, newName, newLevel, newMajor, newGPA, newAdvisorID);
-  bst->insert(newStu);
-}
-
-template <class T>
-void Database<T>::addFaculty(int newID, string newName, string newLevel, string newDepartment){
-  Faculty *newFac = new Faculty(newID, newName, newLevel, newDepartment);
-  bst->insert(newFac);
-}
-
-template <class T>
-void Database<T>::deleteObject(int objectID){
-  bst->deleteNode(objectID);
-}
-
-template <class T>
 void Database<T>::changeAdvisor(int studentID, int facultyID){
-  Student *curr;
+  Student curr;
   curr = bst->find(studentID);
   curr->setAdvisorID(facultyID);
 }
+
 template <class T>
 int Database<T>::displayAdvisorNum(int studentID){
-  Student *stu;
+  Student stu;
   stu = bst->find(studentID);
   int adv;
   adv = stu->getAdvisorID();
   return adv;
-};
-
-
+}
 
 #endif
