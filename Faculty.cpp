@@ -40,14 +40,14 @@ void Faculty::toString(){
   cout << "\n Students: " << printStudents();
   cout << "\n";
 };
-int Faculty::getFacultyID(){
-  return id;
+int Faculty::getID(){
+  return mFacultyID;
 };
 string Faculty::getFacultyDepartment(){
   return department;
 };
-string Faculty::getFacultyName(){
-  return name;
+string Faculty::getName(){
+  return mName;
 };
 string Faculty::getFacultyLevel(){
   return level;

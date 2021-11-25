@@ -15,6 +15,9 @@ This is the .h file for Simulation
 #include <iostream>
 #include <exception>
 #include <string>
+#include "Database.h"
+#include "Student.h"
+#include "Faculty.h"
 //standard namespace libaray in C++
 using namespace std;
 
@@ -42,6 +45,8 @@ public:
   void rollback();
   void exit();
 private:
+  Database<Student> *studentDB;
+  Database<Faculty> *facultyDB;
 
 };
 //end of the header guards

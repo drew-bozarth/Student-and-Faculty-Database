@@ -33,7 +33,6 @@ class Database{
     void addStudent(int newID, string newName, string newLevel, string newMajor, double newGPA, int newAdvisorID);
     void deleteObject(int objectID);
     void addFaculty(int newID, string newName, string newLevel, string newDepartment);
-    void deleteObject(int objectID);
     void changeAdvisor(int studentID, int facultyID);
     void removeAdvisee(int facultyID, int studentID);
 
@@ -42,12 +41,12 @@ class Database{
 };
 
 template <class T>
-void Database<T>::Database(){
+Database<T>::Database(){
   bst = new BST<T>();
 }
 
 template <class T>
-void Database<T>::~Database(){
+Database<T>::~Database(){
   delete bst;
 }
 
@@ -58,7 +57,7 @@ void Database<T>::printDB(){
 
 template <class T>
 void Database<T>::displayObejct(int objectID){
-  bst->find(objectID)->print();
+  bst->find(objectID)->toString();
 }
 
 // template <class T>
@@ -73,21 +72,21 @@ void Database<T>::displayObejct(int objectID){
 // }
 
 template <class T>
-void Database<T>::displayAllAdvisees(int facultytID){
-  Faculty fac;
+void Database<T>::displayAllAdvisees(int facultyID){
+  Faculty *fac;
   fac = bst->find(facultyID);
   fac->printStudents();
 }
 
 template <class T>
 void Database<T>::addStudent(int newID, string newName, string newLevel, string newMajor, double newGPA, int newAdvisorID){
-  Student newStu = new Student(newID, newName, newLevel, newMajor, newGPA, newAdvisorID);
+  Student *newStu = new Student(newID, newName, newLevel, newMajor, newGPA, newAdvisorID);
   bst->insert(newStu);
 }
 
 template <class T>
 void Database<T>::addFaculty(int newID, string newName, string newLevel, string newDepartment){
-  Faculty newFac = new Faculty(newID, newName, newLevel, newDepartment);
+  Faculty *newFac = new Faculty(newID, newName, newLevel, newDepartment);
   bst->insert(newFac);
 }
 
@@ -98,13 +97,13 @@ void Database<T>::deleteObject(int objectID){
 
 template <class T>
 void Database<T>::changeAdvisor(int studentID, int facultyID){
-  Student curr;
+  Student *curr;
   curr = bst->find(studentID);
   curr->setAdvisorID(facultyID);
 }
 template <class T>
 int Database<T>::displayAdvisorNum(int studentID){
-  Student stu;
+  Student *stu;
   stu = bst->find(studentID);
   int adv;
   adv = stu->getAdvisorID();

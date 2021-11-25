@@ -36,31 +36,37 @@ Student::~Student(){
   //destructor
 }
 int Student::getAdvisorID(){
-  return advisorNum;
+  return mAdvisorID;
 };
 
 void Student::setAdvisorID(int a){
-  advisorNum = a;
+  mAdvisorID = a;
 }
 
-int Student::getStudentID(){
-  return id;
+int Student::getID(){
+  return mStudentID;
 };
+
+string Student::getStudentMajor(){
+  return mMajor;
+}
 
 double Student::getStudentGPA(){
-  return gpa;
+  return mStudentGPA;
 };
-string Student::getStudentName(){
-  return name;
+string Student::getName(){
+  return mName;
 };
-string Student::getStudentLevel(){
-  return level;
+string Student::getLevel(){
+  return mLevel;
 };
 
-void Student::printStudent(){
-  cout << "Student Name: " << name;
-  cout << " | ID number: " << id;
-  cout << " | Year: " << level;
-  cout << " | GPA: " << gpa;
-  cout << " | Advisor ID: " << advisorNum;
+void Student::toString(){
+  cout << "Student Name: " << mName;
+  cout << " | ID number: " << mStudentID;
+  cout << " | Major: " << mMajor;
+  cout << " | Year: " << mLevel;
+  cout << " | GPA: " << mStudentGPA;
+  cout << " | Advisor ID: " << mAdvisorID;
+  cout << "| \n";
 }

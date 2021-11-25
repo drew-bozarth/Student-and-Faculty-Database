@@ -18,21 +18,11 @@ public:
   int id;
   string name;
   string level;
-  virtual int getID(){
-    return id;
-  };
-  virtual string getName(){
-    return name;
-  };
-  virtual string getLevel(){
-    return level;
-  };
-  virtual void toString(){
-    cout << "Name: " << name;
-    cout << " | ID number: " << id;
-    cout << " | level: " << level;
-  }
-}
+  virtual int getID(){};
+  virtual string getName(){};
+  virtual string getLevel(){};
+  virtual void toString(){};
+};
 
 
 #endif

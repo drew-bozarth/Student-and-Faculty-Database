@@ -17,8 +17,8 @@ This is the .cpp file for Simulation
 
 Simulation::Simulation(){
   //default constructor
-  Database<T> *studentDB;
-  Database<T> *facultyDB;
+  Database<T> *studentDB; = new Database<T>();
+  Database<T> *facultyDB; = new Database<T>();
   GenStack<DatabaseOperations> stack = new GenStack<DatabaseOperations>();
 }
 
@@ -64,115 +64,51 @@ void Simulation::simulate(){
 
       if (userInput == 1){
         //1. Print all students and their information (sorted by ascending id #)
-        StudentDB->printDB();
+        printAllStudentInfo();
       }
       else if (userInput == 2){
         //2. Print all faculty and their information (sorted by ascending id #)
-        FacultyDB->printDB();
+        printAllFalcultyInfo();
       }
       else if (userInput == 3){
         //3. Find and display student information given the students id
-        int stuID;
-        cout << "Enter student ID: ";
-        cin >> stuID;
-        StudentDB->displayObject(stuID);
+        displayStudentInfo();
       }
       else if (userInput == 4){
         //4. Find and display faculty information given the faculty id
-        int facID;
-        cout << "Enter faculty ID: ";
-        cin >> facID;
-        FacultyDB->displayObject(facID);
+        displayFacultyInfo();
       }
       else if (userInput == 5){
         //5. Given a student's id, print the name and info of their faculty advisor
-        int stuID;
-        int facID;
-        cout << "Enter student ID: ";
-        cin >> stuID;
-        facID = StudentDB->displayAdvisorNum(stuID);
-        FacultyDB->displayObejct(facID);
+        displayStudentAdvisor();
       }
       else if (userInput == 6){
         //6. Given a faculty id, print ALL the names and info of his/her advisees
-        int facID;
-        cout << "Enter faculty ID: ";
-        cin >> facID;
-        FacultyDB->displayAllAdvisees(facID);
+        displayAllAdvisees();
       }
       else if (userInput == 7){
         //7. Add a new student
-        cout << "Adding a student" << endl;
-        int id;
-        int adv;
-        string name;
-        string level;
-        string major;
-        double gpa;
-        cout << "Name of Student: ";
-        cin >> name;
-        cout << "Student ID: ";
-        cin >> id;
-        cout << "Level: ";
-        cin >> level;
-        cout << "major: ";
-        cin >> major;
-        cout << "GPA: ";
-        cin >> gpa;
-        cout << "Advisor ID: ";
-        cin >> adv;
-        StudentDB->addStudent(id, name, level, major, gpa, adv);
+        addStudent();
       }
       else if (userInput == 8){
         //8. Delete a student given the id
-        int stu;
-        cout << "Enter student ID: ";
-        cin >> stu
-        StudentDB->deleteObject(stu);
+        deleteStudent();
       }
       else if (userInput == 9){
         //9. Add a new faculty member
-        cout << "Adding a Faculty member" << endl;
-        int id;
-        string name;
-        string level;
-        string department;
-        cout << "Name of Faculty: ";
-        cin >> name;
-        cout << "Faculty ID: ";
-        cin >> id;
-        cout << "Level: ";
-        cin >> level;
-        cout << "department: ";
-        cin >> department;
-        FacultyDB->addFaculty(id, name, level, department);
+        addFaculty();
       }
       else if (userInput == 10){
         //10. Delete a faculty member given the id
-        int fac;
-        cout << "Enter Faculty ID: ";
-        cin >> fac
-        FacultyDB->deleteObject(fac);
+        deleteFaculty();
       }
       else if (userInput == 11){
         //11. Change a student's advisor given the student id and the new faculty id
-        int stu;
-        int fac;
-        cout << "Student ID: ";
-        cin >> stu;
-        cout << "New Faculty ID: ";
-        cin >> fac;
-        StudentDB->changeAdvisor(stu, fac);
+        changeAdvisor();
       }
       else if (userInput == 12){
         //12. Remove an advisee from a faculty member given the id
-        int stu;
-        int fac;
-        cout << "Faculty ID: ";
-        cin >> fac;
-        cout << "Student to be removed ID: ";
-        cin >> stu;
-        StudentDB->removeAdvisee(fac, stu);
+        removeAdvisee();
       }
       else if (userInput == 13){
         //13. Rollback
@@ -379,7 +315,7 @@ void Simulation::exit(){
 
 }
 
-bool Simulate::fileProcessor(){
+bool Simulation::fileProcessor(){
   string facultyTableFile = "facultyTable.txt";
   string studentTableFile = "studentTable.txt";
 
