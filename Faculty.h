@@ -35,7 +35,6 @@ public:
   void printStudents();
   void AddStudent(int num);
   void removeStudent(int num);
-  string printStudents();
 
   void print();
 private:

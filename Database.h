@@ -92,7 +92,7 @@ void Database<T>::addFaculty(int newID, string newName, string newLevel, string 
 
 template <class T>
 void Database<T>::deleteObject(int objectID){
-  bst->remove(objectID);
+  bst->deleteNode(objectID);
 }
 
 template <class T>

@@ -69,14 +69,3 @@ void Faculty::printStudents(){
   s = mStudentIDList->print();
   cout << s;
 }
-
-void Faculty::print(){
-  string s;
-  s += "Faculty member: " + mName;
-  s += " | ID number: " + mFacultyID;
-  s += " | Level: " + mLevel;
-  s += " | department: " + mDeparment;
-  s += "\n Students: " + printStudents();
-  s += "\n";
-  cout << s << endl;
-}

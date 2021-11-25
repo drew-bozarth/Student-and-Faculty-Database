@@ -15,7 +15,7 @@ template <class T>
 class TreeNode{
   public:
     TreeNode();
-    TreeNode(T key);
+    TreeNode(T* key);
     virtual ~TreeNode();
 
     T* key; //key = data
@@ -31,7 +31,7 @@ TreeNode<T>::TreeNode(){
 }
 
 template <class T>
-TreeNode<T>::TreeNode(T k){
+TreeNode<T>::TreeNode(T* k){
   left = NULL;
   right = NULL;
   key = k;
@@ -48,11 +48,11 @@ class BST{
   public:
     BST();
     virtual ~BST();
-    void insert(int value);
-    bool contains(T value); //search
+    void insert(T* value);
+    bool contains(int value); //search
     bool deleteNode(int k);
     bool isEmpty();
-    T* find(int value);;
+    TreeNode<T>* find(int value);
     T* getMin();
     T* getMax();
     TreeNode<T> *getSuccessor(TreeNode<T> *d); //d represents the node we are going to delete
@@ -102,20 +102,23 @@ bool BST<T>::isEmpty(){
 }
 
 template <class T>
-T* BST<T>::find(int value){
+TreeNode<T>* BST<T>::find(int value){
   if (isEmpty()){
     return NULL;
   }
-  TreeNode<T> **current = root;
-  while(current->key->getId() != value){
-    if (value < current->key->getID()){
+  TreeNode<T> *current = root;
+  int currID = 0;
+  currID = current->key->getID();
+  while(currID != value){
+    currID = current->key->getID();
+    if (value < currID){
       current = current->left;
     }
     else{
       current = current->right;
     }
 }
-return *current;
+return current;
 }
 
 
@@ -144,9 +147,10 @@ T* BST<T>::getMax(){
 }
 
 template <class T>
-void BST<T>::insert(int value){
+void BST<T>::insert(T* value){
   TreeNode<T> *node = new TreeNode<T>(value);
-
+  int currID;
+  int newID;
   if (isEmpty()){
     root = node;
   }
@@ -154,11 +158,11 @@ void BST<T>::insert(int value){
     //tree is not empty, let's go find the insertion point for node
     TreeNode<T> *current = root;
     TreeNode<T> *parent = NULL;
-
+    newID = value->getID();
     while (true){
       parent = current;
-
-      if (value < current->key->getID()){
+      currID = current->key->getID();
+      if (newID < currID){
         current = current->left;
         if (current == NULL){
           //we found the insertion point
@@ -179,7 +183,7 @@ void BST<T>::insert(int value){
 }
 
 template <class T>
-bool BST<T>::contains(T value){
+bool BST<T>::contains(int value){
   if (isEmpty())
     return false;
   else{
