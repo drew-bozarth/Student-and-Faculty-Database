@@ -66,7 +66,7 @@ int Faculty::getID(){
   return mFacultyID;
 }
 string Faculty::getFacultyDepartment(){
-  return department;
+  return mDepartment;
 }
 string Faculty::getName(){
   return mName;
