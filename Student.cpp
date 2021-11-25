@@ -36,23 +36,27 @@ Student::~Student(){
   //destructor
 }
 
-bool Student::operator==(&Student rhs){
+bool Student::operator==(Student& rhs){
   return (getID() == rhs->getID());
 }
-bool Student::operator!=(&Student rhs){
+bool Student::operator!=(Student& rhs){
   return (getID() != rhs->getID());
 }
-bool Student::operator<=(&Student rhs){
+bool Student::operator<=(Student& rhs){
   return (getID() <= rhs->getID());
 }
-bool Student::operator>=(&Student rhs){
+bool Student::operator>=(Student& rhs){
   return (getID() >= rhs->getID());
 }
-bool Student::operator<(&Student rhs){
+bool Student::operator<(Student& rhs){
   return (getID() < rhs->getID());
 }
-bool Student::operator>(&Student rhs){
+bool Student::operator>(Student& rhs){
   return (getID() > rhs->getID());
+}
+friend bool Student::operator<<(ostream& ostr, Student& stu){
+  ostr << stu;
+  return ostr;
 }
 
 

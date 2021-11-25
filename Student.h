@@ -25,12 +25,13 @@ public:
   Student(int studentID, string name, string level, string major, double studentGPA, int advisorID);
   ~Student();
 
-  bool operator==(&Student rhs);
-  bool operator!=(&Student rhs);
-  bool operator>=(&Student rhs);
-  bool operator<=(&Student rhs);
-  bool operator>(&Student rhs);
-  bool operator<(&Student rhs);
+  bool operator==(Student& rhs);
+  bool operator!=(Student& rhs);
+  bool operator>=(Student& rhs);
+  bool operator<=(Student& rhs);
+  bool operator>(Student& rhs);
+  bool operator<(Student& rhs);
+  friend bool operator<<(ostream& ostr, Student& stu);
 
   void toString() override;
   int getID() override;

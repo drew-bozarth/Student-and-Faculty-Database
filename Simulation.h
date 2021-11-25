@@ -44,7 +44,7 @@ public:
   void changeAdvisor();
   void removeAdvisee();
   void rollback();
-  void exit();
+  void exitAndSave();
 private:
   Database<Student> *studentDB;
   Database<Faculty> *facultyDB;
