@@ -23,15 +23,15 @@ using namespace std;
 class Faculty: public Person{
 public:
   Faculty();
-  Faculty(int facultyID, string fName, string fLevel, string fDepartment);
+  Faculty(int facultyID, string name, string level, string department);
   ~Faculty();
 
-  bool operator==(Faculty rhf);
-  bool operator!=(Faculty rhf);
-  bool operator>=(Faculty rhf);
-  bool operator<=(Faculty rhf);
-  bool operator>(Faculty rhf);
-  bool operator<(Faculty rhf);
+  bool operator==(Faculty& rhf);
+  bool operator!=(Faculty& rhf);
+  bool operator>=(Faculty& rhf);
+  bool operator<=(Faculty& rhf);
+  bool operator>(Faculty& rhf);
+  bool operator<(Faculty& rhf);
   friend bool operator<<(ostream& ost, Faculty& fac);
 
   string toString() override;

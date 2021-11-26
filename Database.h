@@ -28,6 +28,7 @@ class Database{
     void addObject(T* object);
     void deleteObject(int objectID);
     T* getObject(int objectID);
+
     void printDB();
     void displayObejct(int objectID);
     void displayAdvisees(int facultyID);

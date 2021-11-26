@@ -67,11 +67,9 @@ string Faculty::toString(){
   s += printStudents();
   return s;
 }
+
 int Faculty::getID(){
   return mFacultyID;
-}
-string Faculty::getFacultyDepartment(){
-  return mDepartment;
 }
 string Faculty::getName(){
   return mName;
@@ -79,7 +77,6 @@ string Faculty::getName(){
 string Faculty::getFacultyLevel(){
   return mLevel;
 }
-
 string Faculty::getFacultyDepartment(){
   return mDepartment;
 }

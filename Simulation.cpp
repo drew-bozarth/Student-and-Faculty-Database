@@ -10,18 +10,13 @@ This is the .cpp file for Simulation
 
 //this statement includes the Simulation.h file
 #include "Simulation.h"
-#include "Database.h"
-#include "Student.h"
-#include "Faculty.h"
-#include "DatabaseOperations.h"
-#include "GenStack.h"
 
 
 Simulation::Simulation(){
   //default constructor
   studentDB = new Database<Student*>();
   facultyDB = new Database<Faculty*>();
-  stack = new GenStack<DatabaseOperations*>();
+  stack = new GenStack<DatabaseOperations<Person>>();
   rollbackCount = 0;
 }
 
@@ -35,6 +30,8 @@ Simulation::~Simulation(){
 void Simulation::start(){
   bool fileProcessed = fileProcessor();
   if (!fileProcessed){
+    studentDB = new Database<Student>();
+    facultyDB = new Database<Faculty>();
     return;
   }
 }
@@ -151,7 +148,7 @@ void Simulation::printAllFalcultyInfo(){
 }
 
 //3.
-void Simulation::displayStudentInfo(int studentID){
+void Simulation::displayStudentInfo(){
   int studentID;
   cout << "Enter the ID number of the student you wish to display: ";
   cin >> studentID;
@@ -159,7 +156,7 @@ void Simulation::displayStudentInfo(int studentID){
 }
 
 //4.
-void Simulation::displayFacultyInfo(int facultyID){
+void Simulation::displayFacultyInfo(){
   int facultyID;
   cout << "Enter the ID number of the faculty you wish to display: ";
   cin >> facultyID;
@@ -167,7 +164,7 @@ void Simulation::displayFacultyInfo(int facultyID){
 }
 
 //5.
-void Simulation::displayStudentAdvisor(int studentID){
+void Simulation::displayStudentAdvisor(){
   int studentID;
   cout << "Enter the ID number of the student who's advisor you wish to display: ";
   cin >> studentID;
@@ -176,7 +173,7 @@ void Simulation::displayStudentAdvisor(int studentID){
 }
 
 //6.
-void Simulation::displayAllAdvisees(int facultyID){
+void Simulation::displayAllAdvisees(){
   int facultyID;
   cout << "Enter the ID number of the faculty to display all of their advisees: ";
   cin >> facultyID;
@@ -344,9 +341,9 @@ bool Simulation::fileProcessor(){
   //if file successfully opens, need to read binary file and
   // re-create databases
   ifstream facultyInput;
-  facultyInput.open("facultyTable.txt");
+  facultyInput.open("facultyTable");
   ifstream studentInput;
-  studentInput.open("studentTable.txt");
+  studentInput.open("studentTable");
 
   if (facultyInput.is_open() && studentInput.is_open()){
     //read files and create trees

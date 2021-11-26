@@ -59,33 +59,33 @@ bool Student::operator<<(ostream& ostr, Student& stu){
   return ostr;
 }
 
-
-int Student::getAdvisorID(){
-  return mAdvisorID;
-}
-
-void Student::setAdvisorID(int a){
-  mAdvisorID = a;
+void Student::toString(){
+  cout << "Student Name: " << mName;
+  cout << " | ID number: " << mStudentID;
+  cout << " | Major: " << mMajor;
+  cout << " | Year: " << mLevel;
+  cout << " | GPA: " << mStudentGPA;
+  cout << " | Advisor ID: " << mAdvisorID;
+  cout << "| \n";
 }
 
 int Student::getID(){
   return mStudentID;
 }
-
-string Student::getStudentMajor(){
-  return mMajor;
-}
-
-double Student::getStudentGPA(){
-  return mStudentGPA;
-}
-
 string Student::getName(){
   return mName;
 }
-
 string Student::getLevel(){
   return mLevel;
+}
+string Student::getStudentMajor(){
+  return mMajor;
+}
+double Student::getStudentGPA(){
+  return mStudentGPA;
+}
+int Student::getAdvisorID(){
+  return mAdvisorID;
 }
 
 string Student::toString(){

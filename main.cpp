@@ -10,6 +10,8 @@ Main file for Assignment6
 
 //these statements include the user defined files into this file to be used
 #include "Simulation.h"
+#include "DatabaseOperations.h"
+#include "GenStack.h"
 // standard namespace library in C++
 using namespace std;
 /*
@@ -19,6 +21,7 @@ Parameters: int (argc, number of command line arguments), char** (argv, array of
 Exceptions: none
 */
 int main(int argc, char** argv){
+  /*
   Simulation *sim = new Simulation();
 
   sim->start();
@@ -26,4 +29,8 @@ int main(int argc, char** argv){
 
   delete sim;
   return 0;
+  */
+
+  //testing for compiles
+  cout << "start test" << endl;
 }
