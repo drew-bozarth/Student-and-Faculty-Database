@@ -49,15 +49,15 @@ class BST{
     BST();
     virtual ~BST();
     void insert(T* value);
-    bool contains(T value); //search
+    bool contains(int value); //search
     bool deleteNode(int k);
     bool isEmpty();
     T* find(int k);
     T* getMin();
     T* getMax();
     TreeNode<T> *getSuccessor(TreeNode<T> *d); //d represents the node we are going to delete
-    void printNodes();
-    void recPrint(TreeNode<T> *node);
+    string printNodes();
+    string recPrint(TreeNode<T> *node);
   private:
     TreeNode<T> *root;
 };
@@ -74,18 +74,20 @@ BST<T>::~BST(){
 }
 
 template <class T>
-void BST<T>::recPrint(TreeNode<T> *node){
+string BST<T>::recPrint(TreeNode<T> *node){
+  string s;
   if (node == NULL)
-    return;
-  node->key->toString();
+    return s;
+  s += "\n";
+  s += node->key->toString();
   cout << endl;
   recPrint(node->left);
   recPrint(node->right);
 }
 
 template <class T>
-void BST<T>::printNodes(){
-  recPrint(root);
+string BST<T>::printNodes(){
+  return recPrint(root);
 }
 
 template <class T>
@@ -102,15 +104,15 @@ T* BST<T>::find(int value){
   int currID = 0;
   currID = current->key->getID();
   while(currID != value){
-    currID = current->key->getID();
     if (value < currID){
       current = current->left;
     }
     else{
       current = current->right;
     }
+    currID = current->key->getID();
 }
-return current->key->getID();
+return current->key;
 }
 
 
@@ -123,7 +125,7 @@ T* BST<T>::getMin(){
   while (current->left != NULL){
     current = current->left;
   }
-  return &(current->key->getID());
+  return &(current->key);
 }
 
 template <class T>
@@ -135,13 +137,13 @@ T* BST<T>::getMax(){
   while (current->right != NULL){
     current = current->right;
   }
-  return &(current->key->getID());
+  return &(current->key);
 }
 
 template <class T>
 void BST<T>::insert(T* value){
   TreeNode<T> *node = new TreeNode<T>(value);
-
+  int currID;
   if (isEmpty()){
     root = node;
   }
@@ -152,8 +154,8 @@ void BST<T>::insert(T* value){
 
     while (true){
       parent = current;
-
-      if (value < current->key->getID()){
+      currID = current->key->getID();
+      if (value < currID){
         current = current->left;
         if (current == NULL){
           //we found the insertion point
@@ -174,14 +176,16 @@ void BST<T>::insert(T* value){
 }
 
 template <class T>
-bool BST<T>::contains(T value){
+bool BST<T>::contains(int value){
   if (isEmpty())
     return false;
   else{
     //it's not empty, let's try and find it
     TreeNode<T> *current = root;
-    while(current->key->getID() != value){
-      if (value < current->key->getID()){
+    int currID = current->key->getID();
+    while(currID != value){
+      currID = current->key->getID();
+      if (value < currID){
         current = current->left;
       }
       else{
