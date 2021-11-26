@@ -19,6 +19,8 @@ This is the .h file for Simulation
 #include "Database.h"
 #include "Student.h"
 #include "Faculty.h"
+#include "GenStack.h"
+#include "DatabaseOperations.h"
 //standard namespace libaray in C++
 using namespace std;
 

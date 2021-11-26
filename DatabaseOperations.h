@@ -19,7 +19,7 @@ template <class T>
 class DatabaseOperations{
   public:
     DatabaseOperations(); //default constructor
-    DatabaseOperations(int action, T *object);
+    DatabaseOperations(int action, bool isStudent, T *object);
     virtual ~DatabaseOperations(); //destructor
     int getAction();
     bool isStudent();
@@ -34,7 +34,7 @@ class DatabaseOperations{
 template <class T>
 DatabaseOperations<T>::DatabaseOperations(){
 
-}
+};
 
 template <class T>
 DatabaseOperations<T>::DatabaseOperations(int action, bool isStudent, T *object){

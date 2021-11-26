@@ -33,7 +33,7 @@ public:
   bool operator<(Student& rhs);
   friend bool operator<<(ostream& ostr, Student& stu);
 
-  void toString() override;
+  string toString() override;
   int getID() override;
   string getName() override;
   string getLevel() override;

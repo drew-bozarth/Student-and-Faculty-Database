@@ -77,7 +77,8 @@ template <class T>
 void BST<T>::recPrint(TreeNode<T> *node){
   if (node == NULL)
     return;
-  cout << node->key->getID() << endl;
+  node->key->toString();
+  cout << endl;
   recPrint(node->left);
   recPrint(node->right);
 }
@@ -204,11 +205,12 @@ bool BST<T>::deleteNode(int k){
   TreeNode<T> *current = root;
   TreeNode<T> *parent = root;
   bool isLeft = true;
-
-  while(current->key->getID() != k){
+  int value = 0;
+  while(value != k){
+    value = current->key->getID();
     parent = current;
 
-    if(k < current->key->getID()){
+    if(k < value){
       isLeft = true;
       current = current->left;
     }

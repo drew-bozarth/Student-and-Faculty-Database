@@ -54,7 +54,7 @@ bool Student::operator<(Student& rhs){
 bool Student::operator>(Student& rhs){
   return (getID() > rhs->getID());
 }
-friend bool Student::operator<<(ostream& ostr, Student& stu){
+bool Student::operator<<(ostream& ostr, Student& stu){
   ostr << stu;
   return ostr;
 }
@@ -88,12 +88,14 @@ string Student::getLevel(){
   return mLevel;
 }
 
-void Student::toString(){
-  cout << "Student Name: " << mName;
-  cout << " | ID number: " << mStudentID;
-  cout << " | Major: " << mMajor;
-  cout << " | Year: " << mLevel;
-  cout << " | GPA: " << mStudentGPA;
-  cout << " | Advisor ID: " << mAdvisorID;
-  cout << "| \n";
+string Student::toString(){
+  string str;
+  str += "Student Name: " + mName;
+  str += " | ID number: " + mStudentID;
+  str += " | Major: " + mMajor;
+  str += " | Year: " + mLevel;
+  str += " | GPA: " + to_string(mStudentGPA);
+  str += " | Advisor ID: " + mAdvisorID;
+  // str += "| \n"
+  return str;
 }

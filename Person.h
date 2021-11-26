@@ -21,7 +21,7 @@ public:
   virtual int getID(){};
   virtual string getName(){};
   virtual string getLevel(){};
-  virtual void toString(){};
+  virtual string toString(){};
 };
 
 
