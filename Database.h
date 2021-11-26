@@ -25,13 +25,13 @@ class Database{
     Database(); //default constructor
     virtual ~Database(); //destructor
 
-    void addObject(T object);
+    void addObject(T* object);
     void deleteObject(int objectID);
     void getObject(int objectID);
 
     void printDB();
     void displayObejct(int objectID);
-    void displayAllAdvisees(int facultyID);
+    void displayAdvisees(int facultyID);
 
     int displayAdvisorNum(int studentID);
 
@@ -43,22 +43,22 @@ class Database{
 };
 
 template <class T>
-void Database<T>::Database(){
+Database<T>::Database(){
   bst = new BST<T>();
 }
 
 template <class T>
-void Database<T>::~Database(){
+Database<T>::~Database(){
   delete bst;
 }
 
 template <class T>
-Databse<T>::addObject(T object){
+void Databse<T>::addObject(T object){
   bst->insert(object);
 }
 
 template <class T>
-Database<T>::deleteObject(int objectID){
+void Database<T>::deleteObject(int objectID){
   bst->deleteNode(objectID);
 }
 
@@ -68,7 +68,7 @@ T* Databse<T>::getObject(int objectID){
 }
 
 template <class T>
-Database<T>::printDB(){
+void Database<T>::printDB(){
   bst->printNodes();
 }
 
@@ -89,7 +89,7 @@ void Database<T>::displayObejct(int objectID){
 // }
 
 template <class T>
-void Database<T>::displayAllAdvisees(int facultytID){
+void Database<T>::displayAdvisees(int facultytID){
   Faculty fac;
   fac = bst->find(facultyID);
   fac->printStudents();

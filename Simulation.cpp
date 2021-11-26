@@ -19,9 +19,9 @@ This is the .cpp file for Simulation
 
 Simulation::Simulation(){
   //default constructor
-  Database<Student> *studentDB; = new Database<Student>();
-  Database<Faculty> *facultyDB; = new Database<Faculty>();
-  GenStack<DatabaseOperations> stack = new GenStack<DatabaseOperations>();
+  studentDB = new Database<Student*>();
+  facultyDB = new Database<Faculty*>();
+  stack = new GenStack<DatabaseOperations*>();
   rollbackCount = 0;
 }
 
@@ -180,7 +180,7 @@ void Simulation::displayAllAdvisees(int facultyID){
   int facultyID;
   cout << "Enter the ID number of the faculty to display all of their advisees: ";
   cin >> facultyID;
-  facultytDB->displayAllAdvisees(facultyID);
+  facultytDB->displayAdvisees(facultyID);
 }
 
 //7.
@@ -203,7 +203,7 @@ void Simulation::addStudent(){
   int newAdvisorID = 0;
   cout << "Enter the ID of the advisor for the new Student: ";
   cin >> newAdvisorID;
-  Student newStudent = new Student(newID, newName, newLevel, newMajor, newGPA, newAdvisorID);
+  Student *newStudent = new Student(newID, newName, newLevel, newMajor, newGPA, newAdvisorID);
   studentDB->addObject(newStudent);
   DatabaseOperations<Student> *operation = new DatabaseOperations<Student>(0,true,studentDB->getObject(newID));
   stack->push(operation);
@@ -237,7 +237,7 @@ void Simulation::addFaculty(){
   cout << "Enter the deparment for the new Advisor: ";
   cin >> newDepartment;
   int newIDListSize = 10;
-  Faculty newFaculty = new Faculty(newID, newName, newLevel, newDepartment, newIDListSize);
+  Faculty *newFaculty = new Faculty(newID, newName, newLevel, newDepartment, newIDListSize);
   facultyDB->addFaculty(newFaculty);
   DatabaseOperations<Faculty> *operation = new DatabaseOperations<Faculty>(0,false,facultyDB->getObject(newID));
   stack->push(operation);
@@ -293,7 +293,7 @@ void Simulation::rollback(){
   if (isStudent){
     if (action == 0){
       int studentID = stack->pop()->getObject()->getStudentID();
-      studentDB->deleteStudent(studentID);
+      studentDB->deleteObject(studentID);
     }
     else if (action == 1){
       int studentID = stack->peek()->getObject()->getStudentID();
@@ -302,7 +302,8 @@ void Simulation::rollback(){
       string major = stack->peek()->getObject()->getStudentMajor();
       double studentGPA = stack->peek()->getObject()->getStudentGPA();
       int advisorID = stack->pop()->getObject()->getAdvisorID();
-      studentDB->addStudent(studentID, name, level, major, studentGPA, advisorID);
+      Student* stu = new Student(studentID, name, level, major, studentGPA, advisorID);
+      studentDB->addObject(stu);
     }
     else {
       throw runtime_error("Rollback action doesn't exist!");
@@ -311,14 +312,15 @@ void Simulation::rollback(){
   else{
     if (action == 0){
       int facultyID = stack->pop()->getObject()->getFacultyID();
-      facultyDB->deleteFaculty(facultyID);
+      facultyDB->deleteObject(facultyID);
     }
     else if (action == 1){
       int facultyID = stack->peek()->getObject()->getFacultyID();
       string name = stack->peek()->getObject()->getFacultyName();
       string level = stack->peek()->getObject()->getFacultyLevel();
       string department = stack->peek()->getObject()->getFacultyMajor();
-      facultytDB->addFaculty(facultyID, name, level, department);
+      Faculty* fac = new Faculty(facultyID, name, level, department);
+      facultyDB->addObject(fac);
     }
     else {
       throw runtime_error("Rollback action doesn't exist!");
@@ -336,7 +338,9 @@ void Simulation::exitAndSave(){
   //then exit
 }
 
-bool Simulate::fileProcessor(){
+bool Simulation::fileProcessor(){
+  string studentArray[6];
+  string facultyArray[4];
   //if file successfully opens, need to read binary file and
   // re-create databases
   ifstream facultyInput;
@@ -346,6 +350,58 @@ bool Simulate::fileProcessor(){
 
   if (facultyInput.is_open() && studentInput.is_open()){
     //read files and create trees
+    string str;
+    getline(studentInput, str);
+    int k = 0;
+    while(getline(studentInput,str)){
+      int stuID = 0;
+      string stuName = "";
+      string year = "";
+      string stuMajor = "";
+      double stuGPA = 0.0;
+      int advisorID = 0;
+      string s;
+      for (int i = 0; i < str.size(); ++i){
+        if (str[i] != ','){
+          s += str[i];
+        } else {
+          studentArray[k] = s;
+          ++k;
+        }
+      }
+      stuID = stoi(studentArray[0]);
+      stuName = studentArray[1];
+      year = studentArray[2];
+      stuMajor = studentArray[3];
+      stuGPA = stod(studentArray[4]);
+      advisorID = stoi(studentArray[5]);
+      Student *newStudent = new Student(stuID, stuName, year, stuMajor, stuGPA, advisorID);
+      studentDB->addObject(newStudent);
+    }
+    getline(facultyInput, str);
+    while(getline(facultyInput,str)){
+      int facID = 0;
+      string facName = "";
+      string job = "";
+      string facDepartment = "";
+      string s;
+      for (int i = 0; i < str.size(); ++i){
+        if (str[i] != ','){
+          s += str[i];
+        } else {
+          facultyArray[k] = s;
+          ++k;
+        }
+      }
+      facID = stoi(facultyArray[0]);
+      facName = facultyArray[1];
+      job = facultyArray[2];
+      facDepartment = facultyArray[3];
+      Faculty *newFaculty = new Faculty(facID, facName, job, facDepartment);
+      facultyDB->addObject(newFaculty);
+    }
+
+
 
     facultyInput.close();
     studentInput.close();

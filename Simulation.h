@@ -48,6 +48,7 @@ public:
 private:
   Database<Student> *studentDB;
   Database<Faculty> *facultyDB;
+  GenStack<DatabaseOperations> *stack;
   int rollbackCount;
 
 };
