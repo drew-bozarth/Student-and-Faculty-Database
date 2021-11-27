@@ -509,11 +509,13 @@ void Simulation::exitAndSave(){
   string resultFac;
   string resultStu;
   resultFac = facultyDB->treeToString();
-  cout << "faculty printed" << endl;
+  cout << resultFac << endl;
   resultStu = studentDB->treeToString();
-  cout << "students printed" << endl;
+  cout << resultStu << endl;
   studentFile << resultStu;
+  cout << "students printed" << endl;
   facultyFile << resultFac;
+  cout << "faculty printed" << endl;
 
   //needs to "clean up"
   //then exit
