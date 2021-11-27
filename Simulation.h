@@ -55,7 +55,6 @@ private:
   BST<Faculty> *facultyDB;
   GenStack<DatabaseOperations<Person>> *stack;
   int rollbackCount;
-
 };
 //end of the header guards
 #endif

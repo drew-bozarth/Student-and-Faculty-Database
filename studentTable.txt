@@ -1,4 +1,3 @@
 student
-1234,drew,sophmore,software,4.0,69
-456,thomas,sophmore,datascience,4.0,42
-77,joe,senior,business,1.2,101
+1234567,thomas,sophmore,data,4.0,7654321
+7777777,drew,senior,software,4.0,1111111

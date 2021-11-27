@@ -1,0 +1,3 @@
+faculty
+7654321,rene,lecturer,compsci
+5555555,anderson,lecturer,accounting

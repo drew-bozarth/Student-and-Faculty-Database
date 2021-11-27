@@ -501,27 +501,29 @@ void Simulation::rollback(){
 
 //14. **NOT DONE**
 void Simulation::exitAndSave(){
-  /*
+
   //uhhhh idk
   //needs to save out current databases to a file
   ofstream studentFile {"studentTable.txt"};
   ofstream facultyFile {"facultyTable.txt"};
   string resultFac;
   string resultStu;
-  resultFac = facultyDB->storeDB();
-  resultStu = studentDB->storeDB();
+  resultFac = facultyDB->treeToString();
+  cout << resultFac << endl;
+  cout << "faculty printed" << endl;
+  resultStu = studentDB->treeToString();
+  cout << "students printed" << endl;
   studentFile << resultStu << endl;
   facultyFile << resultFac << endl;
 
   //needs to "clean up"
   //then exit
-  */
+
 }
 
-//**NOT DONE**
+
 bool Simulation::fileProcessor(){
-  return false;
-  /*
+  // return false;
   string studentArray[6];
   string facultyArray[4];
   //if file successfully opens, need to read binary file and
@@ -532,11 +534,13 @@ bool Simulation::fileProcessor(){
   studentInput.open("studentTable.txt");
 
   if (facultyInput.is_open() && studentInput.is_open()){
+    // cout << "Files found" << endl;
     //read files and create trees
     string str;
     getline(studentInput, str);
     int k = 0;
     while(getline(studentInput,str)){
+      k = 0;
       int stuID = 0;
       string stuName = "";
       string year = "";
@@ -549,8 +553,11 @@ bool Simulation::fileProcessor(){
           s += str[i];
         } else {
           studentArray[k] = s;
+          // cout << s << endl;
+          s = "";
           ++k;
         }
+        studentArray[5] = s;
       }
       stuID = stoi(studentArray[0]);
       stuName = studentArray[1];
@@ -559,10 +566,14 @@ bool Simulation::fileProcessor(){
       stuGPA = stod(studentArray[4]);
       advisorID = stoi(studentArray[5]);
       Student *newStudent = new Student(stuID, stuName, year, stuMajor, stuGPA, advisorID);
-      studentDB->addObject(newStudent);
+      studentDB->insert(newStudent);
+      // cout << "Student inserted" << endl;
     }
+    // cout << "Done with students" << endl;
     getline(facultyInput, str);
+    cout << str << endl;
     while(getline(facultyInput,str)){
+      k = 0;
       int facID = 0;
       string facName = "";
       string job = "";
@@ -572,16 +583,20 @@ bool Simulation::fileProcessor(){
         if (str[i] != ','){
           s += str[i];
         } else {
+          // cout << s << endl;
           facultyArray[k] = s;
           ++k;
+          s = "";
         }
+        facultyArray[3] = s;
       }
       facID = stoi(facultyArray[0]);
       facName = facultyArray[1];
       job = facultyArray[2];
       facDepartment = facultyArray[3];
       Faculty *newFaculty = new Faculty(facID, facName, job, facDepartment);
-      facultyDB->addObject(newFaculty);
+      facultyDB->insert(newFaculty);
+      // cout << "faculty inserted" << endl;
     }
 
 
@@ -594,5 +609,4 @@ bool Simulation::fileProcessor(){
   else {
     return false;
   }
-  */
 }

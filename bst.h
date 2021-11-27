@@ -59,6 +59,8 @@ class BST{
     TreeNode<T> *getSuccessor(TreeNode<T> *d); //d represents the node we are going to delete
     void printNodes();
     void recPrint(TreeNode<T> *node);
+    string treeToString();
+    string recString(TreeNode<T> *node);
   private:
     TreeNode<T> *root;
 };
@@ -86,6 +88,26 @@ void BST<T>::recPrint(TreeNode<T> *node){
 template <class T>
 void BST<T>::printNodes(){
   recPrint(root);
+}
+
+template <class T>
+string BST<T>::recString(TreeNode<T> *node){
+  string s = "";
+  cout << "in recstring" << endl;
+  if (node == NULL) {
+  cout << s << endl;
+  return s; }
+  cout << "before tostring" << endl;
+  s += node->key->toString();
+  cout << "member" << s << endl;
+  recPrint(node->left);
+  recPrint(node->right);
+}
+
+template <class T>
+string BST<T>::treeToString(){
+  return recString(root);
+
 }
 
 template <class T>
