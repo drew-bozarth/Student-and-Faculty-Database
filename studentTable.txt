@@ -1,9 +1,4 @@
-
-------------------------------
-Student Name: thomas
-ID Number: 1234567
-Major: data
-Level: sophmore
-GPA: 4.000000
-Advisor ID: 7654321
-------------------------------
+student
+1234567,thomas,sophomore,comsci,4.0,7654321
+1111111,drew,sophomore,software,3.0,5555555
+8888888,jill,senior,engineering,4444444

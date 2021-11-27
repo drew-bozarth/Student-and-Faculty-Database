@@ -186,8 +186,10 @@ void Simulation::displayFacultyInfo(){
     cout << "Enter the 7 digit ID number of the Faculty you wish to display: ";
     cin >> facultyID;
   }
+  cout << "searching fac ID: " << facultyID << endl;
   Faculty *fac = new Faculty();
   fac->setFacultyID(facultyID);
+  cout << "before contains method" << endl;
   if (facultyDB->contains(fac)){
     facultyDB->printNode(fac);
   }
