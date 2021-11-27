@@ -1,3 +1,9 @@
-faculty
-7654321,rene,prof,comsci
-5555555,anderson,assistant,comsci
+
+------------------------------
+Faculty Member: rene
+ID Number: 7654321
+Level: lecturer
+Department: compsci
+------------------------------
+Students: 
+---------

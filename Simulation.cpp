@@ -509,12 +509,11 @@ void Simulation::exitAndSave(){
   string resultFac;
   string resultStu;
   resultFac = facultyDB->treeToString();
-  cout << resultFac << endl;
   cout << "faculty printed" << endl;
   resultStu = studentDB->treeToString();
   cout << "students printed" << endl;
-  studentFile << resultStu << endl;
-  facultyFile << resultFac << endl;
+  studentFile << resultStu;
+  facultyFile << resultFac;
 
   //needs to "clean up"
   //then exit
@@ -566,13 +565,12 @@ bool Simulation::fileProcessor(){
       stuGPA = stod(studentArray[4]);
       advisorID = stoi(studentArray[5]);
       Student *newStudent = new Student(stuID, stuName, year, stuMajor, stuGPA, advisorID);
-      cout << newStudent->toString() << endl;
+      // cout << newStudent->toString() << endl;
       studentDB->insert(newStudent);
       // cout << "Student inserted" << endl;
     }
     // cout << "Done with students" << endl;
     getline(facultyInput, str);
-    cout << str << endl;
     while(getline(facultyInput,str)){
       k = 0;
       int facID = 0;
@@ -601,7 +599,8 @@ bool Simulation::fileProcessor(){
     }
 
 
-
+    // cout << facultyDB->treeToString();
+    // cout << studentDB->treeToString();
     facultyInput.close();
     studentInput.close();
 
