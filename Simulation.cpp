@@ -229,14 +229,35 @@ void Simulation::displayStudentAdvisor(){
   }
 }
 
-//6. **NOT DONE**
+//6.
 void Simulation::displayAllAdvisees(){
   int facultyID;
+  string s;
+  string temp = "";
+  string final = "";
+  int tempStuID;
   cout << "Enter the 7 digit ID number of the faculty to display all of their advisees: ";
   cin >> facultyID;
   Faculty *fac = new Faculty();
+  Student *stu = new Student();
   fac->setFacultyID(facultyID);
-  cout << facultyDB->find(fac)->printStudents() << endl;
+  s = facultyDB->find(fac)->printStudents();
+  for (int i = 1; i < s.size() - 1; ++i){
+    // cout << "in for loop" << endl;
+    if (s[i] != ','){
+      temp += s[i];
+    } else {
+      // cout << "in else" << endl;
+      // cout << temp << endl;
+      tempStuID = stoi(temp);
+      stu->setStudentID(tempStuID);
+      final += studentDB->find(stu)->toString();
+      temp = "";
+    }
+  }
+  cout << final;
+  delete fac;
+  delete stu;
 }
 
 //7.
@@ -437,7 +458,7 @@ void Simulation::changeAdvisor(){
   }
 }
 
-//12. **NOT DONE**
+//12.
 void Simulation::removeAdvisee(){
   int facultyID;
   cout << "Enter the 7 digit ID number of the faculty member you wish to edit: ";
@@ -445,6 +466,10 @@ void Simulation::removeAdvisee(){
   int studentID;
   cout << "Enter the 7 digit ID number of the advisee you wish to remove: ";
   cin >> studentID;
+  Faculty *fac = new Faculty();
+  fac->setFacultyID(facultyID);
+  fac = facultyDB->find(fac);
+  fac->removeStudent(studentID);
   //edit list of faculty and remove the student ID
 }
 
@@ -517,7 +542,7 @@ void Simulation::exitAndSave(){
 bool Simulation::fileProcessor(){
   // return false;
   string studentArray[6];
-  string facultyArray[4];
+  string facultyArray[5];
   //if file successfully opens, need to read binary file and
   // re-create databases
   ifstream facultyInput;
@@ -569,8 +594,12 @@ bool Simulation::fileProcessor(){
       string job = "";
       string facDepartment = "";
       string s;
+      // cout << str.size() << endl;
       for (int i = 0; i < str.size(); ++i){
+        // cout << k << endl;
+        if (k < 4){
         if (str[i] != ','){
+          // cout << str[i] << endl;
           s += str[i];
         } else {
           // cout << s << endl;
@@ -578,13 +607,30 @@ bool Simulation::fileProcessor(){
           ++k;
           s = "";
         }
-        facultyArray[3] = s;
-      }
+      } else {
+        s += str[i];
+        // cout << "in student list: " << s << endl;
+    }}
+      facultyArray[4] = s;
+      // cout << "before fac ID" << endl;
+      // cout << facultyArray[0] << endl;
       facID = stoi(facultyArray[0]);
       facName = facultyArray[1];
       job = facultyArray[2];
       facDepartment = facultyArray[3];
       Faculty *newFaculty = new Faculty(facID, facName, job, facDepartment);
+      string temp;
+      int tempID;
+      for (int i = 1; i < s.size() - 1; ++i){
+        // cout << "in list for loop" << endl;
+        if (s[i] != ','){
+          temp += s[i];
+        } else {
+        tempID = stoi(temp);
+        newFaculty->AddStudent(tempID);
+        temp = "";
+      }
+      }
       facultyDB->insert(newFaculty);
       // cout << "faculty inserted" << endl;
     }

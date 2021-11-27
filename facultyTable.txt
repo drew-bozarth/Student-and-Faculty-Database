@@ -1,4 +1,3 @@
-7654321,rene,prof,comsci,
-5555555,anderson,assistant,comsci,
-2222222,shelly,assitant,engineering,
-4444444,john,prof,business,
+5555555,anderson,assistant,comsci,(1111111,)
+2222222,shelly,assitant,engineering,(8888888,6942069,)
+7654321,rene,prof,comsci,(1234567,)
