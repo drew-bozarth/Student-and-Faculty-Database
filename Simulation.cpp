@@ -324,6 +324,7 @@ void Simulation::addStudent(){
 
   Student *newStudent = new Student(newID, newName, newLevel, newMajor, newGPA, newAdvisorID);
   studentDB->insert(newStudent);
+  facultyDB->find(fac)->AddStudent(newID);
   //DatabaseOperations<Student> *operation = new DatabaseOperations<Student>(0,true,studentDB->getObject(newID));
   //stack->push(operation);
   rollbackCount = 0;
@@ -344,7 +345,10 @@ void Simulation::deleteStudent(){
     //DatabaseOperations<Student> *operation = new DatabaseOperations<Student>(1,true,studentDB->getObject(stu));
     //stack->push(operation);
     rollbackCount = 0;
-
+    int advID = studentDB->find(stu)->getAdvisorID();
+    Faculty *fac = new Faculty();
+    fac->setFacultyID(advID);
+    facultyDB->find(fac)->removeStudent(studentID);
     studentDB->deleteNode(stu);
   }
   else {
@@ -414,7 +418,18 @@ void Simulation::deleteFaculty(){
     //DatabaseOperations<Faculty> *operation = new DatabaseOperations<Faculty>(1,false,facultyDB->getObject(fac));
     //stack->push(operation);
     rollbackCount = 0;
-
+    int newAdvID;
+    cout << "Enter 7 digit ID number for the new advisors to this faculty member's students" << endl;
+    cin >> newAdvID;
+    fac = facultyDB->find(fac);
+    Student *tempStu = new Student();
+    while (!(fac->mStudentIDList->isEmpty())){
+      int id;
+      id = fac->mStudentIDList->removeFront();
+      tempStu->setStudentID(id);
+      tempStu = studentDB->find(tempStu);
+      tempStu->setAdvisorID(newAdvID);
+    }
     facultyDB->deleteNode(fac);
   }
   else {
@@ -460,16 +475,53 @@ void Simulation::changeAdvisor(){
 
 //12.
 void Simulation::removeAdvisee(){
-  int facultyID;
+  int facultyID = -1;
+  Faculty *fac = new Faculty();
+  Student *stu = new Student();
+  while ((facultyID < 1000000) || (facultyID > 9999999) || cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
   cout << "Enter the 7 digit ID number of the faculty member you wish to edit: ";
   cin >> facultyID;
-  int studentID;
+  fac->setFacultyID(facultyID);
+  if (!(facultyDB->contains(fac))){
+    cout << "Sorry, that Faculty ID does not match any Faculty in the Database!" << endl;
+    cout << "Please use a valid Faculty ID in order to remove a Student" << endl;
+    return;
+  }
+  fac = facultyDB->find(fac);
+}
+  int studentID = -1;
+  while ((studentID < 1000000) || (studentID > 9999999) || cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
   cout << "Enter the 7 digit ID number of the advisee you wish to remove: ";
   cin >> studentID;
-  Faculty *fac = new Faculty();
-  fac->setFacultyID(facultyID);
-  fac = facultyDB->find(fac);
+  stu->setStudentID(studentID);
+  if (!(studentDB->contains(stu))){
+    cout << "Sorry, that Student ID does not match any student in the Database!" << endl;
+    cout << "Please use a valid student ID in order to remove a new Student" << endl;
+    return;
+  }
+}
   fac->removeStudent(studentID);
+  stu = studentDB->find(stu);
+  int newAdvisorID = -1;
+  while ((newAdvisorID < 1000000) || (newAdvisorID > 9999999) || cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    cout << "Enter the 7 digit ID of the advisor for the new Student: ";
+    cin >> newAdvisorID;
+    if (!(facultyDB->contains(fac))){
+      cout << "Sorry, that Faculty ID does not match any Faculty in the Database!" << endl;
+      cout << "Please use a valid Faculty ID in order to assign a new advisor for Student" << endl;
+      return;
+    }
+  }
+  stu->setAdvisorID(newAdvisorID);
+  Faculty *fac2 = new Faculty();
+  fac2->setFacultyID(newAdvisorID);
+  facultyDB->find(fac2)->AddStudent(studentID);
   //edit list of faculty and remove the student ID
 }
 
@@ -526,7 +578,7 @@ void Simulation::rollback(){
   */
 }
 
-//14. **NOT DONE**
+//14.
 void Simulation::exitAndSave(){
   ifstream facultyInput;
   facultyInput.open("facultyTable.txt", ofstream::out | ofstream::trunc);
@@ -538,7 +590,7 @@ void Simulation::exitAndSave(){
   studentInput.close();
 }
 
-
+//starts the process by reading the file if it is there, and writing it to the database/BST
 bool Simulation::fileProcessor(){
   // return false;
   string studentArray[6];

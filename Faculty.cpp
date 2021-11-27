@@ -114,9 +114,8 @@ void Faculty::AddStudent(int num){
   // cout << "student added" << endl;
 }
 void Faculty::removeStudent(int num){
-  cout << "in remove Student" << endl;
+  int val = mStudentIDList->search(num);
   int remStu = mStudentIDList->remove(num);
-  cout << remStu << endl;
  }
 string Faculty::printStudents(){
   // cout << "in print students" << endl;

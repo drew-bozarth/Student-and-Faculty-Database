@@ -45,13 +45,13 @@ public:
   void AddStudent(int num);
   void removeStudent(int num);
   string toFile() override;
-
+  MyList<int> *mStudentIDList;
 private:
   int mFacultyID;
   string mName;
   string mLevel;
   string mDepartment;
-  MyList<int> *mStudentIDList;
+
 };
 //end of the header guards
 #endif
