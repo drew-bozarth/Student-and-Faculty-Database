@@ -566,6 +566,7 @@ bool Simulation::fileProcessor(){
       stuGPA = stod(studentArray[4]);
       advisorID = stoi(studentArray[5]);
       Student *newStudent = new Student(stuID, stuName, year, stuMajor, stuGPA, advisorID);
+      cout << newStudent->toString() << endl;
       studentDB->insert(newStudent);
       // cout << "Student inserted" << endl;
     }

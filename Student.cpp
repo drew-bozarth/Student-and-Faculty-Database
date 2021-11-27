@@ -88,11 +88,11 @@ string Student::toString(){
   string str;
   str += "\n------------------------------";
   str += "\nStudent Name: " + mName;
-  str += "\nID Number: " + mStudentID;
+  str += "\nID Number: " + to_string(mStudentID);
   str += "\nMajor: " + mMajor;
   str += "\nLevel: " + mLevel;
   str += "\nGPA: " + to_string(mStudentGPA);
-  str += "\nAdvisor ID: " + mAdvisorID;
-  str += "------------------------------\n";
+  str += "\nAdvisor ID: " + to_string(mAdvisorID);
+  str += "\n------------------------------\n";
   return str;
 }
