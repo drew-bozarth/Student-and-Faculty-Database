@@ -506,18 +506,22 @@ void Simulation::exitAndSave(){
 
   //uhhhh idk
   //needs to save out current databases to a file
-  ofstream studentFile {"studentTable.txt"};
-  ofstream facultyFile {"facultyTable.txt"};
-  string resultFac;
-  string resultStu;
-  resultFac = facultyDB->treeToString();
-  cout << resultFac << endl;
-  resultStu = studentDB->treeToString();
-  cout << resultStu << endl;
-  studentFile << resultStu;
-  cout << "students printed" << endl;
-  facultyFile << resultFac;
-  cout << "faculty printed" << endl;
+  // ofstream studentFile {"studentTable.txt"};
+  // ofstream facultyFile {"facultyTable.txt"};
+  // string str1 = "";
+  // string str2 = "";
+  // string resultFac;
+  // string resultStu;
+  // cout << "---------" << endl;
+  facultyDB->treeToString("facultyTable.txt");
+  // cout << "faculty" << resultFac << endl;
+  // cout << "---------" << endl;
+  studentDB->treeToString("studentTable.txt");
+  // cout <<  "Student" << resultStu << endl;
+  // studentFile << resultStu;
+  // cout << "students written" << endl;
+  // facultyFile << resultFac;
+  // cout << "faculty written" << endl;
 
   //needs to "clean up"
   //then exit

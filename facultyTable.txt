@@ -3,3 +3,39 @@ faculty
 5555555,anderson,assistant,comsci
 2222222,shelly,assitant,engineering
 4444444,john,prof,business
+
+------------------------------
+Faculty Member: john
+ID Number: 4444444
+Level: prof
+Department: business
+------------------------------
+Students: 
+---------
+
+------------------------------
+Faculty Member: shelly
+ID Number: 2222222
+Level: assitant
+Department: engineering
+------------------------------
+Students: 
+---------
+
+------------------------------
+Faculty Member: anderson
+ID Number: 5555555
+Level: assistant
+Department: comsci
+------------------------------
+Students: 
+---------
+
+------------------------------
+Faculty Member: rene
+ID Number: 7654321
+Level: prof
+Department: comsci
+------------------------------
+Students: 
+---------

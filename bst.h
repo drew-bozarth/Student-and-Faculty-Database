@@ -8,6 +8,7 @@ Assignment 6 - bst.h */
 #define BST_H
 #include <iostream>
 #include <exception>
+#include <fstream>
 
 using namespace std;
 
@@ -59,8 +60,8 @@ class BST{
     TreeNode<T> *getSuccessor(TreeNode<T> *d); //d represents the node we are going to delete
     void printNodes();
     void recPrint(TreeNode<T> *node);
-    string treeToString();
-    string recString(TreeNode<T> *node);
+    void treeToString(string file);
+    void recString(TreeNode<T> *node, string file);
   private:
     TreeNode<T> *root;
 
@@ -93,22 +94,25 @@ void BST<T>::printNodes(){
 }
 
 template <class T>
-string BST<T>::recString(TreeNode<T> *node){
-  string s = "";
-  cout << "in recstring" << endl;
+void BST<T>::recString(TreeNode<T> *node, string file){
   if (node == NULL) {
-  cout << "exit recstring" << endl;
-  return s; }
+  // cout << "exit recstring" << endl;
+  return; }
+  // cout << "in recstring" << endl;
   // cout << "before tostring" << endl;
-  s += node->key->toString();
-  // cout << "member" << tree << endl;
-  recPrint(node->left);
-  recPrint(node->right);
+  ofstream output;
+  output.open(file, fstream::app);
+  output << *(node->key);
+  //https://stackoverflow.com/questions/4155537/writing-into-a-text-file-without-overwriting-it
+  // cout << "entered node" << endl;
+  recString(node->left, file);
+  recString(node->right, file);
+
 }
 
 template <class T>
-string BST<T>::treeToString(){
-  return recString(root);
+void BST<T>::treeToString(string file){
+  recString(root, file);
 
 }
 

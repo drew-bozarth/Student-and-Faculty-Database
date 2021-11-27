@@ -17,6 +17,7 @@ This is the .h file for Simulation
 #include <exception>
 #include <string>
 #include <limits>
+#include <string>
 
 #include "bst.h"
 #include "GenStack.h"
