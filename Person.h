@@ -22,6 +22,7 @@ public:
   virtual string getName(){};
   virtual string getLevel(){};
   virtual string toString(){};
+  virtual string toFile(){};
 };
 
 

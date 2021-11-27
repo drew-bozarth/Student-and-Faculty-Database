@@ -43,6 +43,7 @@ public:
   int getAdvisorID();
   void setAdvisorID(int a);
   void setStudentID(int id);
+  string toFile() override;
 
 private:
   int mStudentID;

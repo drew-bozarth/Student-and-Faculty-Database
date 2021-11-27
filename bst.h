@@ -102,7 +102,7 @@ void BST<T>::recString(TreeNode<T> *node, string file){
   // cout << "before tostring" << endl;
   ofstream output;
   output.open(file, fstream::app);
-  output << *(node->key);
+  output << node->key->toFile() << endl;
   //https://stackoverflow.com/questions/4155537/writing-into-a-text-file-without-overwriting-it
   // cout << "entered node" << endl;
   recString(node->left, file);

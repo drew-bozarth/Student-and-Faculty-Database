@@ -44,6 +44,7 @@ public:
   string printStudents();
   void AddStudent(int num);
   void removeStudent(int num);
+  string toFile() override;
 
 private:
   int mFacultyID;

@@ -83,6 +83,16 @@ string Faculty::toString(){
   return s;
 }
 
+string Faculty::toFile(){
+  string str;
+  str += to_string(mFacultyID) + ",";
+  str += mName + ",";
+  str += mLevel + ",";
+  str += mDepartment + ",";
+  // str += printStudents();
+  return str;
+}
+
 int Faculty::getID(){
   return mFacultyID;
 }

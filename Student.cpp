@@ -96,3 +96,14 @@ string Student::toString(){
   str += "\n------------------------------\n";
   return str;
 }
+
+string Student::toFile(){
+  string str;
+  str += to_string(mStudentID) + ",";
+  str += mName + ",";
+  str += mLevel + ",";
+  str += mMajor + ",";
+  str += to_string(mStudentGPA) + ",";
+  str += to_string(mAdvisorID);
+  return str;
+}

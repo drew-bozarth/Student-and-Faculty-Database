@@ -503,29 +503,14 @@ void Simulation::rollback(){
 
 //14. **NOT DONE**
 void Simulation::exitAndSave(){
-
-  //uhhhh idk
-  //needs to save out current databases to a file
-  // ofstream studentFile {"studentTable.txt"};
-  // ofstream facultyFile {"facultyTable.txt"};
-  // string str1 = "";
-  // string str2 = "";
-  // string resultFac;
-  // string resultStu;
-  // cout << "---------" << endl;
+  ifstream facultyInput;
+  facultyInput.open("facultyTable.txt", ofstream::out | ofstream::trunc);
+  ifstream studentInput;
+  studentInput.open("studentTable.txt", ofstream::out | ofstream::trunc);
   facultyDB->treeToString("facultyTable.txt");
-  // cout << "faculty" << resultFac << endl;
-  // cout << "---------" << endl;
   studentDB->treeToString("studentTable.txt");
-  // cout <<  "Student" << resultStu << endl;
-  // studentFile << resultStu;
-  // cout << "students written" << endl;
-  // facultyFile << resultFac;
-  // cout << "faculty written" << endl;
-
-  //needs to "clean up"
-  //then exit
-
+  facultyInput.close();
+  studentInput.close();
 }
 
 
@@ -544,7 +529,6 @@ bool Simulation::fileProcessor(){
     // cout << "Files found" << endl;
     //read files and create trees
     string str;
-    getline(studentInput, str);
     int k = 0;
     while(getline(studentInput,str)){
       k = 0;
@@ -578,7 +562,6 @@ bool Simulation::fileProcessor(){
       // cout << "Student inserted" << endl;
     }
     // cout << "Done with students" << endl;
-    getline(facultyInput, str);
     while(getline(facultyInput,str)){
       k = 0;
       int facID = 0;
