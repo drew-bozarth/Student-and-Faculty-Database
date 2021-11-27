@@ -67,7 +67,7 @@ string Faculty::toString(){
   s += "------------------------------";
   s += "\nStudents: ";
   s += "\n---------\n";
-  s += printStudents();
+  //s += printStudents();
   return s;
 }
 
@@ -94,5 +94,7 @@ void Faculty::removeStudent(int num){
   mStudentIDList->remove(num);
 }
 string Faculty::printStudents(){
-  cout << "print students" << endl;
+  string s = "";
+  s += "print students\n";
+  return s;
 }

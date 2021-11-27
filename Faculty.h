@@ -45,7 +45,6 @@ public:
   void AddStudent(int num);
   void removeStudent(int num);
 
-  void print();
 private:
   int mFacultyID;
   string mName;
