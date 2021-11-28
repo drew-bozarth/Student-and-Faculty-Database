@@ -21,9 +21,8 @@ Return: int (returns a 0 or -1 based on if the main method runs correctly)
 Parameters: int (argc, number of command line arguments), char** (argv, array of char pointers which is pretty much an array of the command line arguments)
 Exceptions: none
 */
+//The main method instatiates an instance of the Simulation class, runs start() and the simulate() method, then is deleted and the program is over
 int main(int argc, char** argv){
-  cout << "start test" << endl;
-
   Simulation *sim = new Simulation();
 
   sim->start();
@@ -31,6 +30,5 @@ int main(int argc, char** argv){
 
   delete sim;
 
-  cout << "end test" << endl;
   return 0;
 }

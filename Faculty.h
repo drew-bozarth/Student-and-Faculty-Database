@@ -15,7 +15,7 @@ This is the .h file for Faculty
 #include <iostream>
 #include <exception>
 #include <string>
-
+//these include user defined files
 #include "ListInterface.h"
 #include "Person.h"
 //standard namespace libaray in C++
@@ -51,6 +51,7 @@ private:
   string mName;
   string mLevel;
   string mDepartment;
+  int val;
 
 };
 //end of the header guards

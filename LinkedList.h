@@ -280,7 +280,6 @@ Exceptions: none
 //takes in a data value, then removes the node with that value and returns the data
 template <class T>
 T DoublyLinkedList<T>::removeNode(T value){
-  cout << "in remove node" << endl;
   if (isEmpty()){
     throw runtime_error("list is empty");
   }
@@ -292,7 +291,6 @@ T DoublyLinkedList<T>::removeNode(T value){
     if(curr == NULL){
         throw runtime_error("node not found");
     }
-
   }
 
   //but we make it here, we found the value
@@ -300,7 +298,7 @@ T DoublyLinkedList<T>::removeNode(T value){
 
   if (curr == front){
     front = curr->next;
-    front->prev = NULL;
+    //front->prev = NULL;
   }
   else if (curr == back){
     back = curr->prev;
