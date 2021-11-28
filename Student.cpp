@@ -35,7 +35,7 @@ Student::Student(int studentID, string name, string level, string major, double 
 Student::~Student(){
   //destructor
 }
-
+//these functions allows us to compare student objects by their ID numbers
 bool Student::operator==(Student& rhs){
   return (getID() == rhs.getID());
 }
@@ -59,6 +59,7 @@ ostream& operator<<(ostream& os, Student& stu){
   return os;
 }
 
+//getters
 int Student::getID(){
   return mStudentID;
 }
@@ -77,6 +78,7 @@ double Student::getStudentGPA(){
 int Student::getAdvisorID(){
   return mAdvisorID;
 }
+//necessary setters
 void Student::setAdvisorID(int a){
   mAdvisorID = a;
 }
@@ -84,6 +86,8 @@ void Student::setStudentID(int id){
   mStudentID = id;
 }
 
+
+//method to print out student information to the console nicely
 string Student::toString(){
   string str;
   str += "\n------------------------------";
@@ -97,6 +101,7 @@ string Student::toString(){
   return str;
 }
 
+//method to print out student information back into the file in the proper format
 string Student::toFile(){
   string str;
   str += to_string(mStudentID) + ",";

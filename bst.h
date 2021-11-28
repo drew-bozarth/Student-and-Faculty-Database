@@ -55,6 +55,8 @@ Template Class: BST
 template <class T>
 class BST{
   public:
+    //BST functions
+    //all T objects/values were changed to pointers in order to fit with Student and Faculty classes
     BST();
     virtual ~BST();
     void insert(T* value);
@@ -100,19 +102,14 @@ template <class T>
 void BST<T>::printNodes(){
   recPrint(root);
 }
-
+//writes the entire BST to a file in the proper format, takes in file name as a string
 template <class T>
 void BST<T>::recString(TreeNode<T> *node, string file){
   if (node == NULL) {
-  // cout << "exit recstring" << endl;
   return; }
-  // cout << "in recstring" << endl;
-  // cout << "before tostring" << endl;
   ofstream output;
   output.open(file, fstream::app);
   output << node->key->toFile() << endl;
-  //https://stackoverflow.com/questions/4155537/writing-into-a-text-file-without-overwriting-it
-  // cout << "entered node" << endl;
   recString(node->left, file);
   recString(node->right, file);
 
@@ -120,6 +117,7 @@ void BST<T>::recString(TreeNode<T> *node, string file){
 
 template <class T>
 void BST<T>::treeToString(string file){
+  //allows easy access to print out entire tree
   recString(root, file);
 
 }
@@ -199,11 +197,8 @@ T* BST<T>::getMax(){
 
 template <class T>
 void BST<T>::insert(T* value){
-  // cout << "in insert method" << endl;
   TreeNode<T> *node = new TreeNode<T>(value);
-
   if (isEmpty()){
-    // cout << "tree empty, root created" << endl;
     root = node;
   }
   else{
@@ -232,7 +227,6 @@ void BST<T>::insert(T* value){
       }
     }
   }
-  // cout << "insert completed" << endl;
 }
 
 template <class T>
