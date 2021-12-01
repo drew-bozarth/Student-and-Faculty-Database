@@ -10,9 +10,6 @@ Assignment 6 - DatabaseOperations.h */
 #include <iostream>
 #include <exception>
 
-#include "Database.h"
-#include "GenStack.h"
-
 using namespace std;
 
 /*
@@ -22,12 +19,49 @@ template <class T>
 class DatabaseOperations{
   public:
     DatabaseOperations(); //default constructor
+    DatabaseOperations(int action, T *object);
     virtual ~DatabaseOperations(); //destructor
-
+    int getAction();
+    bool isStudent();
+    T* getObject();
+  private:
+    int mAction;
+    bool mIsStudent;
+    T *mObject;
 
 };
 
+template <class T>
+DatabaseOperations<T>::DatabaseOperations(){
 
+}
+
+template <class T>
+DatabaseOperations<T>::DatabaseOperations(int action, bool isStudent, T *object){
+  mAction = action;
+  mIsStudent = isStudent;
+  mObject = object;
+}
+
+template <class T>
+DatabaseOperations<T>::~DatabaseOperations(){
+
+}
+
+template <class T>
+int DatabaseOperations<T>::getAction(){
+  return mAction;
+}
+
+template <class T>
+bool DatabaseOperations<T>::isStudent(){
+  return mIsStudent;
+}
+
+template <class T>
+T* DatabaseOperations<T>::getObject(){
+  return mObject;
+}
 
 
 #endif

@@ -25,9 +25,9 @@ public:
   ~Faculty();
   string printFaculty();
   int getFacultyID();
-  string getFacultyDepartment();
   string getFacultyName();
   string getFacultyLevel();
+  string getFacultyDepartment();
   string printStudents();
   void AddStudent(int num);
   void removeStudent(int num);

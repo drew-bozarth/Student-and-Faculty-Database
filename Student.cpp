@@ -56,3 +56,6 @@ string Student::getStudentName(){
 string Student::getStudentLevel(){
   return level;
 };
+string Student::getMajor(){
+  return major;
+}

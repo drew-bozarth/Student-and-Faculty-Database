@@ -11,18 +11,22 @@ This is the .cpp file for Simulation
 //this statement includes the Simulation.h file
 #include "Simulation.h"
 #include "Database.h"
+#include "DatabaseOperations.h"
+#include "GenStack.h"
 
 
 Simulation::Simulation(){
   //default constructor
   Database<T> *studentDB;
   Database<T> *facultyDB;
+  GenStack<DatabaseOperations> stack = new GenStack<DatabaseOperations>();
 }
 
 Simulation::~Simulation(){
   //destructor
   delete studentDB;
   delete facultyDB;
+  delete stack;
 }
 
 void Simulation::start(){
@@ -197,8 +201,10 @@ void Simulation::addStudent(){
   int newAdvisorID = 0;
   cout << "Enter the ID of the advisor for the new Student: ";
   cin >> newAdvisorID;
-  facultyDB->addStudent(newID, newName, newLevel, newMajor, newGPA, newAdvisorID);
+  studentDB->addStudent(newID, newName, newLevel, newMajor, newGPA, newAdvisorID);
   //add to Rollback stack (student object(studentID), delete)
+  DatabaseOperations<Student> *operation = new DatabaseOperations<Student>(0,true,studentDB->getObject(newID));
+  stack->push(operation);
 }
 
 //8.
@@ -207,6 +213,9 @@ void Simulation::deleteStudent(){
   cout << "Enter the ID number of the student you wish to delete: ";
   cin >> studentID;
   //add to Rollback stack (student(studentID), insert)
+  DatabaseOperations<Student> *operation = new DatabaseOperations<Student>(1,true,studentDB->getObject(studentID));
+  stack->push(operation);
+
   studentDB->deleteStudent(studentID);
 }
 
@@ -227,6 +236,8 @@ void Simulation::addFaculty(){
   int newIDListSize = 10;
   facultyDB->addFaculty(newID, newName, newLevel, newDepartment, newIDListSize);
   //add to Rollback stack (student object(studentID), delete)
+  DatabaseOperations<Faculty> *operation = new DatabaseOperations<Faculty>(0,false,facultyDB->getObject(newID));
+  stack->push(operation);
 }
 
 //10.
@@ -235,6 +246,9 @@ void Simulation::deleteFaculty(){
   cout << "Enter the ID number of the faculty member you wish to delete: ";
   cin >> facultyID;
   //add to Rollback stack (faculty(facultyID), insert)
+  DatabaseOperations<Faculty> *operation = new DatabaseOperations<Faculty>(1,false,facultyDB->getObject(studentID));
+  stack->push(operation);
+
   facultyDB->deleteFaculty(facultyID);
 }
 
@@ -262,7 +276,47 @@ void Simulation::removeAdvisee(){
 
 //13.
 void Simulation::rollback(){
-  //uhhhhh idk
+  if (stack->isEmpty()){
+    throw runtime_error("Stack is empty, there are no actions to undo!");
+  }
+
+  int action = stack->peek()->getAction();
+  bool isStudent = stack->peek()->isStudent();
+  if (isStudent){
+    if (action == 0){
+      int studentID = stack->pop()->getObject()->getStudentID();
+      studentDB->deleteStudent(studentID);
+    }
+    else if (action == 1){
+      int studentID = stack->peek()->getObject()->getStudentID();
+      string name = stack->peek()->getObject()->getStudentName();
+      string level = stack->peek()->getObject()->getStudentLevel();
+      string major = stack->peek()->getObject()->getStudentMajor();
+      double studentGPA = stack->peek()->getObject()->getStudentGPA();
+      int advisorID = stack->pop()->getObject()->getAdvisorID();
+      studentDB->addStudent(studentID, name, level, major, studentGPA, advisorID);
+    }
+    else {
+      throw runtime_error("Rollback action doesn't exist!");
+    }
+  }
+  else{
+    if (action == 0){
+      int facultyID = stack->pop()->getObject()->getFacultyID();
+      facultyDB->deleteFaculty(facultyID);
+    }
+    else if (action == 1){
+      int facultyID = stack->peek()->getObject()->getFacultyID();
+      string name = stack->peek()->getObject()->getFacultyName();
+      string level = stack->peek()->getObject()->getFacultyLevel();
+      string department = stack->peek()->getObject()->getFacultyMajor();
+      facultytDB->addFaculty(facultyID, name, level, department);
+    }
+    else {
+      throw runtime_error("Rollback action doesn't exist!");
+    }
+  }
+
 }
 
 //14.
