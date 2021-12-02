@@ -25,6 +25,7 @@ public:
 
   void start();
   void simulate();
+  bool fileProcessor();
 
   void printAllStudentInfo();
   void printAllFalcultyInfo();
