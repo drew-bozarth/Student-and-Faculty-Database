@@ -24,16 +24,16 @@ public:
   Student();
   Student(int studentID, string name, string level, string major, double studentGPA, int advisorID);
   ~Student();
-  string printStudent();
-  int getAdvisorID();
-  double getStudentGPA();
+
+  int getStudentID();
   string getStudentName();
   string getStudentLevel();
   string getStudentMajor();
   double getStudentGPA();
   int getAdvisorID();
-
   void setAdvisorID(int a);
+
+  void print();
 private:
   int mStudentID;
   string mName;

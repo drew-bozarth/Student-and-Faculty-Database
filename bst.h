@@ -50,7 +50,8 @@ class BST{
     virtual ~BST();
     void insert(T value);
     bool contains(T value); //search
-    bool deleteNode(T k);
+    T* getObject(int objectID);
+    bool deleteNode(int k);
     bool isEmpty();
 
     T* getMin();

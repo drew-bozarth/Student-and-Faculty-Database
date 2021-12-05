@@ -23,26 +23,25 @@ using namespace std;
 class Faculty: public Person{
 public:
   Faculty();
-  Faculty(int facultyID, string fName, string fLevel, string department, int IDListSize);
+  Faculty(int facultyID, string name, string level, string department);
   ~Faculty();
-  int getID();
-  string getName();
-  string getLevel();
-  void toString() override;
-  // string printFaculty();
-  // int getFacultyID();
+
+  int getFaclutyID();
+  string getFacultyName();
+  string getFacultyLevel();
   string getFacultyDepartment();
-  // string getFacultyName();
-  // string getFacultyLevel();
-  string printStudents();
+
   void AddStudent(int num);
   void removeStudent(int num);
+  string printStudents();
+
+  void print();
 private:
-  // int mFacultyID;
-  // string mName;
-  // string mLevel;
+  int mFacultyID;
+  string mName;
+  string mLevel;
   string mDepartment;
-  MyList<int> *mIDList;
+  MyList<int> *mStudentIDList;
 };
 //end of the header guards
 #endif

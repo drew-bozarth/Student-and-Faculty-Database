@@ -14,52 +14,61 @@ This is the .cpp file for Faculty
 
 Faculty::Faculty(){
   //default constructor
-  id = -1;
-  name = "";
-  level = "";
+  mFacultyID = -1;
+  mName = "";
+  mLevel = "";
   mDepartment = "";
-  mIDList = new MyList<int>;
+  mStudentIDList = new MyList<int>;
 }
 
-Faculty::Faculty(int facultyID, string fName, string fLevel, string department){
+Faculty::Faculty(int facultyID, string name, string level, string department){
   //overloaded constructor
-  id = facultyID;
-  name = fName;
-  level = fLevel;
+  mFacultyID = facultyID;
+  mName = name;
+  mLevel = level;
   mDepartment = department;
+  mStudentIDList = new MyList<int>;
 }
 
 Faculty::~Faculty(){
   //destructor
 }
-void Faculty::toString(){
-  cout << "Faculty member: " << name;
-  cout << " | ID number: " << id;
-  cout << " | Level: " << level;
-  cout << " | department: " << deparment;
-  cout << "\n Students: " << printStudents();
-  cout << "\n";
-};
-// int Faculty::getFacultyID(){
-//   return id;
-// };
+
+int Faculty::getFacultyID(){
+  return mFacultyID;
+}
+
+string Faculty::getFacultyName(){
+  return mName;
+}
+
+string Faculty::getFacultyLevel(){
+  return mLevel;
+}
+
 string Faculty::getFacultyDepartment(){
-  return department;
-};
-// string Faculty::getFacultyName(){
-//   return name;
-// };
-// string Faculty::getFacultyLevel(){
-//   return level;
-// };
-string Faculty::printStudents(){
-  string s;
-  s = StudIDList->print();
-  return s;
-};
+  return mDepartment;
+}
+
 void Faculty::AddStudent(int num){
-  student->append(num);
-};
+  mStudentIDList->append(num);
+}
 void Faculty::removeStudent(int num){
-  student->remove(num);
-};
+  mStudentIDList->remove(num);
+}
+void Faculty::printStudents(){
+  string s;
+  s = mStudentIDList->print();
+  cout << s;
+}
+
+void Faculty::print(){
+  string s;
+  s += "Faculty member: " + mName;
+  s += " | ID number: " + mFacultyID;
+  s += " | Level: " + mLevel;
+  s += " | department: " + mDeparment;
+  s += "\n Students: " + printStudents();
+  s += "\n";
+  cout << s << endl;
+}

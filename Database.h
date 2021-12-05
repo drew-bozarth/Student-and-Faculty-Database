@@ -11,8 +11,8 @@ Assignment 6 - Database.h */
 #include <exception>
 
 #include "bst.h"
-#include "student.h"
-#include "faculty.h"
+#include "Student.h"
+#include "Faculty.h"
 
 using namespace std;
 
@@ -25,13 +25,14 @@ class Database{
     Database(); //default constructor
     virtual ~Database(); //destructor
 
+    void addObject(T object);
+    void deleteObject(int objectID);
+    void getObject(int objectID);
+
     void printDB();
     void displayObejct(int objectID);
-    void displayStudentAdvisor(int studentID);
     void displayAllAdvisees(int facultyID);
-    void addStudent(int newID, string newName, string newLevel, string newMajor, double newGPA, int newAdvisorID);
-    void addFaculty(int newID, string newName, string newLevel, string newDepartment);
-    void deleteObject(int objectID);
+
     void changeAdvisor(int studentID, int facultyID);
     void removeAdvisee(int facultyID, int studentID);
 
@@ -50,13 +51,38 @@ Database<T>::~Database(){
 }
 
 template <class T>
+Databse<T>::addObject(T object){
+  bst->insert(object);
+}
+
+template <class T>
+Database<T>::deleteObject(int objectID){
+  bst->deleteNode(objectID);
+}
+
+template <class T>
 Database<T>::printDB(){
   bst->printNodes();
 }
 
 template <class T>
 Database<T>::displayObejct(int objectID){
-  bst->find(objectID)->printObject();
+  bst->getObject(objectID)->print();
+}
+
+template <class T>
+void Database<T>::displayAllAdvisees(int facultyID){
+
+}
+
+template <class T>
+void Database<T>::changeAdvisor(int studentID, int facultyID){
+
+}
+
+template <class T>
+void Database<T>::removeAdvisee(int facultyID, int studentID){
+
 }
 
 

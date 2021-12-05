@@ -13,6 +13,7 @@ This is the .h file for Simulation
 #define SIMULATION_H
 //these include some of the system defined libraries in C++
 #include <iostream>
+#include <fstream>
 #include <exception>
 #include <string>
 //standard namespace libaray in C++
@@ -42,7 +43,7 @@ public:
   void rollback();
   void exit();
 private:
-
+  int rollbackCount;
 };
 //end of the header guards
 #endif

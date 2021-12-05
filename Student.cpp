@@ -35,34 +35,42 @@ Student::Student(int studentID, string name, string level, string major, double 
 Student::~Student(){
   //destructor
 }
-int Student::getAdvisorID(){
-  return advisorNum;
-};
-
-void Student::setAdvisorID(int a){
-  advisorNum = a;
-}
 
 int Student::getStudentID(){
-  return id;
-};
+  return mStudentID;
+}
+
+string Student::getStudentName(){
+  return mName;
+}
+
+string Student::getStudentLevel(){
+  return mLevel;
+}
+
+string Student::getStudentMajor(){
+  return mMajor;
+}
 
 double Student::getStudentGPA(){
-  return gpa;
-};
-string Student::getStudentName(){
-  return name;
-};
-string Student::getStudentLevel(){
-  return level;
-};
+  return mStudentGPA;
+}
 
-string Student::printStudent(){
+int Student::getAdvisorID(){
+  return mAdvisorID;
+}
+
+void Student::setAdvisorID(int a){
+  mAdvisorID = a;
+}
+
+void Student::print(){
   string s;
-  s += "Student Name: " + name;
-  s += " | ID number: " + id;
-  s += " | Year: " + level;
-  s += " | GPA: " + gpa;
-  s += " | Advisor ID: " + advisorNum;
-  return s;
+  s += "Student Name: " + mName;
+  s += " | ID number: " + mStudentID;
+  s += " | Year: " + mLevel;
+  s += " | GPA: " + mStudentGPA;
+  s += " | Advisor ID: " + mAdvisorID;
+  s += "\n";
+  cout << s << endl;
 }
