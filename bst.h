@@ -53,7 +53,7 @@ class BST{
     T* getObject(int objectID);
     bool deleteNode(int k);
     bool isEmpty();
-    T* find(T value);;
+    T* find(T value);
     T* getMin();
     T* getMax();
     TreeNode<T> *getSuccessor(TreeNode<T> *d); //d represents the node we are going to delete
