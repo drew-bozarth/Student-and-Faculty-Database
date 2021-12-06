@@ -33,15 +33,23 @@ Faculty::Faculty(int facultyID, string name, string level, string department){
 Faculty::~Faculty(){
   //destructor
 }
-
-int Faculty::getFacultyID(){
+void Faculty::toString(){
+  cout << "Faculty member: " << name;
+  cout << " | ID number: " << id;
+  cout << " | Level: " << level;
+  cout << " | department: " << deparment;
+  cout << "\n Students: " << printStudents();
+  cout << "\n";
+};
+int Faculty::getID(){
   return mFacultyID;
-}
-
-string Faculty::getFacultyName(){
+};
+string Faculty::getFacultyDepartment(){
+  return department;
+};
+string Faculty::getName(){
   return mName;
-}
-
+};
 string Faculty::getFacultyLevel(){
   return mLevel;
 }
@@ -60,15 +68,4 @@ void Faculty::printStudents(){
   string s;
   s = mStudentIDList->print();
   cout << s;
-}
-
-void Faculty::print(){
-  string s;
-  s += "Faculty member: " + mName;
-  s += " | ID number: " + mFacultyID;
-  s += " | Level: " + mLevel;
-  s += " | department: " + mDeparment;
-  s += "\n Students: " + printStudents();
-  s += "\n";
-  cout << s << endl;
 }

@@ -35,18 +35,17 @@ Student::Student(int studentID, string name, string level, string major, double 
 Student::~Student(){
   //destructor
 }
+int Student::getAdvisorID(){
+  return mAdvisorID;
+};
 
-int Student::getStudentID(){
+void Student::setAdvisorID(int a){
+  mAdvisorID = a;
+}
+
+int Student::getID(){
   return mStudentID;
-}
-
-string Student::getStudentName(){
-  return mName;
-}
-
-string Student::getStudentLevel(){
-  return mLevel;
-}
+};
 
 string Student::getStudentMajor(){
   return mMajor;
@@ -54,23 +53,20 @@ string Student::getStudentMajor(){
 
 double Student::getStudentGPA(){
   return mStudentGPA;
-}
+};
+string Student::getName(){
+  return mName;
+};
+string Student::getLevel(){
+  return mLevel;
+};
 
-int Student::getAdvisorID(){
-  return mAdvisorID;
-}
-
-void Student::setAdvisorID(int a){
-  mAdvisorID = a;
-}
-
-void Student::print(){
-  string s;
-  s += "Student Name: " + mName;
-  s += " | ID number: " + mStudentID;
-  s += " | Year: " + mLevel;
-  s += " | GPA: " + mStudentGPA;
-  s += " | Advisor ID: " + mAdvisorID;
-  s += "\n";
-  cout << s << endl;
+void Student::toString(){
+  cout << "Student Name: " << mName;
+  cout << " | ID number: " << mStudentID;
+  cout << " | Major: " << mMajor;
+  cout << " | Year: " << mLevel;
+  cout << " | GPA: " << mStudentGPA;
+  cout << " | Advisor ID: " << mAdvisorID;
+  cout << "| \n";
 }

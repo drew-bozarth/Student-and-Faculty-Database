@@ -19,15 +19,15 @@ This is the .h file for Student
 //standard namespace libaray in C++
 using namespace std;
 
-class Student{
+class Student: public Person{
 public:
   Student();
   Student(int studentID, string name, string level, string major, double studentGPA, int advisorID);
   ~Student();
-
-  int getStudentID();
-  string getStudentName();
-  string getStudentLevel();
+  void toString() override;
+  int getID() override;
+  string getName() override;
+  string getLevel() override;
   string getStudentMajor();
   double getStudentGPA();
   int getAdvisorID();
@@ -35,7 +35,6 @@ public:
 
   void print();
 private:
-  double gpa;
   int mStudentID;
   string mName;
   string mLevel;

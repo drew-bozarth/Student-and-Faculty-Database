@@ -16,6 +16,9 @@ This is the .h file for Simulation
 #include <fstream>
 #include <exception>
 #include <string>
+#include "Database.h"
+#include "Student.h"
+#include "Faculty.h"
 //standard namespace libaray in C++
 using namespace std;
 
@@ -43,7 +46,10 @@ public:
   void rollback();
   void exit();
 private:
+  Database<Student> *studentDB;
+  Database<Faculty> *facultyDB;
   int rollbackCount;
+
 };
 //end of the header guards
 #endif
