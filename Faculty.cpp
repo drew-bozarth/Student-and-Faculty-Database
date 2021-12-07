@@ -33,6 +33,26 @@ Faculty::Faculty(int facultyID, string name, string level, string department){
 Faculty::~Faculty(){
   //destructor
 }
+
+bool Faculty::operator==(&Faculty rhf){
+  return (getID() == rhs->getID());
+}
+bool Faculty::operator!=(&Faculty rhf){
+  return (getID() != rhs->getID());
+}
+bool Faculty::operator<=(&Faculty rhf){
+  return (getID() <= rhs->getID());
+}
+bool Faculty::operator>=(&Faculty rhf){
+  return (getID() >= rhs->getID());
+}
+bool Faculty::operator<(&Faculty rhf){
+  return (getID() < rhs->getID());
+}
+bool Faculty::operator>(&Faculty rhf){
+  return (getID() > rhs->getID());
+}
+
 void Faculty::toString(){
   cout << "Faculty member: " << name;
   cout << " | ID number: " << id;
@@ -40,16 +60,16 @@ void Faculty::toString(){
   cout << " | department: " << deparment;
   cout << "\n Students: " << printStudents();
   cout << "\n";
-};
+}
 int Faculty::getID(){
   return mFacultyID;
-};
+}
 string Faculty::getFacultyDepartment(){
   return department;
-};
+}
 string Faculty::getName(){
   return mName;
-};
+}
 string Faculty::getFacultyLevel(){
   return mLevel;
 }

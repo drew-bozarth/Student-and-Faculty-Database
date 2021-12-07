@@ -325,20 +325,7 @@ void Simulation::rollback(){
 void Simulation::exit(){
   //uhhhh idk
   //needs to save out current databases to a file
-  ofstream outFaculty;
-  outFaculty.open("facultyTable.dat", ios::binary | ios::app);
 
-  ofstream outStudent;
-  outStudent.open("studentTable.dat", ios::binary | ios::app);
-
-  facultyDB.setData();
-  outFaculty.write((char*)&facultyDB, sizeof(facultyDB));
-
-  studentDB.setData();
-  outStudent.write((char*)&studentDB, sizeof(studentDB));
-
-  outFaculty.close();
-  outStudent.close();
   //needs to "clean up"
   //then exit
 }
@@ -347,19 +334,12 @@ bool Simulate::fileProcessor(){
   //if file successfully opens, need to read binary file and
   // re-create databases
   ifstream facultyInput;
-  facultyInput.open("facultyTable.dat", ios::binary);
+  facultyInput.open("facultyTable.txt");
   ifstream studentInput;
-  studentInput.open("studentTable.dat", ios::binary);
+  studentInput.open("studentTable.txt");
 
   if (facultyInput.is_open() && studentInput.is_open()){
-
-    while(facultyInput.read((char*)&facultyDB, sizeof(facultyDB))){
-      facultyDB.showData();
-    }
-
-    while(studentInput.read((char*)&studentDB, sizeof(studentDB))){
-      studentDB.showData();
-    }
+    //read files and create trees
 
     facultyInput.close();
     studentInput.close();

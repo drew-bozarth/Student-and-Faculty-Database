@@ -24,6 +24,14 @@ public:
   Student();
   Student(int studentID, string name, string level, string major, double studentGPA, int advisorID);
   ~Student();
+
+  bool operator==(&Student rhs);
+  bool operator!=(&Student rhs);
+  bool operator>=(&Student rhs);
+  bool operator<=(&Student rhs);
+  bool operator>(&Student rhs);
+  bool operator<(&Student rhs);
+
   void toString() override;
   int getID() override;
   string getName() override;

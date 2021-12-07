@@ -25,6 +25,14 @@ public:
   Faculty();
   Faculty(int facultyID, string fName, string fLevel, string fDepartment);
   ~Faculty();
+
+  bool operator==(&Faculty rhf);
+  bool operator!=(&Faculty rhf);
+  bool operator>=(&Faculty rhf);
+  bool operator<=(&Faculty rhf);
+  bool operator>(&Faculty rhf);
+  bool operator<(&Faculty rhf);
+
   void toString() override;
   int getID() override;
   string getName() override;

@@ -35,9 +35,30 @@ Student::Student(int studentID, string name, string level, string major, double 
 Student::~Student(){
   //destructor
 }
+
+bool Student::operator==(&Student rhs){
+  return (getID() == rhs->getID());
+}
+bool Student::operator!=(&Student rhs){
+  return (getID() != rhs->getID());
+}
+bool Student::operator<=(&Student rhs){
+  return (getID() <= rhs->getID());
+}
+bool Student::operator>=(&Student rhs){
+  return (getID() >= rhs->getID());
+}
+bool Student::operator<(&Student rhs){
+  return (getID() < rhs->getID());
+}
+bool Student::operator>(&Student rhs){
+  return (getID() > rhs->getID());
+}
+
+
 int Student::getAdvisorID(){
   return mAdvisorID;
-};
+}
 
 void Student::setAdvisorID(int a){
   mAdvisorID = a;
@@ -45,7 +66,7 @@ void Student::setAdvisorID(int a){
 
 int Student::getID(){
   return mStudentID;
-};
+}
 
 string Student::getStudentMajor(){
   return mMajor;
@@ -53,13 +74,15 @@ string Student::getStudentMajor(){
 
 double Student::getStudentGPA(){
   return mStudentGPA;
-};
+}
+
 string Student::getName(){
   return mName;
-};
+}
+
 string Student::getLevel(){
   return mLevel;
-};
+}
 
 void Student::toString(){
   cout << "Student Name: " << mName;
