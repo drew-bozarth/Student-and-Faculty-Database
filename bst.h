@@ -49,16 +49,15 @@ class BST{
     BST();
     virtual ~BST();
     void insert(T* value);
-    bool contains(int value); //search
+    bool contains(T value); //search
     bool deleteNode(int k);
     bool isEmpty();
-    T* find(int value);
+    T* find(int k);
     T* getMin();
     T* getMax();
     TreeNode<T> *getSuccessor(TreeNode<T> *d); //d represents the node we are going to delete
     void printNodes();
     void recPrint(TreeNode<T> *node);
-    // T calcSum(TreeNode<T> *node);
   private:
     TreeNode<T> *root;
 };
@@ -78,18 +77,10 @@ template <class T>
 void BST<T>::recPrint(TreeNode<T> *node){
   if (node == NULL)
     return;
-  node->key->toString();
+  cout << node->key << endl;
   recPrint(node->left);
   recPrint(node->right);
 }
-
-// template <class T>
-// T BST<T>::calcSum(TreeNode<T> **node){
-//   if(node == NULL)
-//     return 0;
-//
-//   return (node->key->getID() + calcSum(node->left) + calcSum(node->right));
-// }
 
 template <class T>
 void BST<T>::printNodes(){
@@ -131,7 +122,7 @@ T* BST<T>::getMin(){
   while (current->left != NULL){
     current = current->left;
   }
-  return &(current->key->getID());
+  return &(current->key);
 }
 
 template <class T>
@@ -143,14 +134,13 @@ T* BST<T>::getMax(){
   while (current->right != NULL){
     current = current->right;
   }
-  return &(current->key->getID());
+  return &(current->key);
 }
 
 template <class T>
 void BST<T>::insert(T* value){
   TreeNode<T> *node = new TreeNode<T>(value);
-  int currID;
-  int newID;
+
   if (isEmpty()){
     root = node;
   }
@@ -158,11 +148,11 @@ void BST<T>::insert(T* value){
     //tree is not empty, let's go find the insertion point for node
     TreeNode<T> *current = root;
     TreeNode<T> *parent = NULL;
-    newID = value->getID();
+
     while (true){
       parent = current;
-      currID = current->key->getID();
-      if (newID < currID){
+
+      if (value < current->key){
         current = current->left;
         if (current == NULL){
           //we found the insertion point
@@ -183,14 +173,14 @@ void BST<T>::insert(T* value){
 }
 
 template <class T>
-bool BST<T>::contains(int value){
+bool BST<T>::contains(T value){
   if (isEmpty())
     return false;
   else{
     //it's not empty, let's try and find it
     TreeNode<T> *current = root;
-    while(current->key->getID() != value){
-      if (value < current->key->getID()){
+    while(current->key != value){
+      if (value < current->key){
         current = current->left;
       }
       else{
@@ -215,10 +205,10 @@ bool BST<T>::deleteNode(int k){
   TreeNode<T> *parent = root;
   bool isLeft = true;
 
-  while(current->key->getID() != k){
+  while(current->key != k){
     parent = current;
 
-    if(k < current->key->getID()){
+    if(k < current->key){
       isLeft = true;
       current = current->left;
     }

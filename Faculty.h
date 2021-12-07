@@ -26,12 +26,13 @@ public:
   Faculty(int facultyID, string fName, string fLevel, string fDepartment);
   ~Faculty();
 
-  bool operator==(&Faculty rhf);
-  bool operator!=(&Faculty rhf);
-  bool operator>=(&Faculty rhf);
-  bool operator<=(&Faculty rhf);
-  bool operator>(&Faculty rhf);
-  bool operator<(&Faculty rhf);
+  bool operator==(Faculty rhf);
+  bool operator!=(Faculty rhf);
+  bool operator>=(Faculty rhf);
+  bool operator<=(Faculty rhf);
+  bool operator>(Faculty rhf);
+  bool operator<(Faculty rhf);
+  friend bool operator<<(ostream& ost, Faculty& fac);
 
   void toString() override;
   int getID() override;

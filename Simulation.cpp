@@ -60,7 +60,8 @@ void Simulation::simulate(){
       cout << "11. Change a student's advisor given the student id and the new faculty id" << endl;
       cout << "12. Remove an advisee from a faculty member given the id" << endl;
       cout << "13. Rollback" << endl;
-      cout << "14. Exit" << endl;
+      cout << "14. Save and Exit" << endl;
+      cout << "15. Exit Without Saving" << endl;
       int userInput;
       cin >> userInput;
 
@@ -119,7 +120,12 @@ void Simulation::simulate(){
       else if (userInput == 14){
         //14. Exit
         userExit = true;
-        exit();
+        exitAndSave();
+        cout << "Thank you goodbye." << endl;
+        return;
+      }
+      else if (userInput == 15){
+        userExit = true;
         cout << "Thank you goodbye." << endl;
         return;
       }
@@ -322,7 +328,7 @@ void Simulation::rollback(){
 }
 
 //14.
-void Simulation::exit(){
+void Simulation::exitAndSave(){
   //uhhhh idk
   //needs to save out current databases to a file
 

@@ -34,23 +34,27 @@ Faculty::~Faculty(){
   //destructor
 }
 
-bool Faculty::operator==(&Faculty rhf){
+bool Faculty::operator==(Faculty& rhf){
   return (getID() == rhs->getID());
 }
-bool Faculty::operator!=(&Faculty rhf){
+bool Faculty::operator!=(Faculty& rhf){
   return (getID() != rhs->getID());
 }
-bool Faculty::operator<=(&Faculty rhf){
+bool Faculty::operator<=(Faculty& rhf){
   return (getID() <= rhs->getID());
 }
-bool Faculty::operator>=(&Faculty rhf){
+bool Faculty::operator>=(Faculty& rhf){
   return (getID() >= rhs->getID());
 }
-bool Faculty::operator<(&Faculty rhf){
+bool Faculty::operator<(Faculty& rhf){
   return (getID() < rhs->getID());
 }
-bool Faculty::operator>(&Faculty rhf){
+bool Faculty::operator>(Faculty& rhf){
   return (getID() > rhs->getID());
+}
+friend bool Faculty::operator<<(ostream& ost, Faculty& fac){
+  ost << fac;
+  return ost;
 }
 
 void Faculty::toString(){
