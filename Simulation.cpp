@@ -111,7 +111,7 @@ void Simulation::simulate(){
       }
       else if (userInput == 13){
         //13. Rollback
-        //rollback();
+        rollback();
       }
       else if (userInput == 14){
         //14. Exit
@@ -160,35 +160,72 @@ void Simulation::printAllFalcultyInfo(){
 
 //3.
 void Simulation::displayStudentInfo(){
-  int studentID;
-  cout << "Enter the ID number of the student you wish to display: ";
-  cin >> studentID;
+  int studentID = -1;
+  while ((studentID < 1000000) || (studentID > 9999999) || cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    cout << "Enter the 7 digit ID number of the Student you wish to display: ";
+    cin >> studentID;
+  }
   Student *stu = new Student();
   stu->setStudentID(studentID);
-  studentDB->printNode(stu);
+  if (studentDB->contains(stu)){
+    studentDB->printNode(stu);
+  }
+  else {
+    cout << "Sorry, that Student ID does not match any Student in the Database!" << endl;
+    return;
+  }
 }
 
 //4.
 void Simulation::displayFacultyInfo(){
-  int facultyID;
-  cout << "Enter the ID number of the faculty you wish to display: ";
-  cin >> facultyID;
+  int facultyID = -1;
+  while ((facultyID < 1000000) || (facultyID > 9999999) || cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    cout << "Enter the 7 digit ID number of the Faculty you wish to display: ";
+    cin >> facultyID;
+  }
   Faculty *fac = new Faculty();
   fac->setFacultyID(facultyID);
-  facultyDB->printNode(fac);
+  if (facultyDB->contains(fac)){
+    facultyDB->printNode(fac);
+  }
+  else {
+    cout << "Sorry, that Faculty ID does not match any Faculty in the Database!" << endl;
+    return;
+  }
 }
 
 //5.
 void Simulation::displayStudentAdvisor(){
-  int studentID;
-  cout << "Enter the ID number of the student who's advisor you wish to display: ";
-  cin >> studentID;
+  int studentID = -1;
+  while ((studentID < 1000000) || (studentID > 9999999) || cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    cout << "Enter the ID number of the student who's advisor you wish to display: ";
+    cin >> studentID;
+  }
   Student *stu = new Student();
   stu->setStudentID(studentID);
-  int advisorID = studentDB->find(stu)->getAdvisorID();
-  Faculty *fac = new Faculty();
-  fac->setFacultyID(advisorID);
-  facultyDB->printNode(fac);
+  if (studentDB->contains(stu)){
+    int advisorID = studentDB->find(stu)->getAdvisorID();
+    Faculty *fac = new Faculty();
+    fac->setFacultyID(advisorID);
+    if (facultyDB->contains(fac)){
+      cout << "Advisor: " << endl;
+      facultyDB->printNode(fac);
+    }
+    else{
+      cout << "Sorry, that Student's Advisor does not match any Faculty in the Database!" << endl;
+      return;
+    }
+  }
+  else {
+    cout << "Sorry, that Student ID does not match any Student in the Database!" << endl;
+    return;
+  }
 }
 
 //6.
@@ -203,24 +240,61 @@ void Simulation::displayAllAdvisees(){
 
 //7.
 void Simulation::addStudent(){
-  int newID;
-  cout << "Enter the ID for the new Student: ";
-  cin >> newID;
+  int newID = -1;
+  while ((newID < 1000000) || (newID > 9999999) || cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    cout << "Enter the ID for the new Student: ";
+    cin >> newID;
+  }
   string newName = "";
-  cout << "Enter the name for the new Student: ";
-  cin >> newName;
+  string first = "";
+  string last = "";
+  while (cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    cout << "Enter the first name for the new Student: ";
+    cin >> first;
+    cout << "Enter the last name for the new Student: ";
+    cin >> last;
+  }
+  newName = first + " " + last;
   string newLevel = "";
-  cout << "Enter the level for the new Student: ";
-  cin >> newLevel;
+  while (cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    cout << "Enter the level for the new Student: ";
+    cin >> newLevel;
+  }
   string newMajor = "";
-  cout << "Enter the major for the new Student: ";
-  cin >> newMajor;
+  while (cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    cout << "Enter the major for the new Student: ";
+    cin >> newMajor;
+  }
   double newGPA = 0.0;
-  cout << "Enter the GPA for the new Student: ";
-  cin >> newGPA;
+  while ((newGPA < 0.0) || (newGPA > 5.0) || cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    cout << "Enter the GPA for the new Student: ";
+    cin >> newGPA;
+  }
+
   int newAdvisorID = 0;
-  cout << "Enter the ID of the advisor for the new Student: ";
-  cin >> newAdvisorID;
+  while ((newAdvisorID < 1000000) || (newAdvisorID > 9999999) || cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    cout << "Enter the ID of the advisor for the new Student: ";
+    cin >> newAdvisorID;
+    Faculty *fac = new Faculty();
+    fac->setFacultyID(newAdvisorID);
+    if (!(facultyDB->contains(fac))){
+      cout << "Sorry, that Advisor ID does not match any Faculty in the Database!" << endl;
+      newAdvisorID = -1;
+    }
+  }
+  
   Student *newStudent = new Student(newID, newName, newLevel, newMajor, newGPA, newAdvisorID);
   studentDB->insert(newStudent);
   //DatabaseOperations<Student> *operation = new DatabaseOperations<Student>(0,true,studentDB->getObject(newID));
