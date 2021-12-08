@@ -29,7 +29,7 @@ class Database{
     void deleteObject(int objectID);
     T* getObject(int objectID);
 
-    void printDB();
+    string printDB();
     void displayObejct(int objectID);
     void displayAdvisees(int facultyID);
     int displayAdvisorNum(int studentID);
@@ -66,7 +66,7 @@ T* Database<T>::getObject(int objectID){
 }
 
 template <class T>
-void Database<T>::printDB(){
+string Database<T>::printDB(){
   bst->printNodes();
 }
 

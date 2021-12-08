@@ -235,7 +235,7 @@ void Simulation::addFaculty(){
   cin >> newDepartment;
   int newIDListSize = 10;
   Faculty *newFaculty = new Faculty(newID, newName, newLevel, newDepartment, newIDListSize);
-  facultyDB->addFaculty(newFaculty);
+  facultyDB->addObject(newFaculty);
   DatabaseOperations<Faculty> *operation = new DatabaseOperations<Faculty>(0,false,facultyDB->getObject(newID));
   stack->push(operation);
   rollbackCount = 0;
@@ -330,6 +330,14 @@ void Simulation::rollback(){
 void Simulation::exitAndSave(){
   //uhhhh idk
   //needs to save out current databases to a file
+  ofstream studentFile {"studentTable.txt"};
+  ofstream facultyFile {"facultyTable.txt"};
+  string resultFac;
+  string resultStu;
+  resultFac = facultyDB->printDB();
+  resultStu = studentDB->printDB();
+  studentFile << resultStu << endl;
+  facultyFile << resultFac << endl;
 
   //needs to "clean up"
   //then exit
@@ -341,9 +349,9 @@ bool Simulation::fileProcessor(){
   //if file successfully opens, need to read binary file and
   // re-create databases
   ifstream facultyInput;
-  facultyInput.open("facultyTable");
+  facultyInput.open("facultyTable.txt");
   ifstream studentInput;
-  studentInput.open("studentTable");
+  studentInput.open("studentTable.txt");
 
   if (facultyInput.is_open() && studentInput.is_open()){
     //read files and create trees

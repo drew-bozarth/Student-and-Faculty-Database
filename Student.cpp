@@ -59,16 +59,6 @@ bool Student::operator<<(ostream& ostr, Student& stu){
   return ostr;
 }
 
-void Student::toString(){
-  cout << "Student Name: " << mName;
-  cout << " | ID number: " << mStudentID;
-  cout << " | Major: " << mMajor;
-  cout << " | Year: " << mLevel;
-  cout << " | GPA: " << mStudentGPA;
-  cout << " | Advisor ID: " << mAdvisorID;
-  cout << "| \n";
-}
-
 int Student::getID(){
   return mStudentID;
 }
