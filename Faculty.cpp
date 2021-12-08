@@ -58,18 +58,16 @@ friend bool Faculty::operator<<(ostream& ost, Faculty& fac){
 }
 
 void Faculty::toString(){
-  cout << "Faculty member: " << name;
-  cout << " | ID number: " << id;
-  cout << " | Level: " << level;
-  cout << " | department: " << deparment;
+  cout << "Faculty member: " << mNae;
+  cout << " | ID number: " << mFacultyID;
+  cout << " | Level: " << mLevel;
+  cout << " | department: " << mDepartment;
   cout << "\n Students: " << printStudents();
   cout << "\n";
 }
+
 int Faculty::getID(){
   return mFacultyID;
-}
-string Faculty::getFacultyDepartment(){
-  return department;
 }
 string Faculty::getName(){
   return mName;
@@ -77,7 +75,6 @@ string Faculty::getName(){
 string Faculty::getFacultyLevel(){
   return mLevel;
 }
-
 string Faculty::getFacultyDepartment(){
   return mDepartment;
 }
@@ -91,5 +88,5 @@ void Faculty::removeStudent(int num){
 void Faculty::printStudents(){
   string s;
   s = mStudentIDList->print();
-  cout << s;
+  cout << s << endl;
 }

@@ -93,7 +93,7 @@ bool BST<T>::isEmpty(){
 }
 
 template <class T>
-TreeNode<T>* BST<T>::find(int value){
+T* BST<T>::find(int value){
   if (isEmpty()){
     return NULL;
   }

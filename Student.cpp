@@ -54,38 +54,9 @@ bool Student::operator<(Student& rhs){
 bool Student::operator>(Student& rhs){
   return (getID() > rhs->getID());
 }
-friend bool Student::operator<<(ostream& ostr, Student& stu){
+bool Student::operator<<(ostream& ostr, Student& stu){
   ostr << stu;
   return ostr;
-}
-
-
-int Student::getAdvisorID(){
-  return mAdvisorID;
-}
-
-void Student::setAdvisorID(int a){
-  mAdvisorID = a;
-}
-
-int Student::getID(){
-  return mStudentID;
-}
-
-string Student::getStudentMajor(){
-  return mMajor;
-}
-
-double Student::getStudentGPA(){
-  return mStudentGPA;
-}
-
-string Student::getName(){
-  return mName;
-}
-
-string Student::getLevel(){
-  return mLevel;
 }
 
 void Student::toString(){
@@ -96,4 +67,26 @@ void Student::toString(){
   cout << " | GPA: " << mStudentGPA;
   cout << " | Advisor ID: " << mAdvisorID;
   cout << "| \n";
+}
+
+int Student::getID(){
+  return mStudentID;
+}
+string Student::getName(){
+  return mName;
+}
+string Student::getLevel(){
+  return mLevel;
+}
+string Student::getStudentMajor(){
+  return mMajor;
+}
+double Student::getStudentGPA(){
+  return mStudentGPA;
+}
+int Student::getAdvisorID(){
+  return mAdvisorID;
+}
+void Student::setAdvisorID(int a){
+  mAdvisorID = a;
 }

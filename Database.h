@@ -27,7 +27,7 @@ class Database{
 
     void addObject(T object);
     void deleteObject(int objectID);
-    void getObject(int objectID);
+    T* getObject(int objectID);
 
     void printDB();
     void displayObejct(int objectID);
@@ -43,32 +43,32 @@ class Database{
 };
 
 template <class T>
-void Database<T>::Database(){
+Database<T>::Database(){
   bst = new BST<T>();
 }
 
 template <class T>
-void Database<T>::~Database(){
+Database<T>::~Database(){
   delete bst;
 }
 
 template <class T>
-Databse<T>::addObject(T object){
+void Databse<T>::addObject(T object){
   bst->insert(object);
 }
 
 template <class T>
-Database<T>::deleteObject(int objectID){
+void Database<T>::deleteObject(int objectID){
   bst->deleteNode(objectID);
 }
 
 template <class T>
-T* Databse<T>::getObject(int objectID){
+T* Database<T>::getObject(int objectID){
   return bst->getObject(objectID);
 }
 
 template <class T>
-Database<T>::printDB(){
+void Database<T>::printDB(){
   bst->printNodes();
 }
 
@@ -90,21 +90,21 @@ void Database<T>::displayObejct(int objectID){
 
 template <class T>
 void Database<T>::displayAllAdvisees(int facultytID){
-  Faculty fac;
+  Faculty *fac;
   fac = bst->find(facultyID);
   fac->printStudents();
 }
 
 template <class T>
 void Database<T>::changeAdvisor(int studentID, int facultyID){
-  Student curr;
+  Student *curr;
   curr = bst->find(studentID);
   curr->setAdvisorID(facultyID);
 }
 
 template <class T>
 int Database<T>::displayAdvisorNum(int studentID){
-  Student stu;
+  Student *stu;
   stu = bst->find(studentID);
   int adv;
   adv = stu->getAdvisorID();

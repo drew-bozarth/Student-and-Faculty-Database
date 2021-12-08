@@ -19,9 +19,7 @@ This is the .cpp file for Simulation
 
 Simulation::Simulation(){
   //default constructor
-  Database<Student> *studentDB; = new Database<Student>();
-  Database<Faculty> *facultyDB; = new Database<Faculty>();
-  GenStack<DatabaseOperations> stack = new GenStack<DatabaseOperations>();
+  stack = new GenStack<DatabaseOperations>();
   rollbackCount = 0;
 }
 
@@ -35,6 +33,8 @@ Simulation::~Simulation(){
 void Simulation::start(){
   bool fileProcessed = fileProcessor();
   if (!fileProcessed){
+    studentDB = new Database<Student>();
+    facultyDB = new Database<Faculty>();
     return;
   }
 }
@@ -151,7 +151,7 @@ void Simulation::printAllFalcultyInfo(){
 }
 
 //3.
-void Simulation::displayStudentInfo(int studentID){
+void Simulation::displayStudentInfo(){
   int studentID;
   cout << "Enter the ID number of the student you wish to display: ";
   cin >> studentID;
@@ -159,7 +159,7 @@ void Simulation::displayStudentInfo(int studentID){
 }
 
 //4.
-void Simulation::displayFacultyInfo(int facultyID){
+void Simulation::displayFacultyInfo(){
   int facultyID;
   cout << "Enter the ID number of the faculty you wish to display: ";
   cin >> facultyID;
@@ -167,7 +167,7 @@ void Simulation::displayFacultyInfo(int facultyID){
 }
 
 //5.
-void Simulation::displayStudentAdvisor(int studentID){
+void Simulation::displayStudentAdvisor(){
   int studentID;
   cout << "Enter the ID number of the student who's advisor you wish to display: ";
   cin >> studentID;
@@ -176,7 +176,7 @@ void Simulation::displayStudentAdvisor(int studentID){
 }
 
 //6.
-void Simulation::displayAllAdvisees(int facultyID){
+void Simulation::displayAllAdvisees(){
   int facultyID;
   cout << "Enter the ID number of the faculty to display all of their advisees: ";
   cin >> facultyID;
@@ -238,7 +238,7 @@ void Simulation::addFaculty(){
   cin >> newDepartment;
   int newIDListSize = 10;
   Faculty newFaculty = new Faculty(newID, newName, newLevel, newDepartment, newIDListSize);
-  facultyDB->addFaculty(newFaculty);
+  facultyDB->addObject(newFaculty);
   DatabaseOperations<Faculty> *operation = new DatabaseOperations<Faculty>(0,false,facultyDB->getObject(newID));
   stack->push(operation);
   rollbackCount = 0;
@@ -293,7 +293,7 @@ void Simulation::rollback(){
   if (isStudent){
     if (action == 0){
       int studentID = stack->pop()->getObject()->getStudentID();
-      studentDB->deleteStudent(studentID);
+      studentDB->deleteObject(studentID);
     }
     else if (action == 1){
       int studentID = stack->peek()->getObject()->getStudentID();
@@ -302,7 +302,9 @@ void Simulation::rollback(){
       string major = stack->peek()->getObject()->getStudentMajor();
       double studentGPA = stack->peek()->getObject()->getStudentGPA();
       int advisorID = stack->pop()->getObject()->getAdvisorID();
-      studentDB->addStudent(studentID, name, level, major, studentGPA, advisorID);
+      Student newStudent = new Student(studentID, name, level, major, studentGPA, advisorID);
+      studentDB->addObject(newStudent);
+      //or ... studentDB->addObject(stack->pop()->getObject());
     }
     else {
       throw runtime_error("Rollback action doesn't exist!");
@@ -311,14 +313,16 @@ void Simulation::rollback(){
   else{
     if (action == 0){
       int facultyID = stack->pop()->getObject()->getFacultyID();
-      facultyDB->deleteFaculty(facultyID);
+      facultyDB->deleteObject(facultyID);
     }
     else if (action == 1){
       int facultyID = stack->peek()->getObject()->getFacultyID();
       string name = stack->peek()->getObject()->getFacultyName();
       string level = stack->peek()->getObject()->getFacultyLevel();
       string department = stack->peek()->getObject()->getFacultyMajor();
-      facultytDB->addFaculty(facultyID, name, level, department);
+      Faculty newFaculty = new Faculty(facultyID, name, level, department);
+      facultyDB->addObject(newFaculty);
+      //or ... facultyDB->addObject(stack->pop()->getObject());
     }
     else {
       throw runtime_error("Rollback action doesn't exist!");
@@ -336,16 +340,16 @@ void Simulation::exitAndSave(){
   //then exit
 }
 
-bool Simulate::fileProcessor(){
+bool Simulation::fileProcessor(){
   //if file successfully opens, need to read binary file and
   // re-create databases
   ifstream facultyInput;
-  facultyInput.open("facultyTable.txt");
+  facultyInput.open("facultyTable");
   ifstream studentInput;
-  studentInput.open("studentTable.txt");
+  studentInput.open("studentTable");
 
   if (facultyInput.is_open() && studentInput.is_open()){
-    //read files and create trees
+    //read files and create databases
 
     facultyInput.close();
     studentInput.close();

@@ -23,15 +23,15 @@ using namespace std;
 class Faculty: public Person{
 public:
   Faculty();
-  Faculty(int facultyID, string fName, string fLevel, string fDepartment);
+  Faculty(int facultyID, string name, string level, string department);
   ~Faculty();
 
-  bool operator==(Faculty rhf);
-  bool operator!=(Faculty rhf);
-  bool operator>=(Faculty rhf);
-  bool operator<=(Faculty rhf);
-  bool operator>(Faculty rhf);
-  bool operator<(Faculty rhf);
+  bool operator==(Faculty& rhf);
+  bool operator!=(Faculty& rhf);
+  bool operator>=(Faculty& rhf);
+  bool operator<=(Faculty& rhf);
+  bool operator>(Faculty& rhf);
+  bool operator<(Faculty& rhf);
   friend bool operator<<(ostream& ost, Faculty& fac);
 
   void toString() override;
@@ -39,8 +39,6 @@ public:
   string getName() override;
   string getLevel() override;
   string getFacultyDepartment();
-  // string getFacultyName();
-  // string getFacultyLevel();
   void printStudents();
   void AddStudent(int num);
   void removeStudent(int num);

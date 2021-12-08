@@ -19,6 +19,7 @@ Parameters: int (argc, number of command line arguments), char** (argv, array of
 Exceptions: none
 */
 int main(int argc, char** argv){
+  /*
   Simulation *sim = new Simulation();
 
   sim->start();
@@ -26,4 +27,7 @@ int main(int argc, char** argv){
 
   delete sim;
   return 0;
+  */
+
+  //testing for compiles
 }
