@@ -53,7 +53,7 @@ Database<T>::~Database(){
 }
 
 template <class T>
-void Databse<T>::addObject(T object){
+void Database<T>::addObject(T* object){
   bst->insert(object);
 }
 
@@ -89,8 +89,8 @@ void Database<T>::displayObejct(int objectID){
 // }
 
 template <class T>
-void Database<T>::displayAdvisees(int facultytID){
-  Faculty fac;
+void Database<T>::displayAdvisees(int facultyID){
+  Faculty *fac;
   fac = bst->find(facultyID);
   fac->printStudents();
 }

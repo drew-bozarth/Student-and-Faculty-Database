@@ -16,7 +16,10 @@ This is the .h file for Simulation
 #include <fstream>
 #include <exception>
 #include <string>
+
 #include "Database.h"
+#include "DatabaseOperations.h"
+#include "GenStack.h"
 #include "Student.h"
 #include "Faculty.h"
 //standard namespace libaray in C++
@@ -48,7 +51,7 @@ public:
 private:
   Database<Student> *studentDB;
   Database<Faculty> *facultyDB;
-  GenStack<DatabaseOperations> *stack;
+  GenStack<DatabaseOperations<Person>> *stack;
   int rollbackCount;
 
 };

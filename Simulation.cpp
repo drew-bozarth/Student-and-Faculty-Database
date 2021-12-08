@@ -10,18 +10,13 @@ This is the .cpp file for Simulation
 
 //this statement includes the Simulation.h file
 #include "Simulation.h"
-#include "Database.h"
-#include "Student.h"
-#include "Faculty.h"
-#include "DatabaseOperations.h"
-#include "GenStack.h"
 
 
 Simulation::Simulation(){
   //default constructor
   studentDB = new Database<Student*>();
   facultyDB = new Database<Faculty*>();
-  stack = new GenStack<DatabaseOperations*>();
+  stack = new GenStack<DatabaseOperations<Person>>();
   rollbackCount = 0;
 }
 

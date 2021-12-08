@@ -10,6 +10,8 @@ Main file for Assignment6
 
 //these statements include the user defined files into this file to be used
 #include "Simulation.h"
+#include "DatabaseOperations.h"
+#include "GenStack.h"
 // standard namespace library in C++
 using namespace std;
 /*
@@ -30,4 +32,5 @@ int main(int argc, char** argv){
   */
 
   //testing for compiles
+  cout << "start test" << endl;
 }
