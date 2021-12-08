@@ -14,8 +14,8 @@ This is the .cpp file for Simulation
 
 Simulation::Simulation(){
   //default constructor
-  studentDB = new Database<Student*>();
-  facultyDB = new Database<Faculty*>();
+  studentDB = new BST<Student>();
+  facultyDB = new BST<Faculty>();
   stack = new GenStack<DatabaseOperations<Person>>();
   rollbackCount = 0;
 }
@@ -30,8 +30,7 @@ Simulation::~Simulation(){
 void Simulation::start(){
   bool fileProcessed = fileProcessor();
   if (!fileProcessed){
-    studentDB = new Database<Student>();
-    facultyDB = new Database<Faculty>();
+    cout << "No file, blank databases" << endl;
     return;
   }
 }
@@ -112,7 +111,7 @@ void Simulation::simulate(){
       }
       else if (userInput == 13){
         //13. Rollback
-        rollback();
+        //rollback();
       }
       else if (userInput == 14){
         //14. Exit
@@ -139,12 +138,12 @@ void Simulation::simulate(){
 
 //1.
 void Simulation::printAllStudentInfo(){
-  studentDB->printDB();
+  studentDB->printNodes();
 }
 
 //2.
 void Simulation::printAllFalcultyInfo(){
-  facultyDB->printDB();
+  facultyDB->printNodes();
 }
 
 //3.
@@ -152,7 +151,9 @@ void Simulation::displayStudentInfo(){
   int studentID;
   cout << "Enter the ID number of the student you wish to display: ";
   cin >> studentID;
-  studentDB->displayObject(studentID);
+  Student *stu = new Student();
+  stu->setStudentID(studentID);
+  studentDB->printNode(stu);
 }
 
 //4.
@@ -160,7 +161,9 @@ void Simulation::displayFacultyInfo(){
   int facultyID;
   cout << "Enter the ID number of the faculty you wish to display: ";
   cin >> facultyID;
-  facultyDB->displayObject(facultyID);
+  Faculty *fac = new Faculty();
+  fac->setFacultyID(facultyID);
+  facultyDB->printNode(fac);
 }
 
 //5.
@@ -168,8 +171,12 @@ void Simulation::displayStudentAdvisor(){
   int studentID;
   cout << "Enter the ID number of the student who's advisor you wish to display: ";
   cin >> studentID;
-  int advisorID = studentDB->getObject(studentID)->getAdvisorID();
-  facultyDB->displayObject(advisorID);
+  Student *stu = new Student();
+  stu->setStudentID(studentID);
+  int advisorID = studentDB->find(stu)->getAdvisorID();
+  Faculty *fac = new Faculty();
+  fac->setFacultyID(advisorID);
+  facultyDB->printNode(fac);
 }
 
 //6.
@@ -177,7 +184,9 @@ void Simulation::displayAllAdvisees(){
   int facultyID;
   cout << "Enter the ID number of the faculty to display all of their advisees: ";
   cin >> facultyID;
-  facultytDB->displayAdvisees(facultyID);
+  Faculty *fac = new Faculty();
+  fac->setFacultyID(facultyID);
+  cout << facultyDB->find(fac)->printStudents() << endl;
 }
 
 //7.
@@ -201,9 +210,9 @@ void Simulation::addStudent(){
   cout << "Enter the ID of the advisor for the new Student: ";
   cin >> newAdvisorID;
   Student *newStudent = new Student(newID, newName, newLevel, newMajor, newGPA, newAdvisorID);
-  studentDB->addObject(newStudent);
-  DatabaseOperations<Student> *operation = new DatabaseOperations<Student>(0,true,studentDB->getObject(newID));
-  stack->push(operation);
+  studentDB->insert(newStudent);
+  //DatabaseOperations<Student> *operation = new DatabaseOperations<Student>(0,true,studentDB->getObject(newID));
+  //stack->push(operation);
   rollbackCount = 0;
 }
 
@@ -212,11 +221,13 @@ void Simulation::deleteStudent(){
   int studentID;
   cout << "Enter the ID number of the student you wish to delete: ";
   cin >> studentID;
-  DatabaseOperations<Student> *operation = new DatabaseOperations<Student>(1,true,studentDB->getObject(studentID));
-  stack->push(operation);
+  Student *stu = new Student();
+  stu->setStudentID(studentID);
+  //DatabaseOperations<Student> *operation = new DatabaseOperations<Student>(1,true,studentDB->getObject(stu));
+  //stack->push(operation);
   rollbackCount = 0;
 
-  studentDB->deleteObject(studentID);
+  studentDB->deleteNode(stu);
 }
 
 //9.
@@ -234,10 +245,10 @@ void Simulation::addFaculty(){
   cout << "Enter the deparment for the new Advisor: ";
   cin >> newDepartment;
   int newIDListSize = 10;
-  Faculty *newFaculty = new Faculty(newID, newName, newLevel, newDepartment, newIDListSize);
-  facultyDB->addObject(newFaculty);
-  DatabaseOperations<Faculty> *operation = new DatabaseOperations<Faculty>(0,false,facultyDB->getObject(newID));
-  stack->push(operation);
+  Faculty *newFaculty = new Faculty(newID, newName, newLevel, newDepartment);
+  facultyDB->insert(newFaculty);
+  //DatabaseOperations<Faculty> *operation = new DatabaseOperations<Faculty>(0,false,facultyDB->getObject(newID));
+  //stack->push(operation);
   rollbackCount = 0;
 }
 
@@ -246,11 +257,13 @@ void Simulation::deleteFaculty(){
   int facultyID;
   cout << "Enter the ID number of the faculty member you wish to delete: ";
   cin >> facultyID;
-  DatabaseOperations<Faculty> *operation = new DatabaseOperations<Faculty>(1,false,facultyDB->getObject(facultyID));
-  stack->push(operation);
+  Faculty *fac = new Faculty();
+  fac->setFacultyID(facultyID);
+  //DatabaseOperations<Faculty> *operation = new DatabaseOperations<Faculty>(1,false,facultyDB->getObject(fac));
+  //stack->push(operation);
   rollbackCount = 0;
 
-  facultyDB->deleteObject(facultyID);
+  facultyDB->deleteNode(fac);
 }
 
 //11.
@@ -261,7 +274,9 @@ void Simulation::changeAdvisor(){
   int facultyID;
   cout << "Enter the ID number of the new advisor: ";
   cin >> facultyID;
-  studentDB->changeAdvisor(studentID, facultyID);
+  Student *stu = new Student();
+  stu->setStudentID(studentID);
+  studentDB->find(stu)->setAdvisorID(facultyID);
 }
 
 //12.
@@ -272,11 +287,13 @@ void Simulation::removeAdvisee(){
   int studentID;
   cout << "Enter the ID number of the advisee you wish to remove: ";
   cin >> studentID;
-  facultyDB->removeAdvisee(facultyID, studentID);
+  //edit list of faculty and remove the student ID
 }
 
 //13.
+
 void Simulation::rollback(){
+  /*
   if (stack->isEmpty()){
     throw runtime_error("Stack is empty, there are no actions to undo!");
   }
@@ -324,26 +341,32 @@ void Simulation::rollback(){
     }
   }
   ++rollbackCount;
+  */
 }
+
 
 //14.
 void Simulation::exitAndSave(){
+  /*
   //uhhhh idk
   //needs to save out current databases to a file
   ofstream studentFile {"studentTable.txt"};
   ofstream facultyFile {"facultyTable.txt"};
   string resultFac;
   string resultStu;
-  resultFac = facultyDB->printDB();
-  resultStu = studentDB->printDB();
+  resultFac = facultyDB->storeDB();
+  resultStu = studentDB->storeDB();
   studentFile << resultStu << endl;
   facultyFile << resultFac << endl;
 
   //needs to "clean up"
   //then exit
+  */
 }
 
 bool Simulation::fileProcessor(){
+  return false;
+  /*
   string studentArray[6];
   string facultyArray[4];
   //if file successfully opens, need to read binary file and
@@ -416,4 +439,5 @@ bool Simulation::fileProcessor(){
   else {
     return false;
   }
+  */
 }

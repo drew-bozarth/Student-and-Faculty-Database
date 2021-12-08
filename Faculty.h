@@ -15,6 +15,7 @@ This is the .h file for Faculty
 #include <iostream>
 #include <exception>
 #include <string>
+
 #include "ListInterface.h"
 #include "Person.h"
 //standard namespace libaray in C++
@@ -32,15 +33,14 @@ public:
   bool operator<=(Faculty& rhf);
   bool operator>(Faculty& rhf);
   bool operator<(Faculty& rhf);
-  friend bool operator<<(ostream& ost, Faculty& fac);
+  friend ostream& operator<<(ostream& os, Faculty& fac);
 
   string toString() override;
   int getID() override;
   string getName() override;
   string getLevel() override;
   string getFacultyDepartment();
-  // string getFacultyName();
-  // string getFacultyLevel();
+  void setFacultyID(int id);
   string printStudents();
   void AddStudent(int num);
   void removeStudent(int num);

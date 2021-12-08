@@ -15,6 +15,7 @@ This is the .h file for Student
 #include <iostream>
 #include <exception>
 #include <string>
+
 #include "Person.h"
 //standard namespace libaray in C++
 using namespace std;
@@ -31,7 +32,7 @@ public:
   bool operator<=(Student& rhs);
   bool operator>(Student& rhs);
   bool operator<(Student& rhs);
-  friend bool operator<<(ostream& ostr, Student& stu);
+  friend ostream& operator<<(ostream& os, Student& stu);
 
   string toString() override;
   int getID() override;
@@ -41,6 +42,7 @@ public:
   double getStudentGPA();
   int getAdvisorID();
   void setAdvisorID(int a);
+  void setStudentID(int id);
 
   void print();
 private:

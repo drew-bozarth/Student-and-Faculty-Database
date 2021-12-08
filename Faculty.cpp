@@ -35,34 +35,34 @@ Faculty::~Faculty(){
 }
 
 bool Faculty::operator==(Faculty& rhf){
-  return (getID() == rhs->getID());
+  return (getID() == rhf.getID());
 }
 bool Faculty::operator!=(Faculty& rhf){
-  return (getID() != rhs->getID());
+  return (getID() != rhf.getID());
 }
 bool Faculty::operator<=(Faculty& rhf){
-  return (getID() <= rhs->getID());
+  return (getID() <= rhf.getID());
 }
 bool Faculty::operator>=(Faculty& rhf){
-  return (getID() >= rhs->getID());
+  return (getID() >= rhf.getID());
 }
 bool Faculty::operator<(Faculty& rhf){
-  return (getID() < rhs->getID());
+  return (getID() < rhf.getID());
 }
 bool Faculty::operator>(Faculty& rhf){
-  return (getID() > rhs->getID());
+  return (getID() > rhf.getID());
 }
-friend bool Faculty::operator<<(ostream& ost, Faculty& fac){
-  ost << fac;
-  return ost;
+ostream& operator<<(ostream& os, Faculty& fac){
+  os << fac.toString();
+  return os;
 }
 
 string Faculty::toString(){
   string s;
-  s += "Faculty member: " + name;
-  s += " | ID number: " + id;
-  s += " | Level: " + level;
-  s += " | department: " + deparment;
+  s += "Faculty member: " + mName;
+  s += " | ID number: " + mFacultyID;
+  s += " | Level: " + mLevel;
+  s += " | department: " + mDepartment;
   s += "\n Students: ";
   s += printStudents();
   return s;
@@ -74,11 +74,14 @@ int Faculty::getID(){
 string Faculty::getName(){
   return mName;
 }
-string Faculty::getFacultyLevel(){
+string Faculty::getLevel(){
   return mLevel;
 }
 string Faculty::getFacultyDepartment(){
   return mDepartment;
+}
+void Faculty::setFacultyID(int id){
+  mFacultyID = id;
 }
 
 void Faculty::AddStudent(int num){
@@ -88,7 +91,5 @@ void Faculty::removeStudent(int num){
   mStudentIDList->remove(num);
 }
 string Faculty::printStudents(){
-  string s;
-  s = mStudentIDList->print();
-  return s;
+  cout << "print students" << endl;
 }

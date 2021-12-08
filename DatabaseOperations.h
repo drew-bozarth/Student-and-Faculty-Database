@@ -60,7 +60,7 @@ bool DatabaseOperations<T>::isStudent(){
 
 template <class T>
 T* DatabaseOperations<T>::getObject(){
-  return mObject;
+  return &(mObject);
 }
 
 

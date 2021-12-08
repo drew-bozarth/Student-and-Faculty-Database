@@ -8,7 +8,7 @@ using namespace std;
 
 class Person{
 public:
-  Person();
+  Person(){};
   Person(int i, string n, string l){
     id = i;
     name = n;

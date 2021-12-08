@@ -37,26 +37,26 @@ Student::~Student(){
 }
 
 bool Student::operator==(Student& rhs){
-  return (getID() == rhs->getID());
+  return (getID() == rhs.getID());
 }
 bool Student::operator!=(Student& rhs){
-  return (getID() != rhs->getID());
+  return (getID() != rhs.getID());
 }
 bool Student::operator<=(Student& rhs){
-  return (getID() <= rhs->getID());
+  return (getID() <= rhs.getID());
 }
 bool Student::operator>=(Student& rhs){
-  return (getID() >= rhs->getID());
+  return (getID() >= rhs.getID());
 }
 bool Student::operator<(Student& rhs){
-  return (getID() < rhs->getID());
+  return (getID() < rhs.getID());
 }
 bool Student::operator>(Student& rhs){
-  return (getID() > rhs->getID());
+  return (getID() > rhs.getID());
 }
-bool Student::operator<<(ostream& ostr, Student& stu){
-  ostr << stu;
-  return ostr;
+ostream& operator<<(ostream& os, Student& stu){
+  os << stu.toString();
+  return os;
 }
 
 int Student::getID(){
@@ -76,6 +76,12 @@ double Student::getStudentGPA(){
 }
 int Student::getAdvisorID(){
   return mAdvisorID;
+}
+void Student::setAdvisorID(int a){
+  mAdvisorID = a;
+}
+void Student::setStudentID(int id){
+  mStudentID = id;
 }
 
 string Student::toString(){

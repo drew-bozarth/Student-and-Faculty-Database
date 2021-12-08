@@ -15,7 +15,7 @@ template <class T>
 class TreeNode{
   public:
     TreeNode();
-    TreeNode(T key);
+    TreeNode(T* key);
     virtual ~TreeNode();
 
     T* key; //key = data
@@ -31,7 +31,7 @@ TreeNode<T>::TreeNode(){
 }
 
 template <class T>
-TreeNode<T>::TreeNode(T k){
+TreeNode<T>::TreeNode(T* k){
   left = NULL;
   right = NULL;
   key = k;
@@ -48,16 +48,17 @@ class BST{
   public:
     BST();
     virtual ~BST();
-    void insert(T value);
-    bool contains(T value); //search
-    bool deleteNode(int k);
+    void insert(T* value);
+    bool contains(T* value); //search
+    bool deleteNode(T* k);
     bool isEmpty();
-    T* find(int k);
+    T* find(T* value);
+    void printNode(T* value);
     T* getMin();
     T* getMax();
     TreeNode<T> *getSuccessor(TreeNode<T> *d); //d represents the node we are going to delete
-    string printNodes();
-    string recPrint(TreeNode<T> *node);
+    void printNodes();
+    void recPrint(TreeNode<T> *node);
   private:
     TreeNode<T> *root;
 };
@@ -74,20 +75,17 @@ BST<T>::~BST(){
 }
 
 template <class T>
-string BST<T>::recPrint(TreeNode<T> *node){
-  string s;
+void BST<T>::recPrint(TreeNode<T> *node){
   if (node == NULL)
-    return s;
-  s += "\n";
-  s += node->key->toString();
-  cout << endl;
+    return;
+  cout << node->key << endl;
   recPrint(node->left);
   recPrint(node->right);
 }
 
 template <class T>
-string BST<T>::printNodes(){
-  return recPrint(root);
+void BST<T>::printNodes(){
+  recPrint(root);
 }
 
 template <class T>
@@ -96,24 +94,47 @@ bool BST<T>::isEmpty(){
 }
 
 template <class T>
-T* BST<T>::find(int value){
+T* BST<T>::find(T* value){
   if (isEmpty()){
     return NULL;
   }
-  TreeNode<T> *current = root;
-  int currID = 0;
-  currID = current->key;
-  while(currID != value){
-    currID = current->key;
-    if (value < currID){
-      current = current->left;
+  else{
+    TreeNode<T> *current = root;
+    while(current->key != value){
+      if (value < current->key){
+        current = current->left;
+      }
+      else{
+        current = current->right;
+      }
+
+      if (current == NULL)
+        return NULL;
     }
-    else{
-      current = current->right;
-    }
-    currID = current->key->getID();
+    return (current->key);
+  }
 }
-return current->key;
+
+template <class T>
+void BST<T>::printNode(T* value){
+  if (isEmpty()){
+    return;
+  }
+  else{
+    TreeNode<T> *current = root;
+    while(current->key != value){
+      if (value < current->key){
+        current = current->left;
+      }
+      else{
+        current = current->right;
+      }
+
+      if (current == NULL)
+        return;
+    }
+    cout << current->key << endl;
+  }
 }
 
 
@@ -142,9 +163,9 @@ T* BST<T>::getMax(){
 }
 
 template <class T>
-void BST<T>::insert(T value){
+void BST<T>::insert(T* value){
   TreeNode<T> *node = new TreeNode<T>(value);
-  int currID;
+
   if (isEmpty()){
     root = node;
   }
@@ -177,7 +198,7 @@ void BST<T>::insert(T value){
 }
 
 template <class T>
-bool BST<T>::contains(int value){
+bool BST<T>::contains(T* value){
   if (isEmpty())
     return false;
   else{
@@ -199,7 +220,7 @@ bool BST<T>::contains(int value){
 }
 
 template <class T>
-bool BST<T>::deleteNode(int k){
+bool BST<T>::deleteNode(T* k){
 
   if(!contains(k))
     return false;
@@ -208,12 +229,11 @@ bool BST<T>::deleteNode(int k){
   TreeNode<T> *current = root;
   TreeNode<T> *parent = root;
   bool isLeft = true;
-  int value = 0;
-  while(value != k){
-    value = current->key;
+
+  while(current->key != k){
     parent = current;
 
-    if(k < value){
+    if(k < current->key){
       isLeft = true;
       current = current->left;
     }

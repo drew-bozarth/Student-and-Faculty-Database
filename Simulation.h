@@ -17,8 +17,7 @@ This is the .h file for Simulation
 #include <exception>
 #include <string>
 
-#include "Database.h"
-#include "DatabaseOperations.h"
+#include "bst.h"
 #include "GenStack.h"
 #include "Student.h"
 #include "Faculty.h"
@@ -51,8 +50,8 @@ public:
   void rollback();
   void exitAndSave();
 private:
-  Database<Student> *studentDB;
-  Database<Faculty> *facultyDB;
+  BST<Student> *studentDB;
+  BST<Faculty> *facultyDB;
   GenStack<DatabaseOperations<Person>> *stack;
   int rollbackCount;
 

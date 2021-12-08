@@ -23,19 +23,14 @@ Exceptions: none
 */
 int main(int argc, char** argv){
   cout << "start test" << endl;
-  BST<int> *bst = new BST<int>();
-  bst->insert(4);
-  //bst->insert(2);
-  //bst->insert(3);
-  //bst->insert(6);
-  /*
+
   Simulation *sim = new Simulation();
 
   sim->start();
-  sim->simulate();
+  //sim->simulate();
 
   delete sim;
-  */
+
   cout << "end test" << endl;
   return 0;
 }
