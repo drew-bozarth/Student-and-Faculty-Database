@@ -15,7 +15,7 @@ template <class T>
 class TreeNode{
   public:
     TreeNode();
-    TreeNode(T* key);
+    TreeNode(T key);
     virtual ~TreeNode();
 
     T* key; //key = data
@@ -31,7 +31,7 @@ TreeNode<T>::TreeNode(){
 }
 
 template <class T>
-TreeNode<T>::TreeNode(T* k){
+TreeNode<T>::TreeNode(T k){
   left = NULL;
   right = NULL;
   key = k;
@@ -48,7 +48,7 @@ class BST{
   public:
     BST();
     virtual ~BST();
-    void insert(T* value);
+    void insert(T value);
     bool contains(T value); //search
     bool deleteNode(int k);
     bool isEmpty();
@@ -100,9 +100,9 @@ T* BST<T>::find(int value){
   }
   TreeNode<T> *current = root;
   int currID = 0;
-  currID = current->key->getID();
+  currID = current->key;
   while(currID != value){
-    currID = current->key->getID();
+    currID = current->key;
     if (value < currID){
       current = current->left;
     }
@@ -110,7 +110,7 @@ T* BST<T>::find(int value){
       current = current->right;
     }
 }
-return current->key->getID();
+return current->key;
 }
 
 
@@ -123,7 +123,7 @@ T* BST<T>::getMin(){
   while (current->left != NULL){
     current = current->left;
   }
-  return &(current->key->getID());
+  return &(current->key);
 }
 
 template <class T>
@@ -135,11 +135,11 @@ T* BST<T>::getMax(){
   while (current->right != NULL){
     current = current->right;
   }
-  return &(current->key->getID());
+  return &(current->key);
 }
 
 template <class T>
-void BST<T>::insert(T* value){
+void BST<T>::insert(T value){
   TreeNode<T> *node = new TreeNode<T>(value);
 
   if (isEmpty()){
@@ -153,7 +153,7 @@ void BST<T>::insert(T* value){
     while (true){
       parent = current;
 
-      if (value < current->key->getID()){
+      if (value < current->key){
         current = current->left;
         if (current == NULL){
           //we found the insertion point
@@ -180,8 +180,8 @@ bool BST<T>::contains(T value){
   else{
     //it's not empty, let's try and find it
     TreeNode<T> *current = root;
-    while(current->key->getID() != value){
-      if (value < current->key->getID()){
+    while(current->key != value){
+      if (value < current->key){
         current = current->left;
       }
       else{
@@ -207,7 +207,7 @@ bool BST<T>::deleteNode(int k){
   bool isLeft = true;
   int value = 0;
   while(value != k){
-    value = current->key->getID();
+    value = current->key;
     parent = current;
 
     if(k < value){

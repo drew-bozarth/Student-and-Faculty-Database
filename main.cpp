@@ -12,6 +12,7 @@ Main file for Assignment6
 #include "Simulation.h"
 #include "DatabaseOperations.h"
 #include "GenStack.h"
+#include "bst.h"
 // standard namespace library in C++
 using namespace std;
 /*
@@ -21,6 +22,12 @@ Parameters: int (argc, number of command line arguments), char** (argv, array of
 Exceptions: none
 */
 int main(int argc, char** argv){
+  cout << "start test" << endl;
+  BST<int> *bst = new BST<int>();
+  bst->insert(4);
+  //bst->insert(2);
+  //bst->insert(3);
+  //bst->insert(6);
   /*
   Simulation *sim = new Simulation();
 
@@ -28,9 +35,7 @@ int main(int argc, char** argv){
   sim->simulate();
 
   delete sim;
-  return 0;
   */
-
-  //testing for compiles
-  cout << "start test" << endl;
+  cout << "end test" << endl;
+  return 0;
 }
