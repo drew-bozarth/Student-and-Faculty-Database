@@ -27,7 +27,7 @@ int main(int argc, char** argv){
   Simulation *sim = new Simulation();
 
   sim->start();
-  //sim->simulate();
+  sim->simulate();
 
   delete sim;
 

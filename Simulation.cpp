@@ -138,12 +138,24 @@ void Simulation::simulate(){
 
 //1.
 void Simulation::printAllStudentInfo(){
-  studentDB->printNodes();
+  if (studentDB->isEmpty()){
+    cout << "Student Database is Empty!!!" << endl;
+    return;
+  }
+  else{
+    studentDB->printNodes();
+  }
 }
 
 //2.
 void Simulation::printAllFalcultyInfo(){
-  facultyDB->printNodes();
+  if (facultyDB->isEmpty()){
+    cout << "Faculty Database is Empty!!!" << endl;
+    return;
+  }
+  else {
+    facultyDB->printNodes();
+  }
 }
 
 //3.
