@@ -78,12 +78,9 @@ BST<T>::~BST(){
 
 template <class T>
 void BST<T>::recPrint(TreeNode<T> *node){
-  cout << "in rec print" << endl;
   if (node == NULL){
-    cout << "node null" << endl;
     return;
   }
-  cout << " node not null" << endl;
   cout << *(node->key) << endl;
   recPrint(node->left);
   recPrint(node->right);
@@ -91,7 +88,6 @@ void BST<T>::recPrint(TreeNode<T> *node){
 
 template <class T>
 void BST<T>::printNodes(){
-  cout << "In print nodes method" << endl;
   recPrint(root);
 }
 

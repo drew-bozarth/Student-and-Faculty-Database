@@ -61,10 +61,10 @@ string Faculty::toString(){
   string s;
   s += "\n------------------------------";
   s += "\nFaculty Member: " + mName;
-  s += "\nID Number: " + mFacultyID;
+  s += "\nID Number: " + to_string(mFacultyID);
   s += "\nLevel: " + mLevel;
   s += "\nDepartment: " + mDepartment;
-  s += "------------------------------";
+  s += "\n------------------------------";
   s += "\nStudents: ";
   s += "\n---------\n";
   //s += printStudents();

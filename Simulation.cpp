@@ -370,9 +370,6 @@ void Simulation::addFaculty(){
   }
   cout << "Faculty: " << newID << " | " << newName << " | " << newLevel << " | " << newDepartment << endl;
   Faculty *newFaculty = new Faculty(newID, newName, newLevel, newDepartment);
-  cout << "print empty DB " << endl;
-  facultyDB->printNodes();
-  cout << "about to insert and print DB" << endl;
   facultyDB->insert(newFaculty);
   //DatabaseOperations<Faculty> *operation = new DatabaseOperations<Faculty>(0,false,facultyDB->getObject(newID));
   //stack->push(operation);
