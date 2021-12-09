@@ -86,12 +86,13 @@ void Student::setStudentID(int id){
 
 string Student::toString(){
   string str;
-  str += "Student Name: " + mName;
-  str += " | ID number: " + mStudentID;
-  str += " | Major: " + mMajor;
-  str += " | Year: " + mLevel;
-  str += " | GPA: " + to_string(mStudentGPA);
-  str += " | Advisor ID: " + mAdvisorID;
-  // str += "| \n"
+  str += "\n------------------------------";
+  str += "\nStudent Name: " + mName;
+  str += "\nID Number: " + mStudentID;
+  str += "\nMajor: " + mMajor;
+  str += "\nLevel: " + mLevel;
+  str += "\nGPA: " + to_string(mStudentGPA);
+  str += "\nAdvisor ID: " + mAdvisorID;
+  str += "------------------------------\n";
   return str;
 }

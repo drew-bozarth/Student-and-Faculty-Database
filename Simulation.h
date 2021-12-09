@@ -16,6 +16,7 @@ This is the .h file for Simulation
 #include <fstream>
 #include <exception>
 #include <string>
+#include <limits>
 
 #include "bst.h"
 #include "GenStack.h"

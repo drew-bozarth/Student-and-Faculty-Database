@@ -42,7 +42,6 @@ void Simulation::simulate(){
       cout << "--------------------------------------------------------------------------------------------------" << endl;
       cout << "Welcome to the School Database! Please enter the number for the action which you wish to complete!" << endl;
       cout << "--------------------------------------------------------------------------------------------------" << endl;
-      cout << "\n" << endl;
       cout << "1. Print all students and their information (sorted by ascending id #)" << endl;
       cout << "2. Print all faculty and their information (sorted by ascending id #)" << endl;
       cout << "3. Find and display student information given the students id" << endl;
@@ -204,7 +203,7 @@ void Simulation::displayStudentAdvisor(){
   while ((studentID < 1000000) || (studentID > 9999999) || cin.fail()){
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(),'\n');
-    cout << "Enter the ID number of the student who's advisor you wish to display: ";
+    cout << "Enter the 7 digit ID number of the student who's advisor you wish to display: ";
     cin >> studentID;
   }
   Student *stu = new Student();
@@ -228,10 +227,10 @@ void Simulation::displayStudentAdvisor(){
   }
 }
 
-//6.
+//6. **NOT DONE**
 void Simulation::displayAllAdvisees(){
   int facultyID;
-  cout << "Enter the ID number of the faculty to display all of their advisees: ";
+  cout << "Enter the 7 digit ID number of the faculty to display all of their advisees: ";
   cin >> facultyID;
   Faculty *fac = new Faculty();
   fac->setFacultyID(facultyID);
@@ -244,14 +243,14 @@ void Simulation::addStudent(){
   while ((newID < 1000000) || (newID > 9999999) || cin.fail()){
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(),'\n');
-    cout << "Enter the ID for the new Student: ";
+    cout << "Enter the 7 digit ID number for the new Student: ";
     cin >> newID;
   }
 
   string newName = "";
-  string first = "";
-  string last = "";
-  while (cin.fail()){
+  string first = "\0";
+  string last = "\0";
+  while (first == "\0" || last == "\0" || cin.fail()){
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(),'\n');
     cout << "Enter the first name for the new Student: ";
@@ -261,23 +260,23 @@ void Simulation::addStudent(){
   }
   newName = first + " " + last;
 
-  string newLevel = "";
-  while (cin.fail()){
+  string newLevel = "\0";
+  while (newLevel == "\0" || cin.fail()){
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(),'\n');
     cout << "Enter the level for the new Student: ";
     cin >> newLevel;
   }
 
-  string newMajor = "";
-  while (cin.fail()){
+  string newMajor = "\0";
+  while (newMajor == "\0" || cin.fail()){
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(),'\n');
     cout << "Enter the major for the new Student: ";
     cin >> newMajor;
   }
 
-  double newGPA = 0.0;
+  double newGPA = -1.0;
   while ((newGPA < 0.0) || (newGPA > 5.0) || cin.fail()){
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(),'\n');
@@ -289,7 +288,7 @@ void Simulation::addStudent(){
   while ((newAdvisorID < 1000000) || (newAdvisorID > 9999999) || cin.fail()){
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(),'\n');
-    cout << "Enter the ID of the advisor for the new Student: ";
+    cout << "Enter the 7 digit ID of the advisor for the new Student: ";
     cin >> newAdvisorID;
   }
   Faculty *fac = new Faculty();
@@ -309,33 +308,67 @@ void Simulation::addStudent(){
 
 //8.
 void Simulation::deleteStudent(){
-  int studentID;
-  cout << "Enter the ID number of the student you wish to delete: ";
-  cin >> studentID;
+  int studentID = -1;
+  while ((studentID < 1000000) || (studentID > 9999999) || cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    cout << "Enter the 7 digit ID number of the student you wish to delete: ";
+    cin >> studentID;
+  }
   Student *stu = new Student();
   stu->setStudentID(studentID);
-  //DatabaseOperations<Student> *operation = new DatabaseOperations<Student>(1,true,studentDB->getObject(stu));
-  //stack->push(operation);
-  rollbackCount = 0;
+  if (studentDB->contains(stu)){
+    //DatabaseOperations<Student> *operation = new DatabaseOperations<Student>(1,true,studentDB->getObject(stu));
+    //stack->push(operation);
+    rollbackCount = 0;
 
-  studentDB->deleteNode(stu);
+    studentDB->deleteNode(stu);
+  }
+  else {
+    cout << "Sorry, cannot delete because that Student ID does not match any Student in the Database!" << endl;
+    return;
+  }
 }
 
 //9.
 void Simulation::addFaculty(){
-  int newID;
-  cout << "Enter the ID for the new Advisor: ";
-  cin >> newID;
+  int newID = -1;
+  while ((newID < 1000000) || (newID > 9999999) || cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    cout << "Enter the 7 digit ID for the new Faculty: ";
+    cin >> newID;
+  }
+
   string newName = "";
-  cout << "Enter the name for the new Advisor: ";
-  cin >> newName;
-  string newLevel = "";
-  cout << "Enter the level for the new Advisor: ";
-  cin >> newLevel;
-  string newDepartment = "";
-  cout << "Enter the deparment for the new Advisor: ";
-  cin >> newDepartment;
-  int newIDListSize = 10;
+  string first = "\0";
+  string last = "\0";
+  while (first == "\0" || last == "\0" || cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    cout << "Enter the first name for the new Faculty: ";
+    cin >> first;
+    cout << "Enter the last name for the new Faculty: ";
+    cin >> last;
+  }
+  newName = first + " " + last;
+
+  string newLevel = "\0";
+  while (newLevel == "\0" || cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    cout << "Enter the level for the new Faculty: ";
+    cin >> newLevel;
+  }
+
+  string newDepartment = "\0";
+  while (newDepartment == "\0" || cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    cout << "Enter the deparment for the new Faculty: ";
+    cin >> newDepartment;
+  }
+
   Faculty *newFaculty = new Faculty(newID, newName, newLevel, newDepartment);
   facultyDB->insert(newFaculty);
   //DatabaseOperations<Faculty> *operation = new DatabaseOperations<Faculty>(0,false,facultyDB->getObject(newID));
@@ -345,44 +378,75 @@ void Simulation::addFaculty(){
 
 //10.
 void Simulation::deleteFaculty(){
-  int facultyID;
-  cout << "Enter the ID number of the faculty member you wish to delete: ";
-  cin >> facultyID;
+  int facultyID = -1;
+  while ((facultyID < 1000000) || (facultyID > 9999999) || cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    cout << "Enter the 7 digit ID number of the faculty member you wish to delete: ";
+    cin >> facultyID;
+  }
   Faculty *fac = new Faculty();
   fac->setFacultyID(facultyID);
-  //DatabaseOperations<Faculty> *operation = new DatabaseOperations<Faculty>(1,false,facultyDB->getObject(fac));
-  //stack->push(operation);
-  rollbackCount = 0;
+  if (facultyDB->contains(fac)){
+    //DatabaseOperations<Faculty> *operation = new DatabaseOperations<Faculty>(1,false,facultyDB->getObject(fac));
+    //stack->push(operation);
+    rollbackCount = 0;
 
-  facultyDB->deleteNode(fac);
+    facultyDB->deleteNode(fac);
+  }
+  else {
+    cout << "Sorry, cannot delete because that Faculty ID does not match any Faculty in the Database!" << endl;
+    return;
+  }
 }
 
 //11.
 void Simulation::changeAdvisor(){
-  int studentID;
-  cout << "Enter the ID number of the student who needs their advisor changed: ";
-  cin >> studentID;
-  int facultyID;
-  cout << "Enter the ID number of the new advisor: ";
-  cin >> facultyID;
+  int studentID = -1;
+  while ((studentID < 1000000) || (studentID > 9999999) || cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    cout << "Enter the 7 digit ID number of the student who needs their advisor changed: ";
+    cin >> studentID;
+  }
   Student *stu = new Student();
   stu->setStudentID(studentID);
-  studentDB->find(stu)->setAdvisorID(facultyID);
+  if (studentDB->contains(stu)){
+    int facultyID = -1;
+    while ((studentID < 1000000) || (studentID > 9999999) || cin.fail()){
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(),'\n');
+      cout << "Enter the 7 digit ID number of the new advisor: ";
+      cin >> facultyID;
+    }
+    Faculty *fac = new Faculty();
+    fac->setFacultyID(facultyID);
+    if (facultyDB->contains(fac)){
+      studentDB->find(stu)->setAdvisorID(facultyID);
+    }
+    else {
+      cout << "Sorry, cannot change to this advisor because that Faculty ID does not match any Faculty in the Database!" << endl;
+      return;
+    }
+  }
+  else {
+    cout << "Sorry, cannot change advisor because that Student ID does not match any Student in the Database!" << endl;
+    return;
+  }
 }
 
-//12.
+//12. **NOT DONE**
 void Simulation::removeAdvisee(){
   int facultyID;
-  cout << "Enter the ID number of the faculty member you wish to edit: ";
+  cout << "Enter the 7 digit ID number of the faculty member you wish to edit: ";
   cin >> facultyID;
   int studentID;
-  cout << "Enter the ID number of the advisee you wish to remove: ";
+  cout << "Enter the 7 digit ID number of the advisee you wish to remove: ";
   cin >> studentID;
   //edit list of faculty and remove the student ID
 }
 
-//13.
-
+//13. **NOT TESTED**
 void Simulation::rollback(){
   /*
   if (stack->isEmpty()){
@@ -435,8 +499,7 @@ void Simulation::rollback(){
   */
 }
 
-
-//14.
+//14. **NOT DONE**
 void Simulation::exitAndSave(){
   /*
   //uhhhh idk
@@ -455,6 +518,7 @@ void Simulation::exitAndSave(){
   */
 }
 
+//**NOT DONE**
 bool Simulation::fileProcessor(){
   return false;
   /*

@@ -59,11 +59,14 @@ ostream& operator<<(ostream& os, Faculty& fac){
 
 string Faculty::toString(){
   string s;
-  s += "Faculty member: " + mName;
-  s += " | ID number: " + mFacultyID;
-  s += " | Level: " + mLevel;
-  s += " | department: " + mDepartment;
-  s += "\n Students: ";
+  s += "\n------------------------------";
+  s += "\nFaculty Member: " + mName;
+  s += "\nID Number: " + mFacultyID;
+  s += "\nLevel: " + mLevel;
+  s += "\nDepartment: " + mDepartment;
+  s += "------------------------------";
+  s += "\nStudents: ";
+  s += "\n---------\n";
   s += printStudents();
   return s;
 }
