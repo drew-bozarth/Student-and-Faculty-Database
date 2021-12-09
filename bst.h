@@ -76,15 +76,20 @@ BST<T>::~BST(){
 
 template <class T>
 void BST<T>::recPrint(TreeNode<T> *node){
-  if (node == NULL)
+  cout << "in rec print" << endl;
+  if (node == NULL){
+    cout << "node null" << endl;
     return;
-  cout << node->key << endl;
+  }
+  cout << " node not null" << endl;
+  cout << *(node->key) << endl;
   recPrint(node->left);
   recPrint(node->right);
 }
 
 template <class T>
 void BST<T>::printNodes(){
+  cout << "In print nodes method" << endl;
   recPrint(root);
 }
 
@@ -164,9 +169,11 @@ T* BST<T>::getMax(){
 
 template <class T>
 void BST<T>::insert(T* value){
+  cout << "in insert method" << endl;
   TreeNode<T> *node = new TreeNode<T>(value);
 
   if (isEmpty()){
+    cout << "tree empty, root created" << endl;
     root = node;
   }
   else{

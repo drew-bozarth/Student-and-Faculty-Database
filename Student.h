@@ -44,7 +44,6 @@ public:
   void setAdvisorID(int a);
   void setStudentID(int id);
 
-  void print();
 private:
   int mStudentID;
   string mName;
