@@ -123,8 +123,8 @@ T* BST<T>::find(T* value){
   }
   else{
     TreeNode<T> *current = root;
-    while(current->key != value){
-      if (value < current->key){
+    while(*(current->key) != *(value)){
+      if (*(current->key) > *(value)){
         current = current->left;
       }
       else{
@@ -145,8 +145,8 @@ void BST<T>::printNode(T* value){
   }
   else{
     TreeNode<T> *current = root;
-    while(current->key != value){
-      if (value < current->key){
+    while(*(current->key) != *(value)){
+      if (*(current->key) > *(value)){
         current = current->left;
       }
       else{
@@ -156,10 +156,9 @@ void BST<T>::printNode(T* value){
       if (current == NULL)
         return;
     }
-    cout << current->key << endl;
+    cout << *(current->key) << endl;
   }
 }
-
 
 template <class T>
 T* BST<T>::getMin(){
@@ -202,7 +201,7 @@ void BST<T>::insert(T* value){
     while (true){
       parent = current;
 
-      if (value < current->key){
+      if (*(current->key) > *(value)){
         current = current->left;
         if (current == NULL){
           //we found the insertion point
@@ -224,24 +223,37 @@ void BST<T>::insert(T* value){
 
 template <class T>
 bool BST<T>::contains(T* value){
-  if (isEmpty())
+  cout << "in contains" << endl;
+  if (isEmpty()){
+    cout << "is empty" << endl;
     return false;
+  }
   else{
+    cout << "in else" << endl;
     //it's not empty, let's try and find it
     TreeNode<T> *current = root;
-    while(current->key != value){
-      if (value < current->key){
+    cout << "current | " << endl;
+    //cout << *(current->key) << endl;
+    if (*(current->key) == *(value)){
+      return true;
+    }
+    while(*(current->key) != *(value)){
+      if (*(current->key) > *(value)){
+        cout << "left " << endl;
         current = current->left;
       }
       else{
+        cout << "right" << endl;
         current = current->right;
       }
 
-      if (current == NULL)
+      if (current == NULL){
+        cout << "NULL " << endl;
         return false;
+      }
     }
+    return true;
   }
-  return true;
 }
 
 template <class T>
@@ -255,10 +267,10 @@ bool BST<T>::deleteNode(T* k){
   TreeNode<T> *parent = root;
   bool isLeft = true;
 
-  while(current->key != k){
+  while(*(current->key) != *(k)){
     parent = current;
 
-    if(k < current->key){
+    if(*(current->key) > *(k)){
       isLeft = true;
       current = current->left;
     }

@@ -1,3 +1,5 @@
 faculty
 7654321,rene,prof,comsci
 5555555,anderson,assistant,comsci
+2222222,shelly,assitant,engineering
+4444444,john,prof,business

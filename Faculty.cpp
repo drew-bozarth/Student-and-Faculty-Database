@@ -35,9 +35,15 @@ Faculty::~Faculty(){
 }
 
 bool Faculty::operator==(Faculty& rhf){
+  cout << "== operator overload" << endl;
+  cout << "getID() | " << getID() << endl;
+  cout << "rhf.getID() | " << rhf.getID() << endl;
   return (getID() == rhf.getID());
 }
 bool Faculty::operator!=(Faculty& rhf){
+  cout << "!= operator overload" << endl;
+  cout << "getID() | " << getID() << endl;
+  cout << "rhf.getID() | " << rhf.getID() << endl;
   return (getID() != rhf.getID());
 }
 bool Faculty::operator<=(Faculty& rhf){
@@ -47,9 +53,15 @@ bool Faculty::operator>=(Faculty& rhf){
   return (getID() >= rhf.getID());
 }
 bool Faculty::operator<(Faculty& rhf){
+  cout << "< operator overload" << endl;
+  cout << "getID() | " << getID() << endl;
+  cout << "rhf.getID() | " << rhf.getID() << endl;
   return (getID() < rhf.getID());
 }
 bool Faculty::operator>(Faculty& rhf){
+  cout << "> operator overload" << endl;
+  cout << "getID() | " << getID() << endl;
+  cout << "rhf.getID() | " << rhf.getID() << endl;
   return (getID() > rhf.getID());
 }
 ostream& operator<<(ostream& os, Faculty& fac){
