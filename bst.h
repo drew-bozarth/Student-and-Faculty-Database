@@ -63,6 +63,7 @@ class BST{
     string recString(TreeNode<T> *node);
   private:
     TreeNode<T> *root;
+
 };
 
 template <class T>
@@ -96,11 +97,11 @@ string BST<T>::recString(TreeNode<T> *node){
   string s = "";
   cout << "in recstring" << endl;
   if (node == NULL) {
-  cout << s << endl;
+  cout << "exit recstring" << endl;
   return s; }
-  cout << "before tostring" << endl;
+  // cout << "before tostring" << endl;
   s += node->key->toString();
-  cout << "member" << s << endl;
+  // cout << "member" << tree << endl;
   recPrint(node->left);
   recPrint(node->right);
 }
@@ -186,11 +187,11 @@ T* BST<T>::getMax(){
 
 template <class T>
 void BST<T>::insert(T* value){
-  cout << "in insert method" << endl;
+  // cout << "in insert method" << endl;
   TreeNode<T> *node = new TreeNode<T>(value);
 
   if (isEmpty()){
-    cout << "tree empty, root created" << endl;
+    // cout << "tree empty, root created" << endl;
     root = node;
   }
   else{
@@ -219,6 +220,7 @@ void BST<T>::insert(T* value){
       }
     }
   }
+  // cout << "insert completed" << endl;
 }
 
 template <class T>
