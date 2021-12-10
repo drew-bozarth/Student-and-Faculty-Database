@@ -324,8 +324,16 @@ void Simulation::addStudent(){
 
   Student *newStudent = new Student(newID, newName, newLevel, newMajor, newGPA, newAdvisorID);
   studentDB->insert(newStudent);
-  DatabaseOperations<Person> *operation = new DatabaseOperations<Person>(0,true,newStudent);
+  DatabaseOperations<Student> *operation = new DatabaseOperations<Student>(0,true,newStudent);
   stack->push(*(operation));
+  cout << "peek action: " << stack->peek().getAction() << endl;
+  cout << "peek bool: " << stack->peek().isStudent() << endl;
+  cout << "peek object: " << stack->peek().getObject() << endl;
+  cout << "peek object name: " << stack->peek().getObject()->getName() << endl;
+  cout << "peek object ID: " << stack->peek().getObject()->getID() << endl;
+  cout << "peek object level: " << stack->peek().getObject()->getLevel() << endl;
+  //cout << "peek object major: " << stack->peek().getObject()->getStudentMajor() << endl;
+
   rollbackCount = 0;
 }
 
@@ -475,6 +483,7 @@ void Simulation::removeAdvisee(){
 
 //13. **NOT TESTED**
 void Simulation::rollback(){
+  /*
   if (stack->isEmpty()){
     throw runtime_error("Stack is empty, there are no actions to undo!");
   }
@@ -538,6 +547,7 @@ void Simulation::rollback(){
     }
   }
   ++rollbackCount;
+  */
 }
 
 //14. **NOT DONE**
