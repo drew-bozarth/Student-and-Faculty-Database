@@ -1,3 +1,5 @@
-5555555,anderson,assistant,comsci,(1111111,)
-2222222,shelly,assitant,engineering,(8888888,6942069,)
-7654321,rene,prof,comsci,(1234567,4545456,)
+5555555,Joshua Anderson,Assistant,Comsci,(1111111,8888888,3030303,)
+4444444,John Doe,Professor,Business,(7777777,3333333,)
+4040404,Peter Parker,Professor,Film,(1010101,)
+7654321,Rene German,Professor,Comsci,(1234567,)
+9999999,Jill Doe,Assistant,Engineering,(2222222,)

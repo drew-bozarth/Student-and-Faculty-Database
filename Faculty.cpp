@@ -113,12 +113,7 @@ string Faculty::printStudents(){
   int temp;
   for (int i = 0; i < mStudentIDList->getLength(); ++i){
     temp = mStudentIDList->removeFront();
-    if (i == mStudentIDList->getLength()){
-      s += to_string(temp);
-    }
-    else {
-      s += to_string(temp) + ",";
-    }
+    s += to_string(temp) + ",";
     mStudentIDList->append(temp);
   }
   s += ")";

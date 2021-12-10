@@ -18,7 +18,7 @@ This is the .h file for Simulation
 #include <string>
 #include <limits>
 #include <string>
-
+//these include user defined files
 #include "bst.h"
 #include "GenStack.h"
 #include "Student.h"
@@ -28,6 +28,9 @@ This is the .h file for Simulation
 //standard namespace libaray in C++
 using namespace std;
 
+/*
+Class: Simulation
+*/
 class Simulation{
 public:
   Simulation();
@@ -52,10 +55,13 @@ public:
   void rollback();
   void exitAndSave();
 private:
+  //both Student and Faculty databases are BSTs
   BST<Student> *studentDB;
   BST<Faculty> *facultyDB;
+  //two stacks made for holding Databases operations, one for student operations, and one for faculty operations
   GenStack<DatabaseOperations<Student>> *studentStack;
   GenStack<DatabaseOperations<Faculty>> *facultyStack;
+  //tracks the about of continuous rollbacks
   int rollbackCount;
 };
 //end of the header guards

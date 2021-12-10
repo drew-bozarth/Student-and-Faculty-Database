@@ -11,7 +11,13 @@ This is the .cpp file for Simulation
 //this statement includes the Simulation.h file
 #include "Simulation.h"
 
-
+/*
+Function: Simulation()
+Return: none
+Parameters: none (default constructor)
+Exceptions: none
+*/
+//instantiates the two BST databases and the two stacks, and sets rollback count to 0
 Simulation::Simulation(){
   //default constructor
   studentDB = new BST<Student>();
@@ -20,15 +26,26 @@ Simulation::Simulation(){
   facultyStack = new GenStack<DatabaseOperations<Faculty>>();
   rollbackCount = 0;
 }
-
+/*
+Function: ~Simulation()
+Return: none
+Parameters: none (destructor)
+Exceptions: none
+*/
 Simulation::~Simulation(){
-  //destructor
+  //destructor deletes the databases and the stacks
   delete studentDB;
   delete facultyDB;
   delete studentStack;
   delete facultyStack;
 }
-
+/*
+Function: start()
+Return: none
+Parameters: none
+Exceptions: none
+*/
+// this calls the fileProcessor() method, and if it returns false, there were no files to process and the databases are blank
 void Simulation::start(){
   bool fileProcessed = fileProcessor();
   if (!fileProcessed){
@@ -36,7 +53,16 @@ void Simulation::start(){
     return;
   }
 }
-
+/*
+Function: simulate()
+Return: none
+Parameters: none
+Exceptions: none
+*/
+/* this method is the main menu for the program. it will print out the menu and
+allow you to select a given option until you choose to quit. If a valid input is given it
+will call on a method corresponding to that action
+*/
 void Simulation::simulate(){
   try{
     bool userExit = false;
@@ -115,13 +141,14 @@ void Simulation::simulate(){
         rollback();
       }
       else if (userInput == 14){
-        //14. Exit
+        //14. Save and Exit
         userExit = true;
         exitAndSave();
         cout << "Thank you goodbye." << endl;
         return;
       }
       else if (userInput == 15){
+        //15. Exit without saving
         userExit = true;
         cout << "Thank you goodbye." << endl;
         return;
@@ -131,13 +158,19 @@ void Simulation::simulate(){
       }
     }
   }
-
   catch(runtime_error &excpt){
     cerr << excpt.what() << endl;
   }
 }
 
 //1.
+/*
+Function: printAllStudentInfo()
+Return: none
+Parameters: none
+Exceptions: none
+*/
+//checks if student database is empty, if not, prints whole database of students
 void Simulation::printAllStudentInfo(){
   if (studentDB->isEmpty()){
     cout << "Student Database is Empty!!!" << endl;
@@ -149,6 +182,13 @@ void Simulation::printAllStudentInfo(){
 }
 
 //2.
+/*
+Function: printAllFalcultyInfo()
+Return: none
+Parameters: none
+Exceptions: none
+*/
+//checks if faculty database is empty, if not, prints whole database of faculty
 void Simulation::printAllFalcultyInfo(){
   if (facultyDB->isEmpty()){
     cout << "Faculty Database is Empty!!!" << endl;
@@ -160,6 +200,13 @@ void Simulation::printAllFalcultyInfo(){
 }
 
 //3.
+/*
+Function: displayStudentInfo()
+Return: none
+Parameters: none
+Exceptions: none
+*/
+//prompts for a valid student ID number, if the student exists, it will display their info
 void Simulation::displayStudentInfo(){
   int studentID = -1;
   while ((studentID < 1000000) || (studentID > 9999999) || cin.fail()){
@@ -180,6 +227,13 @@ void Simulation::displayStudentInfo(){
 }
 
 //4.
+/*
+Function: displayFacultyInfo()
+Return: none
+Parameters: none
+Exceptions: none
+*/
+//prompts for a valid faculty ID number, if the faculty exists, it will display their info
 void Simulation::displayFacultyInfo(){
   int facultyID = -1;
   while ((facultyID < 1000000) || (facultyID > 9999999) || cin.fail()){
@@ -200,6 +254,14 @@ void Simulation::displayFacultyInfo(){
 }
 
 //5.
+/*
+Function: displayStudentAdvisor()
+Return: none
+Parameters: none
+Exceptions: none
+*/
+//prompts for a valid student ID number, if the student exists,
+//it will check if their advisor exists in the Faculty Database and print them
 void Simulation::displayStudentAdvisor(){
   int studentID = -1;
   while ((studentID < 1000000) || (studentID > 9999999) || cin.fail()){
@@ -230,6 +292,13 @@ void Simulation::displayStudentAdvisor(){
 }
 
 //6.
+/*
+Function: displayAllAdvisees()
+Return: none
+Parameters: none
+Exceptions: none
+*/
+//prompts for a valid faculty ID, if they exist it loops through their list of students and prints each student's info
 void Simulation::displayAllAdvisees(){
   int facultyID;
   string s;
@@ -261,6 +330,18 @@ void Simulation::displayAllAdvisees(){
 }
 
 //7.
+/*
+Function: addStudent()
+Return: none
+Parameters: none
+Exceptions: none
+*/
+/*prompts for valid entries of the required student info (ID,name,level,major,GPA,AdvisorID)
+it will then check if the advisor ID exists in the database, if not it will not allow you to
+add the student. If all the info is valid, it will create the student and add them to the
+student database. It also is creating a database operation containing the student's info and
+pushing it onto the studentStack and creating a dummy faculty opertaion for the facultyStack behind the scenes
+*/
 void Simulation::addStudent(){
   int newID = -1;
   while ((newID < 1000000) || (newID > 9999999) || cin.fail()){
@@ -326,6 +407,9 @@ void Simulation::addStudent(){
   studentDB->insert(newStudent);
   facultyDB->find(fac)->AddStudent(newID);
 
+  //this part adds an operation to both stacks, and the first parameter is a bool which indicates which operation is valid
+  //these are to ensure the student and faculty stacks work as one and are on the same level for rollbacks
+  //the second parameter is set to 0 which means remove since this was an insertion, the rollback stored is remove
   DatabaseOperations<Student> *studentOperation = new DatabaseOperations<Student>(true,0,newStudent);
   DatabaseOperations<Faculty> *facultyOperation = new DatabaseOperations<Faculty>(false,0,fac);
   studentStack->push(*(studentOperation));
@@ -334,6 +418,18 @@ void Simulation::addStudent(){
 }
 
 //8.
+/*
+Function: deleteStudent()
+Return: none
+Parameters: none
+Exceptions: none
+*/
+/*prompts for a valid student ID number, if the student exists, it will delete them
+but before it deletes the student from the database, it creates new DatabaseOperations for
+student deletion and pushes it on the stacks, and creates a dummy faculty operation for
+the facultyStack. It also checks the student's Advisor ID, and if
+the faculty member exists, it removes the students ID from their list of Advisees
+*/
 void Simulation::deleteStudent(){
   int studentID = -1;
   while ((studentID < 1000000) || (studentID > 9999999) || cin.fail()){
@@ -345,6 +441,9 @@ void Simulation::deleteStudent(){
   Student *stu = new Student();
   stu->setStudentID(studentID);
   if (studentDB->contains(stu)){
+    //this part adds an operation to both stacks, and the first parameter is a bool which indicates which operation is valid
+    //these are to ensure the student and faculty stacks work as one and are on the same level for rollbacks
+    //the second parameter is set to 1 which means insert since this was an deletion, the rollback stored is insert
     Faculty *dummyFaculty = new Faculty();
     DatabaseOperations<Student> *studentOperation = new DatabaseOperations<Student>(true,1,studentDB->find(stu));
     DatabaseOperations<Faculty> *facultyOperation = new DatabaseOperations<Faculty>(false,1,dummyFaculty);
@@ -372,6 +471,17 @@ void Simulation::deleteStudent(){
 }
 
 //9.
+/*
+Function: addFaculty()
+Return: none
+Parameters: none
+Exceptions: none
+*/
+/*prompts for valid entries of the required faculty info (ID,name,level,department)
+If all the info is valid, it will create the faculty and add them to the
+faculty database. It also is creating a database operation containing the faculty's info and
+pushing it onto the facultyStack behind the scenes. It also makes a dummy student operation to push onto the studentStack
+*/
 void Simulation::addFaculty(){
   int newID = -1;
   while ((newID < 1000000) || (newID > 9999999) || cin.fail()){
@@ -412,7 +522,9 @@ void Simulation::addFaculty(){
   cout << "Faculty: " << newID << " | " << newName << " | " << newLevel << " | " << newDepartment << endl;
   Faculty *newFaculty = new Faculty(newID, newName, newLevel, newDepartment);
   facultyDB->insert(newFaculty);
-
+  //this part adds an operation to both stacks, and the first parameter is a bool which indicates which operation is valid
+  //these are to ensure the student and faculty stacks work as one and are on the same level for rollbacks
+  //the second parameter is set to 0 which means remove since this was an insertion, the rollback stored is remove
   Student *dummyStudent = new Student();
   DatabaseOperations<Student> *studentOperation = new DatabaseOperations<Student>(false,0,dummyStudent);
   DatabaseOperations<Faculty> *facultyOperation = new DatabaseOperations<Faculty>(true,0,newFaculty);
@@ -422,6 +534,19 @@ void Simulation::addFaculty(){
 }
 
 //10.
+/*
+Function: deleteFaculty()
+Return: none
+Parameters: none
+Exceptions: none
+*/
+/*prompts for a valid faculty ID number, if the faculty exists, it will delete them.
+but before it deletes the faculty from the database, it creates new DatabaseOperations for
+faculty deletion and pushes it on the stack, and creates a dummy student operation for
+the studentStack. It also prompts for a new Advisor ID to set as the new Advisor for the
+Advisees who just got their advisor removed. If the ADvisorID is valid, it removes all the
+students from the old Advisor's list and adds them to the new advisor's list
+*/
 void Simulation::deleteFaculty(){
   int facultyID = -1;
   while ((facultyID < 1000000) || (facultyID > 9999999) || cin.fail()){
@@ -433,6 +558,9 @@ void Simulation::deleteFaculty(){
   Faculty *fac = new Faculty();
   fac->setFacultyID(facultyID);
   if (facultyDB->contains(fac)){
+    //this part adds an operation to both stacks, and the first parameter is a bool which indicates which operation is valid
+    //these are to ensure the student and faculty stacks work as one and are on the same level for rollbacks
+    //the second parameter is set to 1 which means insert since this was an deletion, the rollback stored is insert
     Student *dummyStudent = new Student();
     DatabaseOperations<Student> *studentOperation = new DatabaseOperations<Student>(false,1,dummyStudent);
     DatabaseOperations<Faculty> *facultyOperation = new DatabaseOperations<Faculty>(true,1,facultyDB->find(fac));
@@ -471,6 +599,17 @@ void Simulation::deleteFaculty(){
 }
 
 //11.
+/*
+Function: changeAdvisor()
+Return: none
+Parameters: none
+Exceptions: none
+*/
+/*prompts for a valid student ID number, if the student exists, it will continue
+then it prompts for a valid Advisor ID number. if the faculty exists in the database
+it will remove the student from the old advisor's list, then add them to the new
+advisor's list, and change the student's advisorID
+*/
 void Simulation::changeAdvisor(){
   int studentID = -1;
   while ((studentID < 1000000) || (studentID > 9999999) || cin.fail()){
@@ -512,6 +651,20 @@ void Simulation::changeAdvisor(){
 }
 
 //12.
+/*
+Function: removeAdvisee()
+Return: none
+Parameters: none
+Exceptions: none
+*/
+/*
+prompts for a valid falculty ID, if the faculty exists, it will ask for the student ID they want to remove,
+if the StudentID is valid in the database it will try to remove it from the faculty's list of advisees.
+If you try to remove a Student from an Faculty's list who is not their advisor, their is a try-catch block that
+will display a message that you tried to do that and there was an Error. If all goes well, it will remove the Student
+from the Faculty's list of ADvisees, then prompt for another Faculty's ID to be the students new advisor. If the faculty
+exists in the database, it will add the student to their list of advisees, and change the Student's ADvisorID
+*/
 void Simulation::removeAdvisee(){
   int facultyID = -1;
   Faculty *fac = new Faculty();
@@ -542,7 +695,13 @@ void Simulation::removeAdvisee(){
     return;
   }
 }
-  fac->removeStudent(studentID);
+  try{
+    fac->removeStudent(studentID);
+  }
+  catch(runtime_error){
+    cout << "Error! Tried to remove a Student from a Faculty's list who wasn't the Student's Advisor!" << endl;
+  }
+
   stu = studentDB->find(stu);
   int newAdvisorID = -1;
   while ((newAdvisorID < 1000000) || (newAdvisorID > 9999999) || cin.fail()){
@@ -563,9 +722,28 @@ void Simulation::removeAdvisee(){
 }
 
 //13.
+/*
+Function: rollback()
+Return: none
+Parameters: none
+Exceptions: none
+*/
+/*
+This is for un-doing any insertion / deletion actions while in the program changing the
+database. The stacks of operations are new everytime the program begins, so you cannot rollback
+an action from a previous run of the program. So it first checks if the stacks are empty, because if so
+there is nothing to undo. It then checks if the rollbackCounter is at or above 5, becuase you can only
+rollback 5 times continously, so it will not allow you to do more than that. If a rollback is available, it
+will peek the studentStack to see if the studentOperation is the valid operation, if true, we know its a student
+operation, if false it is a faculty operation. From there the function is pretty much the same for both student
+and faculty. It checks the int value of the operation which shows what the operation is (0=remove,1=add). If it's
+a remove, it gets the ID of the student/faculty, then removes them from the database. If its  add, it uses the
+operation object to get all the info required to add a student/faculty, then adds them to the database. At the end,
+if the rollback was successful, the rollback counter is incremented
+*/
 void Simulation::rollback(){
   if (studentStack->isEmpty() && facultyStack->isEmpty()){
-    cout << "Stack is empty, there are no actions to undo!" << endl;
+    cout << "Rollback stack is empty, there are no actions to undo!" << endl;
     return;
   }
   if (rollbackCount >= 5){
@@ -586,6 +764,7 @@ void Simulation::rollback(){
         int advID = studentDB->find(stu)->getAdvisorID();
         Faculty *fac = new Faculty();
         fac->setFacultyID(advID);
+        //this removes the student from the faculty list before deleting
         facultyDB->find(fac)->removeStudent(studentID);
         studentDB->deleteNode(stu);
         cout << "ROLLBACK SUCCESSFUL: Student deleted." << endl;
@@ -608,6 +787,7 @@ void Simulation::rollback(){
       Faculty *fac = new Faculty();
       fac->setFacultyID(advisorID);
       if (facultyDB->contains(fac)){
+        //if the facultyID is valid, it adds the student to their list
         facultyDB->find(fac)->AddStudent(studentID);
       }
       else {
@@ -653,6 +833,13 @@ void Simulation::rollback(){
 }
 
 //14.
+/*
+Function: removeAdvisee()
+Return: none
+Parameters: none
+Exceptions: none
+*/
+//this will save the student and faculty databases to the files, and close the files then exit
 void Simulation::exitAndSave(){
   ifstream facultyInput;
   facultyInput.open("facultyTable.txt", ofstream::out | ofstream::trunc);
@@ -664,7 +851,19 @@ void Simulation::exitAndSave(){
   studentInput.close();
 }
 
-//starts the process by reading the file if it is there, and writing it to the database/BST
+/*
+Function: fileProcessor()
+Return: none
+Parameters: none
+Exceptions: none
+*/
+/*starts the process by reading the file if it is there, and writing it to the database/BST
+it goes through the lines of each file and parses the text because the files are stored as
+CSV (comma separated values), it stores the info from the file in the correct variables, then
+creates a new Student/Faculty and inserts them into the respective database. At the end it
+closes the two files, then if the files were processed it returns true, and if there were
+no files to process it returns false
+*/
 bool Simulation::fileProcessor(){
   // return false;
   string studentArray[6];

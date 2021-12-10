@@ -19,6 +19,9 @@ Simulation.cpp
 main.cpp
 Makefile
 
+Note:
+Thomas Gooding and Drew Bozarth would both like to use 2 late days on this assignment
+
 Known Errors:
 n/a
 

@@ -1,5 +1,8 @@
-1234567,thomas,sophomore,comsci,4.000000,7654321
-1111111,drew,sophomore,software,3.000000,5555555
-8888888,jill,senior,engineering,3.000000,2222222
-6942069,Ben,Freshman,GenderStudies,2.200000,2222222
-4545456,Kevin King,Senior,English,3.900000,7654321
+1234567,Thomas Gooding,Sophomore,Comsci,4.000000,7654321
+1111111,Drew Bozarth,Sophomore,Software,3.000000,5555555
+1010101,Ahsoka Tano,Freshman,Film,3.300000,4040404
+8888888,Lando Calrissian,Freshman,Business,2.200000,5555555
+7777777,Luke Skywalker,Senior,Communication,3.900000,4444444
+2222222,Yoda,Freshman,Engineering,1.900000,9999999
+3333333,Leia Skywalker,Senior,Finance,4.000000,4444444
+3030303,Wanda Maximoff,Senior,Business,4.000000,5555555
