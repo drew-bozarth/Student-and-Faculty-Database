@@ -79,7 +79,7 @@ string Faculty::toString(){
   s += "\n------------------------------";
   s += "\nStudents: ";
   s += "\n---------\n";
-  //s += printStudents();
+  s += printStudents();
   return s;
 }
 
@@ -89,7 +89,7 @@ string Faculty::toFile(){
   str += mName + ",";
   str += mLevel + ",";
   str += mDepartment + ",";
-  // str += printStudents();
+  str += printStudents();
   return str;
 }
 
@@ -111,12 +111,22 @@ void Faculty::setFacultyID(int id){
 
 void Faculty::AddStudent(int num){
   mStudentIDList->append(num);
+  // cout << "student added" << endl;
 }
 void Faculty::removeStudent(int num){
-  mStudentIDList->remove(num);
-}
+  cout << "in remove Student" << endl;
+  int remStu = mStudentIDList->remove(num);
+  cout << remStu << endl;
+ }
 string Faculty::printStudents(){
-  string s = "";
-  s += "print students\n";
+  // cout << "in print students" << endl;
+  string s = "(";
+  int temp;
+  for (int i = 0; i < mStudentIDList->getLength(); ++i){
+    temp = mStudentIDList->removeFront();
+    s += to_string(temp) + ",";
+    mStudentIDList->append(temp);
+  }
+  s += ")";
   return s;
 }
