@@ -4,14 +4,19 @@ dbozarth@chapman.edu | tgooding@chapman.edu
 CPSC 350-02
 Assignment 6 - bst.h */
 
+//these are the header guards
 #ifndef BST_H
 #define BST_H
+//these include some of the system defined libraries in C++
 #include <iostream>
 #include <exception>
 #include <fstream>
-
+//standard namespace libaray in C++
 using namespace std;
 
+/*
+Template Class: TreeNode
+*/
 template <class T>
 class TreeNode{
   public:
@@ -44,6 +49,9 @@ TreeNode<T>::~TreeNode(){
   right = NULL;
 }
 
+/*
+Template Class: BST
+*/
 template <class T>
 class BST{
   public:
@@ -229,32 +237,24 @@ void BST<T>::insert(T* value){
 
 template <class T>
 bool BST<T>::contains(T* value){
-  cout << "in contains" << endl;
   if (isEmpty()){
-    cout << "is empty" << endl;
     return false;
   }
   else{
-    cout << "in else" << endl;
     //it's not empty, let's try and find it
     TreeNode<T> *current = root;
-    cout << "current | " << endl;
-    //cout << *(current->key) << endl;
     if (*(current->key) == *(value)){
       return true;
     }
     while(*(current->key) != *(value)){
       if (*(current->key) > *(value)){
-        cout << "left " << endl;
         current = current->left;
       }
       else{
-        cout << "right" << endl;
         current = current->right;
       }
 
       if (current == NULL){
-        cout << "NULL " << endl;
         return false;
       }
     }

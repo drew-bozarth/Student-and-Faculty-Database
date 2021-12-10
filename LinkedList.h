@@ -280,7 +280,6 @@ Exceptions: none
 //takes in a data value, then removes the node with that value and returns the data
 template <class T>
 T DoublyLinkedList<T>::removeNode(T value){
-  cout << "in remove node" << endl;
   if (isEmpty()){
     throw runtime_error("list is empty");
   }

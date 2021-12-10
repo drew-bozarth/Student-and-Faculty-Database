@@ -54,7 +54,8 @@ public:
 private:
   BST<Student> *studentDB;
   BST<Faculty> *facultyDB;
-  GenStack<DatabaseOperations<Person>> *stack;
+  GenStack<DatabaseOperations<Student>> *studentStack;
+  GenStack<DatabaseOperations<Faculty>> *facultyStack;
   int rollbackCount;
 };
 //end of the header guards

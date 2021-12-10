@@ -8,10 +8,12 @@ Source Files:
 bst.h
 LinkedList.h
 GenStack.h
-Database.h
 DatabaseOperations.h
+Person.h
 Student.h
 Student.cpp
+Faculty.h
+Faculty.cpp
 Simulation.h
 Simulation.cpp
 main.cpp
@@ -21,7 +23,9 @@ Known Errors:
 n/a
 
 References:
-BST.h template class based on BST template we created in class
+bst.h template class based on BST template we created in class
+LinkedList.h template class based on DoublyLinkedList we created in class
+GenStack.h template class based on GenStack we created in class
 
 Instructions:
 Start compsci docker container with "start compsci"

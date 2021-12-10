@@ -16,7 +16,8 @@ Simulation::Simulation(){
   //default constructor
   studentDB = new BST<Student>();
   facultyDB = new BST<Faculty>();
-  stack = new GenStack<DatabaseOperations<Person>>();
+  studentStack = new GenStack<DatabaseOperations<Student>>();
+  facultyStack = new GenStack<DatabaseOperations<Faculty>>();
   rollbackCount = 0;
 }
 
@@ -24,7 +25,8 @@ Simulation::~Simulation(){
   //destructor
   delete studentDB;
   delete facultyDB;
-  delete stack;
+  delete studentStack;
+  delete facultyStack;
 }
 
 void Simulation::start(){
@@ -325,16 +327,11 @@ void Simulation::addStudent(){
   Student *newStudent = new Student(newID, newName, newLevel, newMajor, newGPA, newAdvisorID);
   studentDB->insert(newStudent);
   facultyDB->find(fac)->AddStudent(newID);
-  DatabaseOperations<Person> *operation = new DatabaseOperations<Person>(0,true,newStudent);
-  stack->push(*(operation));
-  cout << "peek action: " << stack->peek().getAction() << endl;
-  cout << "peek bool: " << stack->peek().isStudent() << endl;
-  cout << "peek object: " << stack->peek().getObject() << endl;
-  cout << "peek object name: " << stack->peek().getObject()->getName() << endl;
-  cout << "peek object ID: " << stack->peek().getObject()->getID() << endl;
-  cout << "peek object level: " << stack->peek().getObject()->getLevel() << endl;
-  //cout << "peek object major: " << stack->peek().getObject()->getStudentMajor() << endl;
 
+  DatabaseOperations<Student> *studentOperation = new DatabaseOperations<Student>(true,0,newStudent);
+  DatabaseOperations<Faculty> *facultyOperation = new DatabaseOperations<Faculty>(false,0,fac);
+  studentStack->push(*(studentOperation));
+  facultyStack->push(*(facultyOperation));
   rollbackCount = 0;
 }
 
@@ -350,14 +347,30 @@ void Simulation::deleteStudent(){
   Student *stu = new Student();
   stu->setStudentID(studentID);
   if (studentDB->contains(stu)){
-    //DatabaseOperations<Student> *operation = new DatabaseOperations<Student>(1,true,studentDB->getObject(stu));
-    //stack->push(operation);
+    Faculty *dummyFaculty = new Faculty();
+    DatabaseOperations<Student> *studentOperation = new DatabaseOperations<Student>(true,1,studentDB->find(stu));
+    DatabaseOperations<Faculty> *facultyOperation = new DatabaseOperations<Faculty>(false,1,dummyFaculty);
+    studentStack->push(*(studentOperation));
+    facultyStack->push(*(facultyOperation));
     rollbackCount = 0;
+
     int advID = studentDB->find(stu)->getAdvisorID();
     Faculty *fac = new Faculty();
+    cout << "fac ID: " << advID << endl;
     fac->setFacultyID(advID);
-    facultyDB->find(fac)->removeStudent(studentID);
-    studentDB->deleteNode(stu);
+    cout << "after set" << endl;
+    if (facultyDB->contains(fac)){
+      cout << "in loop" << endl;
+      facultyDB->find(fac)->removeStudent(studentID);
+      cout << "affter find" << endl;
+      studentDB->deleteNode(stu);
+      cout << "adfter delete " << endl;
+    }
+    else {
+      cout << "Sorry Student could not be deleted because their Advisor does not exist" << endl;
+      studentStack->pop();
+      facultyStack->pop();
+    }
   }
   else {
     cout << "Sorry, cannot delete because that Student ID does not match any Student in the Database!" << endl;
@@ -406,8 +419,12 @@ void Simulation::addFaculty(){
   cout << "Faculty: " << newID << " | " << newName << " | " << newLevel << " | " << newDepartment << endl;
   Faculty *newFaculty = new Faculty(newID, newName, newLevel, newDepartment);
   facultyDB->insert(newFaculty);
-  //DatabaseOperations<Faculty> *operation = new DatabaseOperations<Faculty>(0,false,facultyDB->getObject(newID));
-  //stack->push(operation);
+
+  Student *dummyStudent = new Student();
+  DatabaseOperations<Student> *studentOperation = new DatabaseOperations<Student>(false,0,dummyStudent);
+  DatabaseOperations<Faculty> *facultyOperation = new DatabaseOperations<Faculty>(true,0,newFaculty);
+  studentStack->push(*(studentOperation));
+  facultyStack->push(*(facultyOperation));
   rollbackCount = 0;
 }
 
@@ -423,22 +440,36 @@ void Simulation::deleteFaculty(){
   Faculty *fac = new Faculty();
   fac->setFacultyID(facultyID);
   if (facultyDB->contains(fac)){
-    //DatabaseOperations<Faculty> *operation = new DatabaseOperations<Faculty>(1,false,facultyDB->getObject(fac));
-    //stack->push(operation);
+    Student *dummyStudent = new Student();
+    DatabaseOperations<Student> *studentOperation = new DatabaseOperations<Student>(false,1,dummyStudent);
+    DatabaseOperations<Faculty> *facultyOperation = new DatabaseOperations<Faculty>(true,1,facultyDB->find(fac));
+    studentStack->push(*(studentOperation));
+    facultyStack->push(*(facultyOperation));
     rollbackCount = 0;
+
     int newAdvID;
     cout << "Enter 7 digit ID number for the new advisors to this faculty member's students" << endl;
     cin >> newAdvID;
-    fac = facultyDB->find(fac);
-    Student *tempStu = new Student();
-    while (!(fac->mStudentIDList->isEmpty())){
-      int id;
-      id = fac->mStudentIDList->removeFront();
-      tempStu->setStudentID(id);
-      tempStu = studentDB->find(tempStu);
-      tempStu->setAdvisorID(newAdvID);
+    Faculty *newFac = new Faculty();
+    newFac->setFacultyID(newAdvID);
+    if (facultyDB->contains(newFac)){
+      Student *tempStu = new Student();
+      while (!(facultyDB->find(fac)->mStudentIDList->isEmpty())){
+        int id;
+        id = facultyDB->find(fac)->mStudentIDList->removeFront();
+        facultyDB->find(newFac)->AddStudent(id);
+        tempStu->setStudentID(id);
+        studentDB->find(tempStu)->setAdvisorID(newAdvID);
+      }
+      facultyDB->deleteNode(fac);
     }
-    facultyDB->deleteNode(fac);
+    else {
+      cout << "Sorry that new Advisor ID does not match any Faculty member in the database" << endl;
+      studentStack->pop();
+      facultyStack->pop();
+      return;
+    }
+
   }
   else {
     cout << "Sorry, cannot delete because that Faculty ID does not match any Faculty in the Database!" << endl;
@@ -459,15 +490,21 @@ void Simulation::changeAdvisor(){
   stu->setStudentID(studentID);
   if (studentDB->contains(stu)){
     int facultyID = -1;
-    while ((studentID < 1000000) || (studentID > 9999999) || cin.fail()){
+    while ((facultyID < 1000000) || (facultyID > 9999999) || cin.fail()){
       cin.clear();
       cin.ignore(numeric_limits<streamsize>::max(),'\n');
       cout << "Enter the 7 digit ID number of the new advisor: ";
       cin >> facultyID;
     }
-    Faculty *fac = new Faculty();
-    fac->setFacultyID(facultyID);
-    if (facultyDB->contains(fac)){
+    Faculty *newFac = new Faculty();
+    newFac->setFacultyID(facultyID);
+    if (facultyDB->contains(newFac)){
+      Faculty *oldFac = new Faculty();
+      oldFac->setFacultyID(studentDB->find(stu)->getAdvisorID());
+      if (facultyDB->contains(oldFac)){
+        facultyDB->find(oldFac)->removeStudent(studentID);
+      }
+      facultyDB->find(newFac)->AddStudent(studentID);
       studentDB->find(stu)->setAdvisorID(facultyID);
     }
     else {
@@ -535,23 +572,29 @@ void Simulation::removeAdvisee(){
 
 //13. **NOT TESTED**
 void Simulation::rollback(){
-  /*
-  if (stack->isEmpty()){
-    throw runtime_error("Stack is empty, there are no actions to undo!");
+  if (studentStack->isEmpty() && facultyStack->isEmpty()){
+    cout << "Stack is empty, there are no actions to undo!" << endl;
+    return;
   }
   if (rollbackCount >= 5){
     cout << "Sorry, you are only able to rollback 5 times continously." << endl;
     return;
   }
 
-  int action = stack->peek()->getAction();
-  bool isStudent = stack->peek()->isStudent();
-  if (isStudent){
+  bool isStudentRealOperation = studentStack->peek().isRealOperation();
+  if (isStudentRealOperation){
+    //student is real operation
+    facultyStack->pop();
+    int action = studentStack->peek().getAction();
     if (action == 0){
-      int studentID = stack->pop()->getObject()->getStudentID();
+      int studentID = studentStack->pop().getObject()->getID();
       Student *stu = new Student();
       stu->setStudentID(studentID);
       if (studentDB->contains(stu)){
+        int advID = studentDB->find(stu)->getAdvisorID();
+        Faculty *fac = new Faculty();
+        fac->setFacultyID(advID);
+        facultyDB->find(fac)->removeStudent(studentID);
         studentDB->deleteNode(stu);
       }
       else {
@@ -560,37 +603,48 @@ void Simulation::rollback(){
       }
     }
     else if (action == 1){
-      int studentID = stack->peek()->getObject()->getStudentID();
-      string name = stack->peek()->getObject()->getStudentName();
-      string level = stack->peek()->getObject()->getStudentLevel();
-      string major = stack->peek()->getObject()->getStudentMajor();
-      double studentGPA = stack->peek()->getObject()->getStudentGPA();
-      int advisorID = stack->pop()->getObject()->getAdvisorID();
+      int studentID = studentStack->peek().getObject()->getID();
+      string name = studentStack->peek().getObject()->getName();
+      string level = studentStack->peek().getObject()->getLevel();
+      string major = studentStack->peek().getObject()->getStudentMajor();
+      double studentGPA = studentStack->peek().getObject()->getStudentGPA();
+      int advisorID = studentStack->pop().getObject()->getAdvisorID();
       Student* stu = new Student(studentID, name, level, major, studentGPA, advisorID);
       studentDB->insert(stu);
+      Faculty *fac = new Faculty();
+      fac->setFacultyID(advisorID);
+      if (facultyDB->contains(fac)){
+        facultyDB->find(fac)->AddStudent(studentID);
+      }
+      else {
+        cout << "Could not add Student to Advisor List because that Advisor is not in the database!" << endl;
+      }
     }
     else {
       throw runtime_error("Rollback action doesn't exist!");
     }
   }
   else{
+    //faculty is real operation
+    studentStack->pop();
+    int action = facultyStack->peek().getAction();
     if (action == 0){
-      int facultyID = stack->pop()->getObject()->getFacultyID();
+      int facultyID = facultyStack->pop().getObject()->getID();
       Faculty *fac = new Faculty();
       fac->setFacultyID(facultyID);
       if (facultyDB->contains(fac)){
         facultyDB->deleteNode(fac);
       }
       else {
-        cout << "Sorry, cannot rollback and delete because that Faculty ID no longer matches any Faculty in the Database!" << endl;
+        cout << "Sorry, cannot rollback and delete because that Student ID no longer matches any Student in the Database!" << endl;
         return;
       }
     }
     else if (action == 1){
-      int facultyID = stack->peek()->getObject()->getFacultyID();
-      string name = stack->peek()->getObject()->getFacultyName();
-      string level = stack->peek()->getObject()->getFacultyLevel();
-      string department = stack->pop()->getObject()->getFacultyMajor();
+      int facultyID = facultyStack->peek().getObject()->getID();
+      string name = facultyStack->peek().getObject()->getName();
+      string level = facultyStack->peek().getObject()->getLevel();
+      string department = facultyStack->pop().getObject()->getFacultyDepartment();
       Faculty* fac = new Faculty(facultyID, name, level, department);
       facultyDB->insert(fac);
     }
@@ -598,8 +652,8 @@ void Simulation::rollback(){
       throw runtime_error("Rollback action doesn't exist!");
     }
   }
+
   ++rollbackCount;
-  */
 }
 
 //14.

@@ -35,15 +35,9 @@ Faculty::~Faculty(){
 }
 
 bool Faculty::operator==(Faculty& rhf){
-  cout << "== operator overload" << endl;
-  cout << "getID() | " << getID() << endl;
-  cout << "rhf.getID() | " << rhf.getID() << endl;
   return (getID() == rhf.getID());
 }
 bool Faculty::operator!=(Faculty& rhf){
-  cout << "!= operator overload" << endl;
-  cout << "getID() | " << getID() << endl;
-  cout << "rhf.getID() | " << rhf.getID() << endl;
   return (getID() != rhf.getID());
 }
 bool Faculty::operator<=(Faculty& rhf){
@@ -53,15 +47,9 @@ bool Faculty::operator>=(Faculty& rhf){
   return (getID() >= rhf.getID());
 }
 bool Faculty::operator<(Faculty& rhf){
-  cout << "< operator overload" << endl;
-  cout << "getID() | " << getID() << endl;
-  cout << "rhf.getID() | " << rhf.getID() << endl;
   return (getID() < rhf.getID());
 }
 bool Faculty::operator>(Faculty& rhf){
-  cout << "> operator overload" << endl;
-  cout << "getID() | " << getID() << endl;
-  cout << "rhf.getID() | " << rhf.getID() << endl;
   return (getID() > rhf.getID());
 }
 ostream& operator<<(ostream& os, Faculty& fac){
@@ -114,8 +102,11 @@ void Faculty::AddStudent(int num){
   // cout << "student added" << endl;
 }
 void Faculty::removeStudent(int num){
-  int val = mStudentIDList->search(num);
-  int remStu = mStudentIDList->remove(num);
+  int val = -1;
+  val = mStudentIDList->search(num);
+  if (val >= 0){
+    mStudentIDList->remove(num);
+  }
  }
 string Faculty::printStudents(){
   // cout << "in print students" << endl;

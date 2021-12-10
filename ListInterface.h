@@ -2,7 +2,7 @@
 2373658 | 2373468
 dbozarth@chapman.edu | tgooding@chapman.edu
 CPSC 350-02
-Assignment 5 - ListInterface.h */
+Assignment 6 - ListInterface.h */
 
 /*
 This is the ListInterface template class that is being used to create a DoublyLinked List using LinkedList.h
