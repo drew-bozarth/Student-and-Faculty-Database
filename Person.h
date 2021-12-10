@@ -17,15 +17,20 @@ using namespace std;
 class Person{
 public:
   Person(){};
+  //constructor
+  //override
   Person(int i, string n, string l){
     id = i;
     name = n;
     level = l;
   };
+  //deconstructor
   virtual ~Person(){};
+  //variable used in both faculty and student
   int id;
   string name;
   string level;
+  //virtual functions used in both faculty and student
   virtual int getID(){};
   virtual string getName(){};
   virtual string getLevel(){};

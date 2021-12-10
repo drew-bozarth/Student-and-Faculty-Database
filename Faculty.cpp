@@ -36,7 +36,7 @@ Faculty::~Faculty(){
   //destructor
   delete mStudentIDList;
 }
-
+//operator functions that let us compare faculty by their ID number
 bool Faculty::operator==(Faculty& rhf){
   return (getID() == rhf.getID());
 }
@@ -59,7 +59,7 @@ ostream& operator<<(ostream& os, Faculty& fac){
   os << fac.toString();
   return os;
 }
-
+//returns a string that prints to the console all the faculty information in a nice format
 string Faculty::toString(){
   string s;
   s += "\n------------------------------";
@@ -73,7 +73,7 @@ string Faculty::toString(){
   s += printStudents();
   return s;
 }
-
+//returns a string that prints to file in proper CSV format
 string Faculty::toFile(){
   string str;
   str += to_string(mFacultyID) + ",";
@@ -83,7 +83,7 @@ string Faculty::toFile(){
   str += printStudents();
   return str;
 }
-
+//getters
 int Faculty::getID(){
   return mFacultyID;
 }
@@ -96,10 +96,11 @@ string Faculty::getLevel(){
 string Faculty::getFacultyDepartment(){
   return mDepartment;
 }
+//setters
 void Faculty::setFacultyID(int id){
   mFacultyID = id;
 }
-
+//add and remove student from list
 void Faculty::AddStudent(int num){
   mStudentIDList->append(num);
 }
@@ -108,6 +109,8 @@ void Faculty::removeStudent(int num){
     mStudentIDList->remove(num);
   }
  }
+
+ //prints all students in list
 string Faculty::printStudents(){
   string s = "(";
   int temp;

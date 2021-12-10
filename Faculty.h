@@ -34,11 +34,12 @@ public:
   bool operator>(Faculty& rhf);
   bool operator<(Faculty& rhf);
   friend ostream& operator<<(ostream& os, Faculty& fac);
-
+  //overrride functions from person class
   string toString() override;
   int getID() override;
   string getName() override;
   string getLevel() override;
+  //functions specificcally for faculty
   string getFacultyDepartment();
   void setFacultyID(int id);
   string printStudents();
@@ -47,6 +48,7 @@ public:
   string toFile() override;
   MyList<int> *mStudentIDList;
 private:
+  //variables
   int mFacultyID;
   string mName;
   string mLevel;

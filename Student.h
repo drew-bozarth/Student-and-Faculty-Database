@@ -33,11 +33,12 @@ public:
   bool operator>(Student& rhs);
   bool operator<(Student& rhs);
   friend ostream& operator<<(ostream& os, Student& stu);
-
+//override functions from virtual class
   string toString() override;
   int getID() override;
   string getName() override;
   string getLevel() override;
+  //student specific functions
   string getStudentMajor();
   double getStudentGPA();
   int getAdvisorID();
@@ -46,6 +47,7 @@ public:
   string toFile() override;
 
 private:
+  //variables
   int mStudentID;
   string mName;
   string mLevel;
