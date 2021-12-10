@@ -51,6 +51,7 @@ private:
   string mName;
   string mLevel;
   string mDepartment;
+  int val;
 
 };
 //end of the header guards

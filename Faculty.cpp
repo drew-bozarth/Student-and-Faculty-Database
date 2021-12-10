@@ -19,6 +19,7 @@ Faculty::Faculty(){
   mLevel = "";
   mDepartment = "";
   mStudentIDList = new MyList<int>;
+  val = -1;
 }
 
 Faculty::Faculty(int facultyID, string name, string level, string department){
@@ -28,10 +29,12 @@ Faculty::Faculty(int facultyID, string name, string level, string department){
   mLevel = level;
   mDepartment = department;
   mStudentIDList = new MyList<int>;
+  val = -1;
 }
 
 Faculty::~Faculty(){
   //destructor
+  delete mStudentIDList;
 }
 
 bool Faculty::operator==(Faculty& rhf){
@@ -99,22 +102,23 @@ void Faculty::setFacultyID(int id){
 
 void Faculty::AddStudent(int num){
   mStudentIDList->append(num);
-  // cout << "student added" << endl;
 }
 void Faculty::removeStudent(int num){
-  int val = -1;
-  val = mStudentIDList->search(num);
-  if (val >= 0){
+  if (mStudentIDList->getLength() > 0){
     mStudentIDList->remove(num);
   }
  }
 string Faculty::printStudents(){
-  // cout << "in print students" << endl;
   string s = "(";
   int temp;
   for (int i = 0; i < mStudentIDList->getLength(); ++i){
     temp = mStudentIDList->removeFront();
-    s += to_string(temp) + ",";
+    if (i == mStudentIDList->getLength()){
+      s += to_string(temp);
+    }
+    else {
+      s += to_string(temp) + ",";
+    }
     mStudentIDList->append(temp);
   }
   s += ")";

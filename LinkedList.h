@@ -291,7 +291,6 @@ T DoublyLinkedList<T>::removeNode(T value){
     if(curr == NULL){
         throw runtime_error("node not found");
     }
-
   }
 
   //but we make it here, we found the value
@@ -299,7 +298,7 @@ T DoublyLinkedList<T>::removeNode(T value){
 
   if (curr == front){
     front = curr->next;
-    front->prev = NULL;
+    //front->prev = NULL;
   }
   else if (curr == back){
     back = curr->prev;

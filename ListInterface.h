@@ -30,7 +30,7 @@ class ListInterface{
     virtual void append(T item){};
     virtual void prepend(T item){};
     virtual void insertAfter(ListNode<T>* currentItem, ListNode<T>* insertItem){};
-    virtual T remove(T item){};
+    virtual void remove(T item){};
     virtual T removeFront(){};
     virtual int search(T item){};
     virtual void print(){};
@@ -51,7 +51,7 @@ class MyList : public ListInterface<T>
     void append(T item);
     void prepend(T item);
     void insertAfter(ListNode<T>* currentItem, ListNode<T>* insertItem);
-    T remove(T item);
+    void remove(T item);
     T removeFront();
     int search(T item);
     T viewFront();
@@ -130,8 +130,8 @@ Exceptions: none
 */
 //takes in a data value, then removes the node with that value and returns the data
 template <class T>
-T MyList<T>::remove(T item) {
-  return myLinkedList->removeNode(item);
+void MyList<T>::remove(T item) {
+  myLinkedList->removeNode(item);
 }
 
 /*

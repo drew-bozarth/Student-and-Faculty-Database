@@ -32,7 +32,7 @@ Simulation::~Simulation(){
 void Simulation::start(){
   bool fileProcessed = fileProcessor();
   if (!fileProcessed){
-    cout << "No file, blank databases" << endl;
+    cout << "No file found, blank databases created" << endl;
     return;
   }
 }
@@ -188,10 +188,8 @@ void Simulation::displayFacultyInfo(){
     cout << "Enter the 7 digit ID number of the Faculty you wish to display: ";
     cin >> facultyID;
   }
-  cout << "searching fac ID: " << facultyID << endl;
   Faculty *fac = new Faculty();
   fac->setFacultyID(facultyID);
-  cout << "before contains method" << endl;
   if (facultyDB->contains(fac)){
     facultyDB->printNode(fac);
   }
@@ -356,15 +354,10 @@ void Simulation::deleteStudent(){
 
     int advID = studentDB->find(stu)->getAdvisorID();
     Faculty *fac = new Faculty();
-    cout << "fac ID: " << advID << endl;
     fac->setFacultyID(advID);
-    cout << "after set" << endl;
     if (facultyDB->contains(fac)){
-      cout << "in loop" << endl;
       facultyDB->find(fac)->removeStudent(studentID);
-      cout << "affter find" << endl;
       studentDB->deleteNode(stu);
-      cout << "adfter delete " << endl;
     }
     else {
       cout << "Sorry Student could not be deleted because their Advisor does not exist" << endl;
@@ -567,10 +560,9 @@ void Simulation::removeAdvisee(){
   Faculty *fac2 = new Faculty();
   fac2->setFacultyID(newAdvisorID);
   facultyDB->find(fac2)->AddStudent(studentID);
-  //edit list of faculty and remove the student ID
 }
 
-//13. **NOT TESTED**
+//13.
 void Simulation::rollback(){
   if (studentStack->isEmpty() && facultyStack->isEmpty()){
     cout << "Stack is empty, there are no actions to undo!" << endl;
@@ -596,6 +588,7 @@ void Simulation::rollback(){
         fac->setFacultyID(advID);
         facultyDB->find(fac)->removeStudent(studentID);
         studentDB->deleteNode(stu);
+        cout << "ROLLBACK SUCCESSFUL: Student deleted." << endl;
       }
       else {
         cout << "Sorry, cannot rollback and delete because that Student ID no longer matches any Student in the Database!" << endl;
@@ -611,6 +604,7 @@ void Simulation::rollback(){
       int advisorID = studentStack->pop().getObject()->getAdvisorID();
       Student* stu = new Student(studentID, name, level, major, studentGPA, advisorID);
       studentDB->insert(stu);
+      cout << "ROLLBACK SUCCESSFUL: Student added." << endl;
       Faculty *fac = new Faculty();
       fac->setFacultyID(advisorID);
       if (facultyDB->contains(fac)){
@@ -634,6 +628,7 @@ void Simulation::rollback(){
       fac->setFacultyID(facultyID);
       if (facultyDB->contains(fac)){
         facultyDB->deleteNode(fac);
+        cout << "ROLLBACK SUCCESSFUL: Faculty deleted." << endl;
       }
       else {
         cout << "Sorry, cannot rollback and delete because that Student ID no longer matches any Student in the Database!" << endl;
@@ -647,6 +642,7 @@ void Simulation::rollback(){
       string department = facultyStack->pop().getObject()->getFacultyDepartment();
       Faculty* fac = new Faculty(facultyID, name, level, department);
       facultyDB->insert(fac);
+      cout << "ROLLBACK SUCCESSFUL: Faculty added." << endl;
     }
     else {
       throw runtime_error("Rollback action doesn't exist!");
