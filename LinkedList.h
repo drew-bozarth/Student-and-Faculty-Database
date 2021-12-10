@@ -280,7 +280,7 @@ Exceptions: none
 //takes in a data value, then removes the node with that value and returns the data
 template <class T>
 T DoublyLinkedList<T>::removeNode(T value){
-
+  cout << "in remove node" << endl;
   if (isEmpty()){
     throw runtime_error("list is empty");
   }
@@ -302,11 +302,11 @@ T DoublyLinkedList<T>::removeNode(T value){
     front = curr->next;
     front->prev = NULL;
   }
-  if (curr == back){
+  else if (curr == back){
     back = curr->prev;
     back->next = NULL;
   }
-  if (curr != front && curr != back){
+  else if (curr != front && curr != back){
     //listnode is between front and back
     curr->prev->next = curr->next;
     curr->next->prev = curr->prev;
@@ -317,7 +317,6 @@ T DoublyLinkedList<T>::removeNode(T value){
   --size;
 
   delete curr;
-
   return data;
 }
 
