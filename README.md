@@ -26,7 +26,6 @@ Assignment 6 Collaboration between Drew Bozarth and Thomas Gooding
 ### facultyTable.txt
 
 ## Note:
-Thomas Gooding and Drew Bozarth would both like to use 2 late days on this assignment
 student and faculty table files included to use for testing and to show how we set up the format for our input files
 
 ## Known Errors:
